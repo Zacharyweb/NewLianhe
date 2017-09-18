@@ -24,11 +24,11 @@
             </span>
              加载中
           </p>
-          <p class="noLoad-tip" v-if="!infiniteLoading && isNoMore ">没有更多啦~</p>
+          <p class="noLoad-tip" v-if="!infiniteLoading && isNoMore ">{{noMoreText}}</p>
           <div class="no-data-tip" v-if="!infiniteLoading && isNoData">
              <p>暂无相关数据哦~</p>
           </div>
-
+   
         </slot>
       </footer>
     </section>
@@ -66,6 +66,11 @@
       onInfinite: {
         type: Function,
         default: undefined,
+        require: false
+      },
+      noMoreText: {
+        type: String,
+        default: '没有更多啦~',
         require: false
       }
     },

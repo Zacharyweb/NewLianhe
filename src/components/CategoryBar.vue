@@ -13,7 +13,7 @@ export default {
   props: {
     tabBarArr: {
       type: Array,
-      default: ['标签1','标签2','标签3']
+      default:[]
     }
   },
   data () {
@@ -25,11 +25,18 @@ export default {
     changeTab(index){
       this.currentIndex = index;
 
+      this.$router.push({
+        path:'/cate',
+        query:{
+          type:this.tabBarArr[index].type,
+          name:this.tabBarArr[index].name
+        }
+      })
     }
    
   },
   mounted(){
-  
+   
   }
 }
 </script>

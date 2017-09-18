@@ -16,10 +16,113 @@
   border-radius:5px;
   font-size:18px;
 }
+.btn.disabled{
+  background-color:#d3d3d3;
+}
 
 
 .text-ellipsis{
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.text-ellipsis2{
+  overflow:hidden; 
+  text-overflow:ellipsis;
+  display:-webkit-box; 
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2; 
+}
+
+.position-bottom{
+  position:fixed;
+  bottom:0;
+  left:0;
+  z-index: 1000;
+}
+
+.common-panel{
+  background-color: #fff;
+  padding: 15px 20px;
+  border-top: 1px solid #e6e6e6;
+  border-bottom: 1px solid #e6e6e6;
+  margin-bottom: 10px;
+}
+.common-panel .panel-title{
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e6e6e6;
+  font-size: 18px;
+}
+.common-panel .panel-title .iconfont{
+  font-size: 24px;
+  color: #55cbc4;
+  padding-right:10px;
+}
+
+
+
+.expert-block{
+  background-color: #fff;
+  padding: 20px;
+  border-top: 1px solid #e6e6e6;
+  border-bottom: 1px solid #e6e6e6;
+  margin-top: 10px;
+}
+.expert-block h4{
+  font-size: 16px;
+  position: relative;
+  padding-bottom: 20px;
+}
+.expert-block h4:before{
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 19px;
+  background-color:#55cbc4;
+  top:0;
+  left: -20px;
+
+}
+.expert-block .expert-item{
+  padding: 20px 0;
+  display: flex;
+  align-items: center;
+}
+.expert-block .expert-item+.expert-item{
+  border-top: 1px solid #e6e6e6;
+}
+.expert-block .expert-item img{
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  vertical-align: bottom;
+  margin-right: 20px;
+}
+.expert-block .expert-item .expert-info{
+  flex: 1;
+  width: 0;
+}
+.expert-block .expert-item .expert-topic{
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+.expert-block .expert-item .expert-msg{
+  margin-bottom: 8px;
+  color: #ccc;
+}
+.expert-block .expert-item .expert-name{
+  color: #666;
+  font-size: 16px;
+  font-weight: bold;
+}
+.expert-block .expert-item .personal-tag{
+  display: flex;
+}
+.expert-block .expert-item .personal-tag .tag-item{
+  padding: 2px 4px;
+  border: 1px solid #55cbc4;
+  border-radius: 2px;
+  color: #55cbc4;
+  margin-right: 8px;
 }

@@ -1,9 +1,9 @@
 <template>
   <div>
-    <search-bar :auto-focus="true"></search-bar>
+    <tab-bar :tabBarArr="subCateArr" @change="tabBarChage"></tab-bar>
     <v-scroll :on-refresh="onRefresh" :on-infinite="onInfinite" :bottom="0" :top="62">
-        <div class=" expert-block">
-          <ul class=" expert-block expert-list">
+        <div class="expert-block">
+          <ul class="expert-list">
             <li class="expert-item" @click="toExpertDetail(1)">
               <img class="expert-avatar" src="../../static/timg.jpeg">
               <div class="expert-info">
@@ -39,18 +39,18 @@
 </template>
 
 <script>
-import SearchBar  from '../components/SearchBar.vue'
+import TabBar  from '../components/TabBar.vue'
 import Scroll  from '../components/Scroll.vue'
 import T from '../tool/tool'
 export default {
   name: 'Home',
   components:{
-    'search-bar':SearchBar,
+    'tab-bar':TabBar,
     'v-scroll': Scroll
   },
   data () {
     return {
-      arr:[1,1,1,1,1,1,1,1,1,1,1,1]
+      subCateArr:['二级分类1','二级分类2','二级分类3','二级分类4']
     }
   },
   methods:{
@@ -61,19 +61,16 @@ export default {
     },
     onInfinite(done){
       setTimeout(()=>{
-        if(this.arr.length < 40){
-          this.arr = this.arr.concat([1,1,1,1,1,1]);
-          done();
-        }
-        else{
-          done('nomore');
-        }
+        done('nomore');
       },1000)
+    },
+    tabBarChage(index){
+       console.log(index);
     }
-  
   },
   mounted(){
-     T.checkFirstPageData(this.arr);
+     T.checkFirstPageData(this.subCateArr);
+      document.title = this.$route.query.name;
   }
 }
 </script>

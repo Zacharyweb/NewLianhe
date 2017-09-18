@@ -149,6 +149,26 @@ class Tool{
        var finalObj = this.mergeObj(obj);
        return Axios(finalObj)
     }
+    /**
+     * 获取时间日期封装
+     */
+    getDateTime(dateTime){
+        var Y = dateTime.getFullYear();
+        var M = dateTime.getMonth() + 1;
+        var D = dateTime.getDate();
+        var H = dateTime.getHours();
+        var m = dateTime.getMinutes(); 
+        if (M >= 1 && M <= 9) { M = "0" + M;}
+        if (D >= 0 && D <= 9) { D = "0" + D;}
+        if (H >= 0 && H <= 9) { H = "0" + H;}
+        if (m >= 0 && m <= 9) { m = "0" + m;}
+        var date = Y + '-' + M + '-' + D; 
+        var time = H + ':' + m; 
+        return{
+            date,
+            time
+        }
+    }
 }
 
 export default new Tool();

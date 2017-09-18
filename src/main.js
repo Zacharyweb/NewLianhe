@@ -5,11 +5,13 @@ import App from './App'
 import router from './router'
 import Vuex from 'vuex'
 import PubSub from 'pubsub-js'
+import VueAwesomeSwiper from 'vue-awesome-swiper'
 
 Vue.prototype.$PubSub = PubSub;
 Vue.config.productionTip = false
 
 Vue.use(Vuex)
+Vue.use(VueAwesomeSwiper)
 var store = new Vuex.Store({
   state: {
     count: 0
