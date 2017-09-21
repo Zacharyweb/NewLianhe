@@ -1,6 +1,6 @@
 # project
 
-> A Vue.js project
+> A Vue.js project 需要先在根目录下创建一个test空文件夹，不然可能报错。
 
 ## Build Setup
 
