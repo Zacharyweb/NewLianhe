@@ -96,13 +96,14 @@
 
 }
 .expert-block .expert-item{
-  padding: 20px 0;
+  padding-top: 20px;
+  position:relative;
   display: flex;
   align-items: center;
-}
-.expert-block .expert-item+.expert-item{
   border-top: 1px solid #e6e6e6;
 }
+
+
 .expert-block .expert-item img{
   width: 60px;
   height: 60px;
@@ -118,7 +119,8 @@
   font-size: 16px;
   margin-bottom: 8px;
 }
-.expert-block .expert-item .expert-msg{
+.expert-block .expert-item .expert-msg,
+.expert-block .expert-item .expert-tags{
   margin-bottom: 8px;
   color: #ccc;
 }
@@ -127,16 +129,26 @@
   font-size: 16px;
   font-weight: bold;
 }
-.expert-block .expert-item .personal-tag{
-  display: flex;
+
+.expert-block .expert-item .status-online{
+  color:#55cbc4;
+  position:absolute;
+  top:20px;
+  right: 20px;
 }
-.expert-block .expert-item .personal-tag .tag-item{
-  padding: 2px 4px;
-  border: 1px solid #55cbc4;
-  border-radius: 2px;
-  color: #55cbc4;
-  margin-right: 8px;
+.expert-block .expert-item .status-online:before{
+  content:'';
+  position:absolute;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background-color:#55cbc4;
+  left:-12px;
+  top:50%;
+  margin-top:-4px;
+
 }
+
 
 .require-icon{
   color:#FF4040;

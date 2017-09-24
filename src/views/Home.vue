@@ -2,33 +2,41 @@
   <div>
       <search-bar :on-focus="focusSearchBar" :show-cancel="false"></search-bar>
       <v-scroll :on-refresh="onRefresh" :bottom="60" :top="60">
-        <div class="index-notice" v-if="!isNewUser">
-          <img class="expert-avatar" src="../../static/timg.jpeg">
-          <p class="notice-text">专家xxx已同意解答问题，并约定了时间</p>
-          <span class="todetail-icon iconfont icon-jiantou-copy-copy"></span>
-        </div>
-        <div class="new-user-notice " v-if="isNewUser">
-          <span class="todetail-icon iconfont icon-icon-test"></span>
-          <p class="notice-text">新人有好礼，专家半价咨询~</p>
-        </div>
-         <category-bar :tab-bar-arr='tabBarArr'></category-bar>
-         <div class="recommend-expert">
-           <h3 class="recommend-text">为您推荐</h3>
+         <div>
+           
          </div>
+         <category-bar :tab-bar-arr='tabBarArr'></category-bar>
+    <!--      <div class="recommend-expert">
+           <h3 class="recommend-text">为您推荐</h3>
+         </div> -->
          <div class="expert-block">
              <h4>财务专家</h4>
              <ul class="expert-list">
                <li class="expert-item" @click="toExpertDetail(1)">
                  <img class="expert-avatar" src="../../static/timg.jpeg">
                  <div class="expert-info">
-                   <p class="expert-topic text-ellipsis">制定的话题话题制定的话题话题制定的话题话题制定的话题话题制定的话题话题</p>
                    <p class="expert-msg text-ellipsis">
-                      <b class="expert-name">威震天</b>&nbsp;&nbsp;幽谷数据有限公司&nbsp;&nbsp;著名导弹专家
+                     <b class="expert-name">威震天</b>
+                     <span class="status-online">营业中</span>
                    </p>
-                   <p class="personal-tag">
-                     <span class="tag-item">风趣</span>
-                     <span class="tag-item">幽默</span>
-                     <span class="tag-item">专业知识牛</span>
+                   <p class="expert-tags text-ellipsis">
+                    幽谷数据有限公司著名导弹专家
+                   </p>
+                   <p class="expert-topic text-ellipsis">制定的话题话题制定的话题话题制定的话题话题制定的话题话题制定的话题话题
+                   </p>
+                 </div>
+               </li>
+               <li class="expert-item" @click="toExpertDetail(1)">
+                 <img class="expert-avatar" src="../../static/timg.jpeg">
+                 <div class="expert-info">
+                   <p class="expert-msg text-ellipsis">
+                     <b class="expert-name">威震天</b>
+                     <span class="status-online">营业中</span>
+                   </p>
+                   <p class="expert-tags text-ellipsis">
+                    幽谷数据有限公司著名导弹专家
+                   </p>
+                   <p class="expert-topic text-ellipsis">制定的话题话题制定的话题话题制定的话题话题制定的话题话题制定的话题话题
                    </p>
                  </div>
                </li>
@@ -63,7 +71,6 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App',
       arr:[],
-      isNewUser:true,
       tabBarArr:[
         {name:'法务',icon:{'icon-zanfuwutubiao06-copy':true},color:'#7ed321',type:1},
         {name:'财务',icon:{'icon-caiwu1':true},color:'#f5a623',type:2},
@@ -95,38 +102,6 @@ export default {
 }
 </script>
 <style scoped>
-.index-notice{
-  padding: 0 15px;
-  display: flex;
-  height: 60px;
-  align-items: center;
-  justify-content: space-between; 
-  position: relative;
-}
-.index-notice .notice-text{
-  font-size: 15px;
-}
-
-.index-notice .expert-avatar{
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-}
-.index-notice .todetail-icon{
-  font-size: 24px;
-}
-.new-user-notice{
-  padding: 0 15px;
-  display: flex;
-  height: 60px;
-  align-items: center;
-  position: relative;
-}
-.new-user-notice .iconfont{
-  color: #FF575B;
-  font-size: 30px;
-  padding-right: 10px;
-}
 .recommend-expert{
   background-color: #fff;
   padding: 20px;
