@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-scroll :on-refresh="onRefresh" :on-infinite="onInfinite" :bottom="60" :top="0" :no-more-text="'没有更多评论啦~'">
+    <v-scroll :on-refresh="onRefresh"  :bottom="60" :top="0" :no-more-text="'没有更多评论啦~'">
     <div class="mine-msg">
       <img class="mine-avatar" src="../../static/timg.jpeg">
       <div class="mine-text-msg">
@@ -15,21 +15,21 @@
       <ul>
         <li class="router-bar-item">
           <div class="item-left">
-            <span class="iconfont icon-people"></span>
+            <span class="iconfont icon-guanzhu"></span>
             <span class="router-bar-name">我关注的专家</span>
           </div>
           <span class="iconfont icon-jiantou-1"></span>
         </li>
         <li class="router-bar-item">
           <div class="item-left">
-            <span class="iconfont icon-icon3"></span>
+            <span class="iconfont icon-yuyuedingdan"></span>
             <span class="router-bar-name">预约订单</span>
           </div>
           <span class="iconfont icon-jiantou-1"></span>
         </li>
         <li class="router-bar-item">
           <div class="item-left">
-            <span class="iconfont icon-icon3"></span>
+            <span class="iconfont icon-youhuiquan"></span>
             <span class="router-bar-name">我的优惠券</span>
           </div>
           <span class="iconfont icon-jiantou-1"></span>
@@ -41,51 +41,44 @@
     <div class="router-bar expert-mgnt expert-block">
       <h4>专家管理</h4>
       <ul>
-        <li class="router-bar-item">
+        <li class="router-bar-item" @click="becomeExpert">
           <div class="item-left">
-            <span class="iconfont icon-people"></span>
+            <span class="iconfont icon-zhuanjia"></span>
             <span class="router-bar-name">成为专家</span>
           </div>
           <span class="iconfont icon-jiantou-1"></span>
         </li>
         <li class="router-bar-item">
           <div class="item-left">
-            <span class="iconfont icon-icon3"></span>
+            <span class="iconfont icon-ziliao"></span>
             <span class="router-bar-name">专家资料</span>
           </div>
           <span class="iconfont icon-jiantou-1"></span>
         </li>
         <li class="router-bar-item">
           <div class="item-left">
-            <span class="iconfont icon-icon3"></span>
+            <span class="iconfont icon-yuyue"></span>
             <span class="router-bar-name">预约我的</span>
           </div>
           <span class="iconfont icon-jiantou-1"></span>
         </li>
-        <li class="router-bar-item">
+        <li class="router-bar-item" @click="$router.push('/relation')">
           <div class="item-left">
-            <span class="iconfont icon-icon3"></span>
-            <span class="router-bar-name">预约我的</span>
-          </div>
-          <span class="iconfont icon-jiantou-1"></span>
-        </li>
-        <li class="router-bar-item">
-          <div class="item-left">
-            <span class="iconfont icon-icon3"></span>
+            <span class="iconfont icon-guanxi"></span>
             <span class="router-bar-name">我的关系</span>
           </div>
           <span class="iconfont icon-jiantou-1"></span>
         </li>
         <li class="router-bar-item">
           <div class="item-left">
-            <span class="iconfont icon-icon3"></span>
+            <span class="iconfont icon-zhengce"></span>
             <span class="router-bar-name">政策解读</span>
           </div>
           <span class="iconfont icon-jiantou-1"></span>
         </li>
         <li class="router-bar-item">
           <div class="item-left">
-            <span class="iconfont icon-icon3"></span>
+            <span class="iconfont icon-chaojihuati-wode"></span>
             <span class="router-bar-name">话题管理</span>
           </div>
           <span class="iconfont icon-jiantou-1"></span>
@@ -97,7 +90,7 @@
       <ul>
         <li class="router-bar-item">
           <div class="item-left">
-            <span class="iconfont icon-people"></span>
+            <span class="iconfont icon-htmal5icon31-copy"></span>
             <span class="router-bar-name">联系客服</span>
           </div>
           <span class="iconfont icon-jiantou-1"></span>
@@ -130,6 +123,9 @@ export default {
       setTimeout(()=>{
         done();
       },1000)
+    },
+    becomeExpert(){
+      this.$router.push('/upgrade')
     }
 
   

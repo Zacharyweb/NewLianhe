@@ -122,6 +122,14 @@ class Tool{
         });
     };
     /**
+     * 子路由信息传递给父路由
+     */
+    postCurrentStep = (num)=>{
+        setTimeout(()=> {
+            this.PubSub.publish('POSTCURRENTSTEP',num);
+        });
+    };
+    /**
      * ajax方法封装
      */
     mergeObj(obj){

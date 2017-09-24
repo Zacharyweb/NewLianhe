@@ -10,6 +10,16 @@ import ExpertDetail from '@/views/ExpertDetail'
 import TopicDetail from '@/views/TopicDetail'
 import Appointment from '@/views/Appointment'
 import Category from '@/views/Category'
+import BecomeExpert from '@/views/BecomeExpert'
+
+import Base from '@/views/Upgrade/Base'
+import Intro from '@/views/Upgrade/Intro'
+import Check from '@/views/Upgrade/Check'
+
+import EditTopic from '@/views/EditTopic'
+import EditAritcle from '@/views/EditAritcle'
+
+import Relation from '@/views/MyRelation'
 Vue.use(Router)
 
 export default new Router({
@@ -82,6 +92,35 @@ export default new Router({
       path: '/cate',
       name: 'Category',
       component: Category
+    },
+    //成为专家
+    {
+      path: '/upgrade',
+      name: 'BecomeExpert',
+      component: BecomeExpert,
+      children:[
+        { path: '/',name: 'Base',component: Base},
+        { path: 'intro',name: 'Intro',component: Intro},
+        { path: 'check',name: 'Check',component: Check}
+      ]
+    },
+    //编辑、添加话题
+    {
+      path: '/etopic/:type',
+      name: 'EditTopic',
+      component: EditTopic
+    },
+    //编辑、添加文章
+    {
+      path: '/earticle/:type',
+      name: 'EditAritcle',
+      component: EditAritcle
+    },
+    //我的关系
+    {
+      path: '/relation',
+      name: 'Relation',
+      component: Relation
     },
    
   ]
