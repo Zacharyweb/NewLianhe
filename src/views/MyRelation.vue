@@ -51,18 +51,23 @@
           </ul>
         </div>
       </v-scroll>
-      <div class="add-relation-modal">
+      <div class="add-relation-modal" v-if="showModal">
         <h5>联系人信息</h5>
-        <p>
+        <p class="input-wrap">
           <span class="label">姓名：</span>
           <input type="text" placeholder="请输入姓名">
         </p>
-        <p>
+        <p class="input-wrap">
           <span class="label">手机：</span>
           <input type="tel" placeholder="请输入手机">
         </p>
+        <p class="btns-wrap">
+          <span class="btn btn-green btn-small" @click="submitModal">确定</span>
+          <span class="btn btn-green-outline btn-small" @click="showModal = false">取消</span>
+        </p>
       </div>
-      <div class="btn btn-green btn-large position-bottom" @click="topicListPanelShow = true">添加关系</div>
+      <div class="modal-mask" v-if="showModal" @click="showModal = false"></div>
+      <div class="btn btn-green btn-large position-bottom" @click="showModal = true">添加关系</div>
   </div>
 </template>
 
@@ -80,6 +85,7 @@ export default {
   data () {
     return {
       arr:[1,2,3],
+      showModal:false
     }
   },
   methods:{
@@ -92,6 +98,9 @@ export default {
       setTimeout(()=>{
         done('nomore');
       },1000)    
+    },
+    submitModal(){
+      this.showModal = false;
     }
   },
   mounted(){
@@ -147,9 +156,46 @@ export default {
     left: 50%;
     transform: translateX(-50%);
     width: 260px;
-    padding: 15px 20px;
+    padding: 20px;
     border-radius: 4px;
     background-color: #fff;
-    border: 1px solid #000;
+    z-index: 10;
+    -webkit-animation: showIn 0.1s;
+    animation: showIn 0.1s;
+  }
+  .modal-mask{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    z-index: 9;
+  }
+  .add-relation-modal h5{
+    font-size: 18px;
+    color: #55cbc4;
+  }
+  .add-relation-modal .input-wrap{
+    display: flex;
+    margin-top: 15px;
+    align-items: center;
+  }
+  .add-relation-modal .input-wrap .label{
+    font-size: 16px;
+    color: #666;
+  }
+  .add-relation-modal .input-wrap input{
+     flex: 1;
+     border: 1px solid #ccc;
+     padding: 0 15px;
+     font-size: 16px;
+     line-height: 36px;
+  }
+  .add-relation-modal .btns-wrap{
+    margin-top: 15px;
+    padding-left: 48px;
+    display: flex;
+    justify-content: space-between;
   }
 </style>
