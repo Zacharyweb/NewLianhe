@@ -22,7 +22,8 @@
                    <p class="expert-tags text-ellipsis">
                     幽谷数据有限公司著名导弹专家
                    </p>
-                   <p class="expert-topic text-ellipsis">制定的话题话题制定的话题话题制定的话题话题制定的话题话题制定的话题话题
+                   <p class="expert-topic text-ellipsis">
+                    擅长领域XXXXXXXXXXXXX
                    </p>
                  </div>
                </li>

@@ -1,9 +1,7 @@
 <template>
     <div class="category-bar">
-      
-    
      <swiper :options="swiperOption">
-        <swiper-slide v-for="(item,index) in tabBarArr">
+        <swiper-slide v-for="(item,index) in tabBarArr" :key="index">
           <div  class="category-item"  :class="{'selected':currentIndex ===  index}" @click="changeTab(index)">
              <span class="iconfont" :class="item.icon" :style="{'background-color':item.color || '#55cbc4'}"></span>
              <span class="category-name">{{item.name}}</span> 
@@ -27,14 +25,10 @@ export default {
     return {
       currentIndex:0,
       swiperOption: {
-          
-      
           slidesPerView: 'auto',
           observer: true,
           observeParents: true,
           freeMode: true
-      
-       
       }
     }
   },
@@ -60,10 +54,6 @@ export default {
 
 <style scoped>
    .category-bar{
-   
-
-      
-    
       background-color: #fff;
       border-bottom: 1px solid #e6e6e6;
    }
@@ -76,6 +66,7 @@ export default {
    }
    .category-bar .swiper-slide{
       width: auto;
+      margin:0 17px;
    }
    .category-bar .category-item .iconfont{
       width: 50px;

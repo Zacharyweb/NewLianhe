@@ -50,7 +50,7 @@ export default {
   },
   data () {
     return {
-      subCateArr:['二级分类1','二级分类2','二级分类3','二级分类4']
+      subCateArr:['二级分类1','二级','二级分类','二4','n ','二4wdweewweqe']
     }
   },
   methods:{
