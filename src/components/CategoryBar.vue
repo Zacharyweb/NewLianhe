@@ -1,13 +1,20 @@
 <template>
-    <ul class="category-bar">
-      <li v-for="(item,index) in tabBarArr" :class="{'selected':currentIndex === index}" @click="changeTab(index)">
-        <span class="iconfont" :class="item.icon" :style="{'background-color':item.color || '#55cbc4'}"></span>
-        <span class="category-name">{{item.name}}</span> 
-      </li>
-    </ul>
+    <div class="category-bar">
+      
+    
+     <swiper :options="swiperOption">
+        <swiper-slide v-for="(item,index) in tabBarArr">
+          <div  class="category-item"  :class="{'selected':currentIndex ===  index}" @click="changeTab(index)">
+             <span class="iconfont" :class="item.icon" :style="{'background-color':item.color || '#55cbc4'}"></span>
+             <span class="category-name">{{item.name}}</span> 
+          </div>
+        </swiper-slide>
+      </swiper>
+    </div>  
 </template>
 
 <script>
+require('swiper/dist/css/swiper.css')
 export default {
   name: 'TabBar',
   props: {
@@ -18,7 +25,17 @@ export default {
   },
   data () {
     return {
-     currentIndex:0
+      currentIndex:0,
+      swiperOption: {
+          
+      
+          slidesPerView: 'auto',
+          observer: true,
+          observeParents: true,
+          freeMode: true
+      
+       
+      }
     }
   },
   methods:{
@@ -43,21 +60,24 @@ export default {
 
 <style scoped>
    .category-bar{
-      display: flex;
-      align-items:center;
-      height:90px;
-      width: 100%;
+   
+
+      
+    
       background-color: #fff;
       border-bottom: 1px solid #e6e6e6;
    }
-   .category-bar li{
-      flex:1;
+   .category-bar .category-item{
+      height:90px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center
    }
-   .category-bar li .iconfont{
+   .category-bar .swiper-slide{
+      width: auto;
+   }
+   .category-bar .category-item .iconfont{
       width: 50px;
       height: 50px;
       border-radius: 50%;
@@ -66,18 +86,18 @@ export default {
       text-align: center;
       font-size: 30px;
    }
-   .category-bar li .category-name{
+   .category-bar .category-item .category-name{
     margin-top: 6px;
     color: #666;
    }
-   .category-bar li .category-item{
+   .category-bar .category-item .category-item{
 
 
    }
-   .category-bar li.selected{
+   .category-bar .category-item.selected{
     color: #55CBC4;
    }
-   .category-bar li.selected .index-bar{
+   .category-bar .category-item.selected .index-bar{
       display: block;
       background-color:#55CBC4;
    }

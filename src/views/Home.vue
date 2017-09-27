@@ -76,7 +76,13 @@ export default {
         {name:'财务',icon:{'icon-caiwu1':true},color:'#f5a623',type:2},
         {name:'工商',icon:{'icon-gongshang1':true},color:'#f56423',type:3},
         {name:'税收',icon:{'icon-shuiwu':true},color:'#f5be3f',type:4},
-        {name:'海关',icon:{'icon-haiguan':true},color:'#51a1ff',type:5}
+        {name:'海关',icon:{'icon-haiguan':true},color:'#51a1ff',type:5},
+        {name:'海关',icon:{'icon-haiguan':true},color:'#51a1ff',type:5},
+        {name:'海关',icon:{'icon-haiguan':true},color:'#51a1ff',type:5},
+        {name:'海关',icon:{'icon-haiguan':true},color:'#51a1ff',type:5},
+        {name:'海关',icon:{'icon-haiguan':true},color:'#51a1ff',type:5},
+        {name:'海关',icon:{'icon-haiguan':true},color:'#51a1ff',type:5},
+        {name:'海关',icon:{'icon-haiguan':true},color:'#51a1ff',type:5},
       ]
     }
   },
