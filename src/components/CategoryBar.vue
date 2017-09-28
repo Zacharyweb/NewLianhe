@@ -3,7 +3,7 @@
       
     
      <swiper :options="swiperOption">
-        <swiper-slide v-for="(item,index) in tabBarArr">
+        <swiper-slide v-for="(item,index) in tabBarArr" :key="index">
           <div  class="category-item"  :class="{'selected':currentIndex ===  index}" @click="changeTab(index)">
              <span class="iconfont" :class="item.icon" :style="{'background-color':item.color || '#55cbc4'}"></span>
              <span class="category-name">{{item.name}}</span> 
