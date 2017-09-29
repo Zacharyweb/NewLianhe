@@ -4,9 +4,9 @@
       <span class="iconfont icon-zhuye"></span>
       <p class="nav-name">首页</p>
     </li>
-    <li class="nav-item" :class="{'active': navIndex == 1}" @click="changeNav('found')">
+    <li class="nav-item" :class="{'active': navIndex == 1}" @click="changeNav('consult')">
       <span class="iconfont icon-faxian"></span>
-      <p class="nav-name">发现</p>
+      <p class="nav-name">咨询</p>
     </li>
     <li class="nav-item" :class="{'active': navIndex == 2}" @click="changeNav('mine')">
       <span class="iconfont icon-zhuye1"></span>

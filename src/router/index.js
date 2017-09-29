@@ -3,6 +3,9 @@ import Router from 'vue-router'
 import Demo from '@/views/Demo'
 import Home from '@/views/Home'
 import Found from '@/views/Found'
+import Consultation from '@/views/Consultation'
+import ConsultDetail from '@/views/ConsultDetail'
+
 import Mine from '@/views/Mine'
 import SearchResult from '@/views/SearchResult'
 import SignIn from '@/views/SignIn'
@@ -47,6 +50,18 @@ export default new Router({
       path: '/found',
       name: 'Found',
       component: Found
+    },
+    //咨询
+    {
+      path: '/consult',
+      name: 'Consultation',
+      component: Consultation
+    },
+    // 咨询详情
+    {
+      path: '/consult/detail/:id/:type',
+      name: 'ConsultDetail',
+      component: ConsultDetail
     },
     //我的
     {

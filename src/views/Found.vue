@@ -2,7 +2,9 @@
   <div>
     <v-scroll :on-refresh="onRefresh" :on-infinite="onInfinite" :bottom="60" :top="0">
       <div class="expert-block common-panel">
-       <h4>财务专家</h4>
+        <div class="panel-title">
+             <h3><span class="iconfont icon-icon3"></span>专家介绍</h3>
+        </div>
         <ul class="expert-list">
           <li class="expert-item" @click="toExpertDetail(1)">
             <img class="expert-avatar" src="../../static/timg.jpeg">
