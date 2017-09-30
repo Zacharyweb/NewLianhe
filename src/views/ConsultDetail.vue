@@ -93,14 +93,53 @@
               <span class="add-text">￥255.00</span>
             </p>  
           </div>
-          <div class="show-prder-status">
-            <span class="btn btn-green-outline btn-large">查看订单状态</span>  
+          <div class="show-order-status">
+            <span class="btn btn-green-outline btn-large" 
+            @click="()=>{this.orderStatusPanelShow = true}">查看订单状态
+            </span>  
           </div>
         </div>
      
       </div>
-
-  
+     <div class="order-status-panel-mask" v-if="orderStatusPanelShow"
+          @click="()=>{this.orderStatusPanelShow = false}">
+     </div>
+     <div class="order-status-panel" :class="{'show':orderStatusPanelShow}">
+      <h6>订单状态变更</h6>
+      <div class="status-list-wrap">
+        <ul class="status-list">
+          <li class="status-item">
+            <span class="status-name">下单</span>
+            <span class="status-time">2017-07-30 13:30:20</span>
+          </li>
+          <li class="status-item">
+            <span class="status-name">专家同意</span>
+            <span class="status-time">2017-07-30 13:30:20</span>
+          </li>
+          <li class="status-item">
+            <span class="status-name">支付</span>
+            <span class="status-time">2017-07-30 13:30:20</span>
+          </li>
+          <li class="status-item">
+            <span class="status-name">开始咨询</span>
+            <span class="status-time">2017-07-30 13:30:20</span>
+          </li>
+          <li class="status-item">
+            <span class="status-name">资讯完成</span>
+            <span class="status-time">2017-07-30 13:30:20</span>
+          </li>
+          <li class="status-item">
+            <span class="status-name">已结算</span>
+            <span class="status-time">2017-07-30 13:30:20</span>
+          </li>
+        </ul>
+      </div>
+      <div class="close-order-status" 
+          @click="()=>{this.orderStatusPanelShow = false}">
+        关闭 
+      </div>
+       
+     </div>
   </div>
 </template>
 
@@ -114,7 +153,8 @@ export default {
   },
   data () {
     return {
-        currentTab:0
+        currentTab:0,
+        orderStatusPanelShow:false,
     }
   },
   methods:{
@@ -220,7 +260,7 @@ export default {
 .bottom-block .detail-msg-item .cost-list .list-item .reduce-text{
   color: #E64340;
 }
-.bottom-block .detail-msg-item .show-prder-status{
+.bottom-block .detail-msg-item .show-order-status{
   margin-top: 10px;
 }
 
@@ -238,5 +278,75 @@ export default {
    flex: 1;
    line-height: 1.5;
 }
+.order-status-panel-mask{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
+}
+.order-status-panel{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+}
+.order-status-panel{
+  transition: all 0.3s;
+  transform: translateY(100%);
+}
+.order-status-panel.show{
+  transform: translateY(0);
+}
+.order-status-panel h6{
+  font-size: 22px;
+  line-height: 50px;
+  background-color: #55cbc4;
+  color: #fff;
+  text-align: center;
+}
+.order-status-panel .status-list-wrap{
+  margin-left: 30px;
+  border-left: 2px solid #55cbc4;
+  padding: 15px 0;
+}
+.order-status-panel .status-list{
+  
+}
+.order-status-panel .status-item{
+   line-height: 48px;
+   padding-left: 20px;
+   padding-right: 40px;
+   display: flex;
+   justify-content: space-between;
+   position: relative;
+}
+.order-status-panel .status-item::before{
+  position: absolute;
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #55cbc4;
+  left: -5px;
+  top: 50%;
+  margin-top: -5px;
+  box-shadow: 0px 0px 8px #000;
 
+}
+.order-status-panel .status-item .status-name{
+  color: #666;
+}
+.order-status-panel .status-item .status-time{
+  color: #999;
+}
+.order-status-panel .close-order-status{
+  border-top: 1px solid #55cbc4;
+  color: #55cbc4;
+  text-align: center;
+  line-height: 50px;
+  font-size: 20px;
+}
 </style>

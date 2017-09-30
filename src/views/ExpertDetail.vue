@@ -1,6 +1,6 @@
 <template>
   <div>
-      <v-scroll :on-refresh="onRefresh" :on-infinite="onInfinite" :bottom="48" :top="0" :no-more-text="'没有更多评论啦~'">
+      <v-scroll :on-refresh="onRefresh"  :bottom="48" :top="0" >
       <!-- swiper -->
       <swiper :options="swiperOption">
         <swiper-slide>
@@ -26,62 +26,9 @@
         </div>
         <ul class="expert-dynamic common-panel">
           <li><span class="iconfont icon-pingfen1"></span>评分：10</li>
-          <li class="reply-time"><span class="iconfont icon-shijian"></span>12小时内回应</li>
           <li><span class="iconfont icon-people"></span>16人约过</li>
-        </ul>
-        <div class="expert-topic common-panel">
-          <div class="panel-title">
-             <h4><span class="iconfont icon-huatiguanli"></span>推荐话题</h4>
-          </div>
-          <ul>
-            <li class="topic-item" @click="toTopicDetail(22)">
-              <h3 class="topic-content">定制的话题定制的话题定制的话题定制的话题定制的话题定制的话题定制的话题</h3>
-              <p class="topic-cost">
-                <span class="topic-price">￥<i>300</i>/次</span>
-                <span class="topic-duration">约半小时 </span>
-              </p>
-            </li>
-             <li class="topic-item" @click="toTopicDetail(33)">
-              <h3 class="topic-content text-ellipsis2">定制的话题定制的话题定制的话题定制的话题定制的话题定制的话题定制的话题定制的话题定制的话题定制的话题定制的话题定制的话题定制的话题定制的话题</h3>
-              <p class="topic-cost">
-                <span class="topic-price">￥<i>300</i>/次</span>
-                <span class="topic-duration">约半小时</span>
-              </p>
-            </li>
-          </ul>
-        </div>
-
-
-        <div class="expert-intro common-panel">
-          <div class="panel-title">
-             <h4><span class="iconfont icon-icon3"></span>专家介绍</h4>
-          </div>
-          <p class="intro-content" :class="{'text-ellipsis2':!allIntroShow}">握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家 </p>
-          <p class="to-see-all" v-show="!allIntroShow">
-            <span class="to-see-all-btn" @click="allIntroShow = true">展开查看全部</span>
-          </p>
-          <p class="hide-all" v-show="allIntroShow">
-            <span class="hide-all-btn" @click="allIntroShow = false" >收起话题</span>
-          </p>
-        </div>
-        <!-- 政策解读 -->
-        <div class="expert-article common-panel">
-          <div class="panel-title">
-             <h4><span class="iconfont icon-shuben"></span>政策解读</h4>
-          </div>
-          <ul class="article-list">
-            <li class="article-item" v-for="item in articelList">
-              <h3 class="article-title">{{item.title}}</h3>
-              <span class="iconfont icon-jiantou-1"></span>
-            </li>
-          </ul>
-          <p class="to-see-all" v-show="!allArticleShow">
-            <span class="to-see-all-btn"  @click="showAllArticle">查看更多文章</span>
-          </p>
-          <p class="hide-all" v-show="allArticleShow">
-            <span class="hide-all-btn" @click="hideAllArticle" >收起文章列表</span>
-          </p>
-        </div>
+          <li class="reply-time"><span class="iconfont icon-shijian"></span>营业中</li>
+        </ul>   
         <!-- 评价 -->
         <div class="user-comment common-panel">
           <div class="panel-title">
@@ -99,19 +46,40 @@
                  </div>
                </div>
                 <p class="comment-content">{{item.comment}}</p>
-                <div class="comment-topic">
-                  <h4 class="topic-title" :class="{'text-ellipsis':!item.allTopicShow}">  参与话题：{{item.topic}}</h4>
-                  <span class="show-all-btn" @click="item.allTopicShow = true" v-show="!item.allTopicShow">展开全部</span>
-                </div>
-                <p class="hide-all" v-show="item.allTopicShow">
-                  <span class="hide-all-btn" @click="item.allTopicShow = false" >收起话题</span>
-                </p>
                 <p class="comment-time">{{item.time}}</p>
             </li>
           </ul>
         </div>
+
+        <div class="expert-topic common-panel">
+          <div class="panel-title">
+             <h4><span class="iconfont icon-huatiguanli"></span>专长介绍</h4>
+          </div>
+          <div class="topic-item">
+            <p class="topic-content">定制的话题定制的话题定制的话题定制的话题定制的话题定制的话题定制的话题</p>
+          </div>
+        </div>
+
+
+        <div class="expert-intro common-panel">
+          <div class="panel-title">
+             <h4><span class="iconfont icon-icon3"></span>专家介绍</h4>
+          </div>
+          <p class="intro-content" :class="{'text-ellipsis2':!allIntroShow}">握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家 </p>
+          <p class="to-see-all" v-show="!allIntroShow">
+            <span class="to-see-all-btn" @click="allIntroShow = true">展开查看全部</span>
+          </p>
+          <p class="hide-all" v-show="allIntroShow">
+            <span class="hide-all-btn" @click="allIntroShow = false" >收起话题</span>
+          </p>
+        </div>
+    
       </v-scroll>
-      <div class="btn btn-red btn-large position-bottom" @click="topicListPanelShow = true">立即预约</div>
+      <div class="appoint-area position-bottom">
+        <div class="appoint-cost">100元/节</div>
+        <div class="btn btn-red btn-large" @click="topicListPanelShow = true">立即预约</div>
+      </div>
+      
       <topic-list-panel v-if="topicListPanelShow" @close="hidetopicListPanel" @next="toAppointment"/>
   </div>
 </template>
@@ -160,16 +128,7 @@ export default {
           topic:'演员的自我修养演员的自我修养演员的自我修养演员的自我修养演员的自我修养我修养演员的自我修养演员的自我修养',
           allTopicShow:false,
           time:'2017-9-10'
-        },
-         {
-          nickName:'董子健',
-          img:'../../static/timg.jpeg',
-          tags:['独立','客观','青年演员阿'],
-          comment:'我是评论内容我是评论内容我是评论内容我是评论内容我是评论内容我是评论内容我是评论内容我是评论内容我是评论内容我是评论内容',
-          topic:'演员的自我修养演员的自我修养演员的自我修养演员的自我修养演员的自我修养我修养演员的自我修养演员的自我修养',
-          allTopicShow:false,
-          time:'2017-9-10'
-        },
+        }
       ],
       arr:[1,2,3],
       topicListPanelShow:false
@@ -304,19 +263,9 @@ export default {
  border-radius: 4px;
  color: #55cbc4;
 }
-.expert-article .article-list{
-  
-}
-.expert-article .article-list .article-item{
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  border-bottom: 1px solid #e6e6e6; 
-}
 
-.expert-article .article-list .article-item .iconfont{
-  color: #888;
-}
+
+
 .user-comment .comment-list{
    
 }
@@ -346,39 +295,34 @@ export default {
   font-size: 14px;
   color: #999;
 }
-.user-comment .comment-item .user-tags .tag-item{
-  padding-right: 10px;
-}
 .user-comment .comment-item .comment-content{
   padding-top: 10px;
+  
   color: #444;
   line-height: 1.4;
 }
-.user-comment .comment-item .comment-topic{
-  padding-top: 10px;
-  display: flex;
-  line-height: 29px;
-}
-.user-comment .comment-item .topic-title{
-  color: #666;
-  flex: 1;
-  width: 0;
-}
-.user-comment .comment-item .show-all-btn{
-  color: #55cbc4;
-  padding:0 20px;
-}
-.user-comment .comment-item .hide-all{
-  padding-top: 10px;
-}
-.user-comment .comment-item .hide-all-btn{
-border: none;
-}
 .user-comment .comment-item .comment-time{
-  padding-top: 5px;
+  padding-right: 25px;
+  padding-top: 15px;
+  text-align: right;
   font-size: 14px;
   color: #999;
 }
-
+.appoint-area{
+  width: 100%;
+  display: flex;
+  background-color: #55cbc4;
+  align-items: center;
+}
+.appoint-area .appoint-cost{
+  padding: 0 15px;
+  font-size: 18px;
+  line-height: 30px;
+  color: #fff;
+}
+.appoint-area .btn{
+  flex: 1;
+  border-radius: 0;
+}
 
 </style>
