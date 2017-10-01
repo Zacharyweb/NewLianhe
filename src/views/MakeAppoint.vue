@@ -4,20 +4,25 @@
       <div class="step-item">
         <span class="step-fill" :class="{'stretch':currentStep >= 1}"></span>
         <span class="circle-icon" :class="{'current':currentStep == 1,'prev':currentStep > 1}"></span>
-        <p class="step-name">基本信息</p>
+        <p class="step-name">发起咨询</p>
       </div>
       <div class="step-item">
         <span class="step-fill" :class="{'stretch':currentStep >= 2}"></span>
         <span class="circle-icon" :class="{'current':currentStep == 2,'prev':currentStep > 2}"></span>
-        <p class="step-name">介绍信息</p>
+        <p class="step-name">等待回复</p>
       </div>
       <div class="step-item">
         <span class="step-fill" :class="{'stretch':currentStep >= 3}"></span>
         <span class="circle-icon" :class="{'current':currentStep == 3,'prev':currentStep > 3}"></span>
-        <p class="step-name">提交审核</p>
+        <p class="step-name">支付费用</p>
       </div>
       <div class="step-item">
         <span class="step-fill" :class="{'stretch':currentStep >= 4}"></span>
+        <span class="circle-icon" :class="{'current':currentStep == 4,'prev':currentStep > 3}"></span>
+        <p class="step-name">开始咨询</p>
+      </div>
+      <div class="step-item">
+        <span class="step-fill" :class="{'stretch':currentStep >= 5}"></span>
       </div>
     </div>
     <!-- 步骤表单 -->
@@ -36,7 +41,8 @@ export default {
   },
   data () {
     return {
-      currentStep:1
+      currentStep:1,
+      a:'abc'
     }
   },
   methods:{
@@ -45,16 +51,19 @@ export default {
     },
     setStep(type,num){
       this.currentStep = num;
+      console.log(num)
       if(num == 2){
-        this.$router.push('/upgrade/intro')
-      }
-      if(num == 3){
-        this.$router.push('/upgrade/check')
+          this.$router.push({
+             path:'/appoint/step2',
+             query:{
+               expertId:this.$route.query.expertId,
+             }
+          })
       }
     } 
   },
   mounted(){
-    this.$PubSub.subscribe('POSTCURRENTSTEP',this.setStep);
+    this.$PubSub.subscribe('POSTAPPOINTCURRENTSTEP',this.setStep);
   }
 }
 </script>

@@ -1,0 +1,342 @@
+<template>
+  <div>
+
+    <div class="info-tabs">
+      <p class="tab-item base-tab" :class="{'active':currentTab == 0}" @click="currentTab = 0">基本资料</p>
+      <p class="tab-item inrto-tab" :class="{'active':currentTab == 1}" @click="currentTab = 1">介绍资料</p>
+    </div>
+    <v-scroll :on-refresh="onRefresh"  :bottom="48" :top="60">
+    <!-- 基本资料 -->
+    <div class="base-form common-panel" v-show="currentTab == 0">
+      <p class="base-form-item">
+          <span class="label">姓名<i class="require-icon">*</i>：</span>
+          <input type="text" maxlength="20" placeholder="请输入姓名" v-model="name">
+      </p>
+      <p class="base-form-item">
+          <span class="label">手机<i class="require-icon">*</i>：</span>
+          <input type="tel" maxlength="11" placeholder="请输入手机号码" v-model="tel">
+      </p>
+      <p class="base-form-item">
+          <span class="label">公司<i class="require-icon">*</i>：</span>
+          <input type="tel" maxlength="30" placeholder="请输入任职机构" v-model="company">
+      </p>
+      <p class="base-form-item">
+          <span class="label">职位<i class="require-icon">*</i>：</span>
+          <input type="tel" maxlength="30" placeholder="请输入任职职位" v-model="position">
+      </p>
+      <div class="tags-item">
+          <p class="label">工作经验<i class="require-icon">*</i>：</p>
+          <p class="tags-wrap">
+            <span class="tag-item" :class="{'active':exper == 1}" @click="changeExperience(1)">3年以下</span>
+            <span class="tag-item" :class="{'active':exper == 2}" @click="changeExperience(2)">3-5年</span>
+            <span class="tag-item" :class="{'active':exper == 3}" @click="changeExperience(3)">5-10年</span>
+            <span class="tag-item" :class="{'active':exper == 4}" @click="changeExperience(4)">10年以上</span>
+          </p>
+      </div>
+      <div class="tags-item">
+          <p class="label">擅长的领域<i class="require-icon">*</i>：</p>
+          <p class="tags-wrap">
+            <span class="tag-item" :class="{'active':skill == 1}" @click="changeSkill(1)">财务</span>
+            <span class="tag-item" :class="{'active':skill == 2}" @click="changeSkill(2)">税务</span>
+            <span class="tag-item" :class="{'active':skill == 3}" @click="changeSkill(3)">工商</span>
+            <span class="tag-item" :class="{'active':skill == 4}" @click="changeSkill(4)">房产</span>
+  
+          </p>
+      </div>
+      <div class="tags-item">
+          <p class="label">细分领域<i class="require-icon">*</i>：</p>
+          <p class="tags-wrap">
+            <span class="tag-item" :class="{'active':subSkill == 1}" @click="changeSubSkill(1)">财务1</span>
+            <span class="tag-item" :class="{'active':subSkill == 2}" @click="changeSubSkill(2)">财务2</span>
+            <span class="tag-item" :class="{'active':subSkill == 3}" @click="changeSubSkill(3)">财务3</span>
+            <span class="tag-item" :class="{'active':subSkill == 4}" @click="changeSubSkill(4)">财务4</span>
+
+          </p>
+      </div>
+    </div>
+
+    
+    <!-- 介绍资料 -->
+    <div class="intro-form" v-show="currentTab == 1">
+      <!-- 专长介绍 -->
+      <div class="common-panel">
+          <div class="panel-title">
+             <h4>专长介绍<span class="require-icon">*</span></h4>
+          </div>
+           <div class="form-input">
+             <textarea v-model="skillContent" placeholder="请填写专长介绍,200字以内"></textarea>
+           </div>
+      </div>
+      <!-- 咨询费用 -->
+      <div class="common-panel">
+          <div class="panel-title">
+             <h4>咨询价格/每节（30分钟）<span class="require-icon">*</span></h4>
+          </div>
+           <div class="form-input">
+             <input v-model="classVal" placeholder="请填写咨询价格"></input>元
+           </div>
+      </div>
+      <!-- 收款账号 -->
+      <div class="common-panel">
+           <div class="panel-title">
+              <h4>收款账号（任填一个）<span class="require-icon">*</span></h4>
+           </div>
+           <div class="form-input">
+             <span class="label">微信：</span>
+             <input v-model="wxAccount" placeholder="请填写微信收款账号"></input>
+           </div>
+           <div class="form-input">
+             <span class="label">支付宝：</span>
+             <input v-model="zfbAccount" placeholder="请填支付宝收款账号"></input> 
+           </div>
+      </div>
+      <!-- 个人介绍 -->
+      <div class="common-panel">
+          <div class="panel-title">
+             <h4>个人介绍<i class="require-icon">*</i></h4>
+          </div>
+           <div class="textarea-wrap">
+             <textarea v-model="personIntro" placeholder="请填写个人介绍"></textarea>
+           </div>
+      </div>
+        <!-- 图片介绍 -->
+      <div class="edit-panel common-panel">
+          <div class="panel-title">
+             <h4>图片介绍</h4>
+          </div>
+          <div class="img-list">
+            <img class="add-img-btn" src="../../static/add_img.png" alt="">
+            <div class="img-item">
+              <img src="../../static/timg.jpeg"  alt="">
+              <p class="edit-img">
+                <span class="iconfont icon-3"></span> 
+              </p>
+            </div>
+        
+          </div>
+      </div>
+    </div>
+  
+    </v-scroll>
+    <div class="btn-wrapper position-bottom" v-show="currentTab == 0">
+      <p class="btn btn-green btn-large" @click="toSaveBase">保存</p>
+    </div>
+
+    <div class="btn-wrapper position-bottom" v-show="currentTab == 1">
+      <p class="btn btn-green btn-large" @click="toSaveIntro">保存</p>
+    </div>
+
+  </div>
+</template>
+
+<script>
+import T from '../tool/tool'
+import Scroll  from '../components/Scroll.vue'
+export default {
+  name: 'ExpertInfo',
+  components:{
+   'v-scroll': Scroll
+  },
+  data () {
+    return {
+      currentTab:0,
+
+      name:'',
+      tel:'',
+      company: '',
+      position:'',
+      exper: 0,
+      skill: 0,
+      subSkill: 0,
+
+      skillContent:'',
+      classVal:'',
+      wxAccount:'',
+      zfbAccount:'',
+      personIntro:'',
+    }
+  },
+  methods:{
+    onRefresh(done){
+      setTimeout(()=>{
+        done();
+      },1000)
+    },
+    changeExperience(num){
+      this.exper = num;
+    },
+    changeSkill(num){
+      this.skill = num;
+    },
+    changeSubSkill(num){
+      this.subSkill = num;
+    },
+    toSaveBase(){
+      this.$router.go(-1);
+    },
+    toSaveIntro(){
+      this.$router.go(-1);
+    }
+  },
+  mounted(){
+   
+  }
+}
+</script>
+<style scoped>
+  .info-tabs{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #55cbc4;
+    height: 60px;
+  }
+  .info-tabs .tab-item{
+     width: 120px;
+     border: 1px solid #fff;
+     color: #fff;
+     line-height: 36px;
+     text-align: center;
+  }
+  .info-tabs .tab-item.active{
+    background-color: #fff;
+    color: #55cbc4;
+  }
+  .info-tabs .tab-item.base-tab{
+    border-radius: 6px 0 0 6px;
+  }
+  .info-tabs .tab-item.inrto-tab{
+    border-radius:0 6px 6px 0;
+  }
+  .base-form{
+    padding:20px;
+    padding-top: 5px;
+    padding-bottom: 0;
+  }
+  .base-form .base-form-item{
+    display:flex;
+    align-items:center;
+    height:40px;
+    padding:10px 5px;
+    font-size:16px;
+    position:relative;
+    border-bottom: 1px solid #e6e6e6;
+  }
+  .base-form .base-form-item input{
+    flex:1;
+    padding-left: 20px;
+    border:none;
+    font-size:16px;
+  }
+  .base-form .tags-item{
+    padding: 15px 5px;
+
+  }
+  .base-form .tags-item+.tags-item{
+    border-top: 1px solid #e6e6e6;
+
+  }
+  .base-form .tags-item .label{
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  .base-form .tags-item .tags-wrap{
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .base-form .tags-item .tags-wrap .tag-item{
+    padding: 0 6px;
+    text-align: center;
+    line-height: 26px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    color: #ccc;
+    border-radius: 4px;
+    margin-right: 5px;
+    margin-top: 5px;
+  }
+  .base-form .tags-item .tags-wrap .tag-item.active{
+    color: #55cbc4;
+    border-color: #55cbc4;
+  }
+
+
+  .intro-form{
+  
+  }
+  .intro-form .common-panel .panel-title {
+    border: none;
+  }
+  .intro-form input,
+  .intro-form textarea{
+    box-sizing: border-box;
+    line-height: 40px;
+    border: 1px solid #eee;
+    font-size: 16px;
+    padding: 0 10px;
+  }
+  .intro-form input{
+    width:90%;
+    margin-right: 10px;
+  }
+  .intro-form textarea{
+    padding: 10px 15px;
+    height: 150px;
+    width: 100%;
+    line-height: 1.3;
+  }
+  .intro-form .form-input{
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .intro-form .form-input .label{
+    font-size: 18px;
+    width: 80px;
+
+  }
+  .intro-form .form-input input{
+    width: 65%;
+    margin: 0 10px;
+
+  }
+  .intro-form .edit-panel{
+    position: relative;
+  }
+  .intro-form .edit-panel .img-list{
+    padding-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .intro-form .edit-panel .img-list .add-img-btn{
+    margin-right: 10px;
+  }
+  .intro-form .edit-panel .img-list .img-item{
+    position:relative;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+  .intro-form .edit-panel .img-list img{
+    height: 70px;
+  }
+  .intro-form .edit-panel .img-list .edit-img{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    height: 30px;
+  }
+  .intro-form .edit-panel .img-list .edit-img .iconfont{
+    color: #fff;
+    font-size: 20px;
+    text-align: right;
+    flex: 1;
+    padding-right: 5px;
+  }
+  .btn-wrapper{
+    width: 100%;
+  }
+</style>

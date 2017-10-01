@@ -1,28 +1,50 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Demo from '@/views/Demo'
+
+//首页
 import Home from '@/views/Home'
-import Found from '@/views/Found'
-import Consultation from '@/views/Consultation'
-import ConsultDetail from '@/views/ConsultDetail'
-
-import Mine from '@/views/Mine'
+//搜索页
 import SearchResult from '@/views/SearchResult'
-import SignIn from '@/views/SignIn'
-import ExpertDetail from '@/views/ExpertDetail'
-import TopicDetail from '@/views/TopicDetail'
-import Appointment from '@/views/Appointment'
+//分类页
 import Category from '@/views/Category'
-import BecomeExpert from '@/views/BecomeExpert'
+//专家详情页
+import ExpertDetail from '@/views/ExpertDetail'
+//注册页
+import SignIn from '@/views/SignIn'
 
-import Base from '@/views/Upgrade/Base'
-import Intro from '@/views/Upgrade/Intro'
-import Check from '@/views/Upgrade/Check'
+//咨询页
+import Consultation from '@/views/Consultation'
+//咨询详情页
+import ConsultDetail from '@/views/ConsultDetail'
+//用户评价页
+import Comment from '@/views/Comment'
+//评价详情页
+import CommentDetail from '@/views/CommentDetail'
 
-import EditTopic from '@/views/EditTopic'
-import EditAritcle from '@/views/EditAritcle'
 
+// 发起咨询
+import MakeAppoint from '@/views/MakeAppoint'
+import MakeAppointStep1 from '@/views/MakeAppointStep/step1'
+import MakeAppointStep2 from '@/views/MakeAppointStep/step2'
+import MakeAppointStep3 from '@/views/MakeAppointStep/step3'
+import MakeAppointStep4 from '@/views/MakeAppointStep/step4'
+
+
+//我的
+import Mine from '@/views/Mine'
+//我的关系
 import Relation from '@/views/MyRelation'
+// 我的资料
+import MyInfo from '@/views/MyInfo'
+// 升级成为专家
+import Upgrade from '@/views/Upgrade'
+import UpgradeStep1 from '@/views/Upgrade/step1'
+import UpgradeStep2 from '@/views/Upgrade/step2'
+import UpgradeStep3 from '@/views/Upgrade/step3'
+// 专家资料
+import ExpertInfo from '@/views/ExpertInfo'
+
 Vue.use(Router)
 
 export default new Router({
@@ -39,35 +61,39 @@ export default new Router({
       name: 'Home',
       component: Home
     },
-    // 首页
+
+    // 搜索页
     {
-      path: '/home',
-      name: 'Home',
-      component: Home
+      path: '/search',
+      name: 'Search',
+      component: SearchResult
     },
-    //发现
+
+    //分类页
     {
-      path: '/found',
-      name: 'Found',
-      component: Found
+      path: '/cate',
+      name: 'Category',
+      component: Category
     },
-    //咨询
+
+    // 专家详情
     {
-      path: '/consult',
-      name: 'Consultation',
-      component: Consultation
+      path: '/expert/:expertId',
+      name: 'ExpertDetail',
+      component: ExpertDetail
     },
-    // 咨询详情
+
+    //发起咨询
     {
-      path: '/consult/detail/:id/:type',
-      name: 'ConsultDetail',
-      component: ConsultDetail
-    },
-    //我的
-    {
-      path: '/mine',
-      name: 'Mine',
-      component: Mine
+      path: '/appoint',
+      name: 'MakeAppoint',
+      component: MakeAppoint,
+      children:[
+        { path: '/',name: 'MakeAppointStep1',component: MakeAppointStep1},
+        { path: 'step2',name: 'MakeAppointStep2',component: MakeAppointStep2},
+        { path: 'step3',name: 'MakeAppointStep3',component: MakeAppointStep3},
+        { path: 'step4',name: 'MakeAppointStep4',component: MakeAppointStep4},
+      ]
     },
     // 注册
     {
@@ -75,61 +101,42 @@ export default new Router({
       name: 'Sign',
       component: SignIn
     },
-    // 搜索页
+
+    //咨询
     {
-      path: '/search',
-      name: 'Search',
-      component: SearchResult
+      path: '/consult',
+      name: 'Consultation',
+      component: Consultation
     },
-    // 专家详情
+
+    // 咨询详情
     {
-      path: '/expert/:expertId',
-      name: 'ExpertDetail',
-      component: ExpertDetail,
-      children: [
-        { path: 'bar', component: TopicDetail }
-      ]
+      path: '/consult/detail/:id/:type',
+      name: 'ConsultDetail',
+      component: ConsultDetail
     },
-    // 话题详情
+
+    // 用户评价
     {
-      path: '/expert/:expertId/topic/:topicId',
-      name: 'TopicDetail',
-      component: TopicDetail
+      path: '/comment/:id',
+      name: 'Comment',
+      component: Comment
     },
-    // 预约页
+
+    //评价详情页
     {
-      path: '/appointment',
-      name: 'Appointment',
-      component: Appointment
+      path: '/comment/detail/:id',
+      name: 'CommentDetail',
+      component: CommentDetail
     },
-    //分类页
+
+
+
+    //我的
     {
-      path: '/cate',
-      name: 'Category',
-      component: Category
-    },
-    //成为专家
-    {
-      path: '/upgrade',
-      name: 'BecomeExpert',
-      component: BecomeExpert,
-      children:[
-        { path: '/',name: 'Base',component: Base},
-        { path: 'intro',name: 'Intro',component: Intro},
-        { path: 'check',name: 'Check',component: Check}
-      ]
-    },
-    //编辑、添加话题
-    {
-      path: '/etopic/:type',
-      name: 'EditTopic',
-      component: EditTopic
-    },
-    //编辑、添加文章
-    {
-      path: '/earticle/:type',
-      name: 'EditAritcle',
-      component: EditAritcle
+      path: '/mine',
+      name: 'Mine',
+      component: Mine
     },
     //我的关系
     {
@@ -137,6 +144,29 @@ export default new Router({
       name: 'Relation',
       component: Relation
     },
-   
+
+    // 我的资料
+    {
+      path: '/myinfo',
+      name: 'MyInfo',
+      component: MyInfo
+    },
+    //成为专家
+    {
+      path: '/upgrade',
+      name: 'Upgrade',
+      component: Upgrade,
+      children:[
+        { path: '/',name: 'UpgradeStep1',component: UpgradeStep1},
+        { path: 'step2',name: 'UpgradeStep2',component: UpgradeStep2},
+        { path: 'step3',name: 'UpgradeStep3',component: UpgradeStep3}
+      ]
+    },
+    // 专家资料
+    {
+      path: '/einfo',
+      name: 'ExpertInfo',
+      component: ExpertInfo
+    }  
   ]
 })

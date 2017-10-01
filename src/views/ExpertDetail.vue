@@ -77,23 +77,21 @@
       </v-scroll>
       <div class="appoint-area position-bottom">
         <div class="appoint-cost">100元/节</div>
-        <div class="btn btn-red btn-large" @click="topicListPanelShow = true">立即预约</div>
+        <div class="appoint-submit" @click="toAppointment">立即预约</div>
       </div>
       
-      <topic-list-panel v-if="topicListPanelShow" @close="hidetopicListPanel" @next="toAppointment"/>
   </div>
 </template>
 
 <script>
 import Scroll  from '../components/Scroll.vue'
 import T from '../tool/tool'
-import TopicListPanel from '../components/TopicListPanel.vue'
+
 require('swiper/dist/css/swiper.css')
 export default {
   name: 'ExpertDetail',
   components:{
     'v-scroll':Scroll,
-    'topic-list-panel':TopicListPanel
   },
   data () {
     return {
@@ -131,7 +129,6 @@ export default {
         }
       ],
       arr:[1,2,3],
-      topicListPanelShow:false
     }
   },
   methods:{
@@ -159,18 +156,12 @@ export default {
       var expertId = this.$route.params.expertId;
       this.$router.push('/expert/'+expertId+'/topic/'+id)
     },
-    hidetopicListPanel(){
-      setTimeout(()=>{
-        this.topicListPanelShow = false;
-      },300)
-    },
-    toAppointment(id){
-      console.log(id);
+
+    toAppointment(){
       this.$router.push({
-        path:'/appointment',
+        path:'/appoint',
         query:{
           expertId:this.$route.params.expertId,
-          topicId:id
         }
       })
     }
@@ -178,7 +169,6 @@ export default {
   mounted(){
      document.title = '专家详情';
      T.checkFirstPageData(this.arr);
-     console.log(TopicListPanel)
   }
 }
 </script>
@@ -320,9 +310,13 @@ export default {
   line-height: 30px;
   color: #fff;
 }
-.appoint-area .btn{
-  flex: 1;
-  border-radius: 0;
+.appoint-area .appoint-submit{
+    flex: 1;
+    line-height: 46px;
+    text-align: center;
+    font-size: 18px;
+    border-top: 1px solid  #55cbc4;
+    background-color: #fff;
+    color: #55cbc4;
 }
-
 </style>

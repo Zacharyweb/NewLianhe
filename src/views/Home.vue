@@ -32,7 +32,8 @@
                  <div class="expert-info">
                    <p class="expert-msg text-ellipsis">
                      <b class="expert-name">威震天</b>
-                     <span class="status-online">营业中</span>
+                  
+                     <span class="status-outline">休息中</span>
                    </p>
                    <p class="expert-tags text-ellipsis">
                     幽谷数据有限公司著名导弹专家
@@ -78,12 +79,7 @@ export default {
         {name:'工商',icon:{'icon-gongshang1':true},color:'#f56423',type:3},
         {name:'税收',icon:{'icon-shuiwu':true},color:'#f5be3f',type:4},
         {name:'海关',icon:{'icon-haiguan':true},color:'#51a1ff',type:5},
-        {name:'海关',icon:{'icon-haiguan':true},color:'#51a1ff',type:5},
-        {name:'海关',icon:{'icon-haiguan':true},color:'#51a1ff',type:5},
-        {name:'海关',icon:{'icon-haiguan':true},color:'#51a1ff',type:5},
-        {name:'海关',icon:{'icon-haiguan':true},color:'#51a1ff',type:5},
-        {name:'海关',icon:{'icon-haiguan':true},color:'#51a1ff',type:5},
-        {name:'海关',icon:{'icon-haiguan':true},color:'#51a1ff',type:5},
+        {name:'教育',icon:{'icon-shuben':true},color:'#f56423',type:6},
       ]
     }
   },

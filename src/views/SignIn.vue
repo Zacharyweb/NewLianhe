@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="signin-form">
+    <div class="signin-form common-panel">
       <p class="signin-form-item">
           <span class="iconfont icon-p-shouji"></span>
           <input type="tel" maxlength="11" placeholder="请输入手机号" v-model="tel">
@@ -11,10 +11,12 @@
           <span class="iconfont icon-yanzhengma"></span>
           <input type="tel" maxlength="4" placeholder="请输入短信验证码" v-model="code">
       </p>
-    </div>
     <div class="btn-wrapper">
       <p class="btn btn-green btn-large" @click="signIn">立即注册</p>
     </div>
+
+    </div>
+
     <bottom-nav></bottom-nav>
   </div>
 </template>
@@ -80,7 +82,7 @@ export default {
     flex:1;
     padding-left: 20px;
     border:none;
-    background-color:#f5f5f5;
+    background-color:#fff;
     font-size:20px;
   }
   .signin-form .signin-form-item .iconfont{
@@ -104,6 +106,6 @@ export default {
     color:#888;
   }
   .btn-wrapper{
-    padding:15px;
+    padding-top: 20px;
   }
 </style>

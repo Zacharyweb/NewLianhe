@@ -134,10 +134,10 @@
           </li>
         </ul>
       </div>
-      <div class="close-order-status" 
+  <!--     <div class="close-order-status" 
           @click="()=>{this.orderStatusPanelShow = false}">
         关闭 
-      </div>
+      </div> -->
        
      </div>
   </div>
@@ -309,8 +309,8 @@ export default {
 }
 .order-status-panel .status-list-wrap{
   margin-left: 30px;
-  border-left: 2px solid #55cbc4;
-  padding: 15px 0;
+/*   border-left: 2px solid #55cbc4; */
+  padding: 5px 0;
 }
 .order-status-panel .status-list{
   
@@ -333,7 +333,7 @@ export default {
   left: -5px;
   top: 50%;
   margin-top: -5px;
-  box-shadow: 0px 0px 8px #000;
+  box-shadow: 1px 1px 2px #666;
 
 }
 .order-status-panel .status-item .status-name{

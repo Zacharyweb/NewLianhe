@@ -130,13 +130,15 @@
   font-weight: bold;
 }
 
-.expert-block .expert-item .status-online{
+.expert-block .expert-item .status-online,
+.expert-block .expert-item .status-outline{
   color:#55cbc4;
   position:absolute;
   top:20px;
   right: 20px;
 }
-.expert-block .expert-item .status-online:before{
+.expert-block .expert-item .status-online:before,
+.expert-block .expert-item .status-outline:before{
   content:'';
   position:absolute;
   width:8px;
@@ -146,8 +148,15 @@
   left:-12px;
   top:50%;
   margin-top:-4px;
-
 }
+.expert-block .expert-item .status-outline{
+  color:#aaa;
+}
+.expert-block .expert-item .status-outline:before{
+  background-color:#aaa;
+}
+
+
 
 
 .require-icon{
@@ -165,11 +174,11 @@
   }
   @keyframes showIn{
       from{
-          transform: scale(0.8) translateY(-30%);
+          transform: scale(0);
           opacity: 0.3;
       }
       to{
-          transform: scale(1) translateY(0);
+          transform: scale(1);
           opacity: 1;
       }
   }

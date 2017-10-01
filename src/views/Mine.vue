@@ -8,60 +8,16 @@
           <span class="mine-nickname">朱两边</span>
           <span class="mine-tel">16767188567</span>
         </p>
-        <p class="mine-intro">做个有趣的人。做个有趣的人。</p>
+        <p class="mine-status">
+          <span class="status-text">当前状态：</span>
+          <span class="status-item" :class="{'active':myStatus == 1}" @click="toWork">营业</span>
+          <span class="status-item" :class="{'active':myStatus == 0}" @click="toRest">休息</span>
+        </p>
       </div> 
     </div>
-    <div class="router-bar">
+  
+    <div class="router-bar  expert-block">
       <ul>
-        <li class="router-bar-item">
-          <div class="item-left">
-            <span class="iconfont icon-guanzhu"></span>
-            <span class="router-bar-name">我关注的专家</span>
-          </div>
-          <span class="iconfont icon-jiantou-1"></span>
-        </li>
-        <li class="router-bar-item">
-          <div class="item-left">
-            <span class="iconfont icon-yuyuedingdan"></span>
-            <span class="router-bar-name">预约订单</span>
-          </div>
-          <span class="iconfont icon-jiantou-1"></span>
-        </li>
-        <li class="router-bar-item">
-          <div class="item-left">
-            <span class="iconfont icon-youhuiquan"></span>
-            <span class="router-bar-name">我的优惠券</span>
-          </div>
-          <span class="iconfont icon-jiantou-1"></span>
-        </li>
-      </ul>
-      
-    </div>
-
-    <div class="router-bar expert-mgnt expert-block">
-      <h4>专家管理</h4>
-      <ul>
-        <li class="router-bar-item" @click="becomeExpert">
-          <div class="item-left">
-            <span class="iconfont icon-zhuanjia"></span>
-            <span class="router-bar-name">成为专家</span>
-          </div>
-          <span class="iconfont icon-jiantou-1"></span>
-        </li>
-        <li class="router-bar-item">
-          <div class="item-left">
-            <span class="iconfont icon-ziliao"></span>
-            <span class="router-bar-name">专家资料</span>
-          </div>
-          <span class="iconfont icon-jiantou-1"></span>
-        </li>
-        <li class="router-bar-item">
-          <div class="item-left">
-            <span class="iconfont icon-yuyue"></span>
-            <span class="router-bar-name">预约我的</span>
-          </div>
-          <span class="iconfont icon-jiantou-1"></span>
-        </li>
         <li class="router-bar-item" @click="$router.push('/relation')">
           <div class="item-left">
             <span class="iconfont icon-guanxi"></span>
@@ -69,35 +25,29 @@
           </div>
           <span class="iconfont icon-jiantou-1"></span>
         </li>
-        <li class="router-bar-item">
+        <li class="router-bar-item" @click="$router.push('/myinfo')">
           <div class="item-left">
-            <span class="iconfont icon-zhengce"></span>
-            <span class="router-bar-name">政策解读</span>
+            <span class="iconfont icon-bianji"></span>
+            <span class="router-bar-name">我的资料</span>
           </div>
           <span class="iconfont icon-jiantou-1"></span>
         </li>
-        <li class="router-bar-item">
+        <li class="router-bar-item" @click="becomeExpert">
           <div class="item-left">
-            <span class="iconfont icon-chaojihuati-wode"></span>
-            <span class="router-bar-name">话题管理</span>
+            <span class="iconfont icon-pingjia"></span>
+            <span class="router-bar-name">成为专家</span>
           </div>
           <span class="iconfont icon-jiantou-1"></span>
         </li>
-      </ul>  
-    </div>
-
-    <div class="router-bar service-panel">
-      <ul>
-        <li class="router-bar-item">
+        <li class="router-bar-item" @click="$router.push('/einfo')">
           <div class="item-left">
-            <span class="iconfont icon-htmal5icon31-copy"></span>
-            <span class="router-bar-name">联系客服</span>
+            <span class="iconfont icon-icon3"></span>
+            <span class="router-bar-name">专家资料</span>
           </div>
           <span class="iconfont icon-jiantou-1"></span>
         </li>
       </ul>  
     </div>
-
     </v-scroll>
     <bottom-nav :nav-index="2"></bottom-nav>
   </div>
@@ -115,18 +65,32 @@ export default {
   },
    data () {
     return {
-     
+      myStatus:1
     }
   },
   methods:{
-     onRefresh(done){
+    onRefresh(done){
       setTimeout(()=>{
         done();
       },1000)
     },
     becomeExpert(){
       this.$router.push('/upgrade')
-    }
+    },
+    toWork(){
+      if(this.myStatus == 1){
+        return;
+      }
+      this.myStatus = 1;
+      T.showToast({text:'开始营业咯~'});
+    },
+    toRest(){
+      if(this.myStatus == 0){
+        return;
+      }
+      this.myStatus = 0;
+      T.showToast({text:'下班休息咯~'});
+    },
 
   
   },
@@ -137,10 +101,12 @@ export default {
 </script>
 <style scoped>
   .mine-msg{
+    margin-top: 20px;
     display: flex;
     align-items: center;
     background-color: #fff;
     padding: 15px 20px;
+    border-top: 1px solid #e6e6e6;
     border-bottom: 1px solid #e6e6e6;
   }
   .mine-msg .mine-avatar{
@@ -164,9 +130,29 @@ export default {
   .mine-msg .mine-base-msg .mine-tel{
     color: #666;
   }
-  .mine-msg .mine-intro{
-    color: #666;
+
+  .mine-msg .mine-status{
+      display: flex;
+      align-items: center;
+      color: #666;
+
   }
+  .mine-msg .mine-status .status-text{
+      
+      margin-right: 5px;
+  }
+  .mine-msg .mine-status .status-item{
+     margin-right: 15px;
+     line-height: 24px;
+     padding: 0 8px;
+     border-radius: 2px;
+  }
+  .mine-msg .mine-status .status-item.active{
+     color: #fff;
+     background-color: #55cbc4;
+  }
+
+
   .router-bar{
     border-bottom: 1px solid #e6e6e6;
     padding: 0 20px;
@@ -176,37 +162,23 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 50px;
+    height: 60px;
     padding:0 10px;
+
   }
   .router-bar .router-bar-item+.router-bar-item{
     border-top: 1px solid #e6e6e6;
+  
+  }
+  .router-bar .router-bar-item .item-left{
     display: flex;
+    align-items: center;
   }
   .router-bar .router-bar-item .item-left .iconfont{
     color: #55cbc4;
-    font-size: 22px;
-    margin-right: 5px;
+    font-size: 26px;
+    margin-right: 10px;
 
   }
-  .expert-mgnt{
-    border-top: 1px solid #e6e6e6;
-    margin-top: 20px;
-    padding-top: 15px;
-    margin-bottom:20px;
-  }
-  .expert-mgnt h4{
-    font-size: 18px;
-   padding-bottom: 10px;
-   border-bottom: 1px solid #e6e6e6;
-  }
-  .service-panel{
-       
-  }
-  .service-panel .service-tips{
-    text-align: center;
-  }
-  .service-panel .service-tel{
-    
-  }
+  
 </style>

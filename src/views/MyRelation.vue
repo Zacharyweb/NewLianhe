@@ -1,65 +1,44 @@
 <template>
   <div>
-      <v-scroll :on-refresh="onRefresh" :on-infinite="onInfinite" :bottom="48" :top="0" :no-more-text="'没有更多评论啦~'">
+      <v-scroll :on-refresh="onRefresh"  :bottom="48" :top="0" :no-more-text="'没有更多评论啦~'">
         <!-- 政策解读 -->
         <div class="common-panel">
           <div class="panel-title">
-             <h4><span class="iconfont icon-shuben"></span>我的关系</h4>
+             <h4><span class="iconfont icon-guanxi"></span>我的关系</h4>
           </div>
           <ul class="has-resign-list relation-list">
-             <li class="relation-item">
-               <img class="user-avatar" src="../../static/timg.jpeg">
+             <li class="relation-item" v-for="(item,index) in hasResignUser">
+               <img class="user-avatar" :src="item.avatarImg">
                <div class="user-msg">
-                 <p class="user-remark">备注：朱坚（15757177498）</p>
-                 <p class="user-intro text-ellipsis">朱两边（懒人投资前端工程师）</p>
-                 <p class="user-status">提问次数：0次</p>
-               </div>
-             </li>
-             <li class="relation-item">
-               <img class="user-avatar" src="../../static/timg.jpeg">
-               <div class="user-msg">
-                 <p class="user-remark">备注：朱坚（15757177498）</p>
-                 <p class="user-intro text-ellipsis">朱两边（懒人投资前端工程师）</p>
-                 <p class="user-status">提问次数：0次</p>
+                 <p class="user-remark">备注：{{item.name}}（{{item.mobile}}）</p>
+                 <p class="user-intro text-ellipsis">{{item.nickName}}（{{item.tags}}）</p>
+                 <p class="user-status">提问次数：{{item.askNum}}次</p>
                </div>
              </li>
           </ul>
         </div>
         <div class="common-panel">
           <ul class="not-resign-list relation-list">
-             <li class="relation-item">
-                <img class="user-avatar" src="../../static/timg.jpeg">
+             <li class="relation-item" v-for="(item,index) in notResignUser">
+                <img class="user-avatar" :src="item.avatarImg">
                 <div class="user-msg">
-                  <p class="user-remark">备注：朱坚（15757177498）</p>
-                  <p class="user-status">未注册</p>
-                </div>
-             </li>
-             <li class="relation-item">
-                <img class="user-avatar" src="../../static/timg.jpeg">
-                <div class="user-msg">
-                  <p class="user-remark">备注：朱坚（15757177498）</p>
-                  <p class="user-status">未注册</p>
-                </div>
-             </li>
-              <li class="relation-item">
-                <img class="user-avatar" src="../../static/timg.jpeg">
-                <div class="user-msg">
-                  <p class="user-remark">备注：朱坚（15757177498）</p>
+                  <p class="user-remark">备注：{{item.name}}（{{item.mobile}}）</p>
                   <p class="user-status">未注册</p>
                 </div>
              </li>
           </ul>
         </div>
+        <p class="add-relation-tips">添加关系人，当对方注册“联合咨询”时，将向对方推荐您的资料。</p>
       </v-scroll>
-      <div class="add-relation-modal" v-if="showModal">
+      <div class="add-relation-modal" :class="{'show':showModal}">
         <h5>联系人信息</h5>
         <p class="input-wrap">
           <span class="label">姓名：</span>
-          <input type="text" placeholder="请输入姓名">
+          <input type="text" v-model="newName" placeholder="请输入姓名">
         </p>
         <p class="input-wrap">
           <span class="label">手机：</span>
-          <input type="tel" placeholder="请输入手机">
+          <input type="number" v-model="newMobile" placeholder="请输入手机">
         </p>
         <p class="btns-wrap">
           <span class="btn btn-green btn-small" @click="submitModal">确定</span>
@@ -74,17 +53,19 @@
 <script>
 import Scroll  from '../components/Scroll.vue'
 import T from '../tool/tool'
-import TopicListPanel from '../components/TopicListPanel.vue'
+
 require('swiper/dist/css/swiper.css')
 export default {
   name: 'ExpertDetail',
   components:{
     'v-scroll':Scroll,
-    'topic-list-panel':TopicListPanel
   },
   data () {
     return {
-      arr:[1,2,3],
+      newName:'',
+      newMobile:'',
+      hasResignUser:[],
+      notResignUser:[],
       showModal:false
     }
   },
@@ -94,17 +75,31 @@ export default {
         done();
       },1000)
     },
-    onInfinite(done){
-      setTimeout(()=>{
-        done('nomore');
-      },1000)    
-    },
+   
     submitModal(){
+      var obj = {};
+      obj.name = this.newName;
+      obj.avatarImg = '../../static/timg.jpeg';
+      obj.mobile = this.newMobile;
+      this.notResignUser = [...this.notResignUser,obj];
       this.showModal = false;
+      T.showToast({text:'添加联系人成功~'});
     }
   },
   mounted(){
-     T.checkFirstPageData(this.arr);
+    this.hasResignUser = [{
+      name:'朱坚',
+      avatarImg:'../../static/timg.jpeg',
+      mobile:'15757177498',
+      nickName:'朱两边',
+      tags:'优谷数据前端工程师',
+      askNum:'1'
+    }];
+    this.notResignUser =  [{
+      name:'何茹',
+      avatarImg:'../../static/timg.jpeg',
+      mobile:'15757177490',
+    }];
   }
 }
 </script>
@@ -150,18 +145,28 @@ export default {
      left: 75px;
      font-size: 14px;
   }
+  .add-relation-tips{
+    font-size: 15px;
+    padding: 10px 20px;
+    text-align: center;
+    line-height: 1.5;
+    color: #666;
+  }
   .add-relation-modal{
     position: fixed;
     top: 30%;
     left: 50%;
-    transform: translateX(-50%);
-    width: 260px;
+    width: 300px;
+    margin-left: -170px;
     padding: 20px;
     border-radius: 4px;
     background-color: #fff;
     z-index: 10;
-    -webkit-animation: showIn 0.1s;
-    animation: showIn 0.1s;
+    transition: all 0.3s;
+    transform: scale(0);
+  }
+  .add-relation-modal.show{
+     transform: scale(1);
   }
   .modal-mask{
     position: fixed;
