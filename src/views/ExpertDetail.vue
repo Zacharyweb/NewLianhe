@@ -45,8 +45,10 @@
                    </p>
                  </div>
                </div>
-                <p class="comment-content">{{item.comment}}</p>
-                <p class="comment-time">{{item.time}}</p>
+                <p class="comment-content text-ellipsis2">{{item.comment}}</p>
+
+               <!--  <p class="comment-time">{{item.time}}</p> -->
+                <p class="to-comment-detail" @click="toCommentDetail(item.id)">查看评论详情<span class="iconfont icon-jiantou-1"></span></p>
             </li>
           </ul>
         </div>
@@ -56,7 +58,7 @@
              <h4><span class="iconfont icon-huatiguanli"></span>专长介绍</h4>
           </div>
           <div class="topic-item">
-            <p class="topic-content">定制的话题定制的话题定制的话题定制的话题定制的话题定制的话题定制的话题</p>
+            <p class="topic-content">我有专长我有专长我有专长我有专长我有专长我有专长我有专长我有专长我有专长</p>
           </div>
         </div>
 
@@ -65,12 +67,12 @@
           <div class="panel-title">
              <h4><span class="iconfont icon-icon3"></span>专家介绍</h4>
           </div>
-          <p class="intro-content" :class="{'text-ellipsis2':!allIntroShow}">握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家握手庄家 </p>
+          <p class="intro-content" :class="{'text-ellipsis2':!allIntroShow}">这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍</p>
           <p class="to-see-all" v-show="!allIntroShow">
             <span class="to-see-all-btn" @click="allIntroShow = true">展开查看全部</span>
           </p>
           <p class="hide-all" v-show="allIntroShow">
-            <span class="hide-all-btn" @click="allIntroShow = false" >收起话题</span>
+            <span class="hide-all-btn" @click="allIntroShow = false" >收起介绍</span>
           </p>
         </div>
     
@@ -116,7 +118,8 @@ export default {
           comment:'我是评论内容我是评论内容我是评论内容我是评论内容我是评论内容我是评论内容我是评论内容我是评论内容我是评论内容我是评论内容',
           topic:'演员的自我修养演员的自我修养演员的自我修养演员的自我修养演员的自我修养我修养演员的自我修养演员的自我修养',
           allTopicShow:false,
-          time:'2017-9-10'
+          time:'2017-9-10',
+          id:'22222222'
         },
          {
           nickName:'董子健',
@@ -125,7 +128,8 @@ export default {
           comment:'我是评论内容我是评论内容我是评论内容我是评论内容我是评论内容我是评论内容我是评论内容我是评论内容我是评论内容我是评论内容',
           topic:'演员的自我修养演员的自我修养演员的自我修养演员的自我修养演员的自我修养我修养演员的自我修养演员的自我修养',
           allTopicShow:false,
-          time:'2017-9-10'
+          time:'2017-9-10',
+          id:'12213213'
         }
       ],
       arr:[1,2,3],
@@ -156,7 +160,9 @@ export default {
       var expertId = this.$route.params.expertId;
       this.$router.push('/expert/'+expertId+'/topic/'+id)
     },
-
+    toCommentDetail(id){
+      this.$router.push('/comment/detail/'+id);
+    },
     toAppointment(){
       this.$router.push({
         path:'/appoint',
@@ -287,9 +293,15 @@ export default {
 }
 .user-comment .comment-item .comment-content{
   padding-top: 10px;
-  
   color: #444;
   line-height: 1.4;
+  -webkit-line-clamp:3;
+}
+.user-comment .comment-item .to-comment-detail{
+  margin-top: 15px;
+  padding-right: 5px;
+  text-align: right;
+  color: #55cbc4;
 }
 .user-comment .comment-item .comment-time{
   padding-right: 25px;

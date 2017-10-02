@@ -137,6 +137,12 @@ class Tool{
         });
     };
 
+    postConsultTab = (num)=>{
+        setTimeout(()=> {
+            this.PubSub.publish('POSTCONSULTTAB',num);
+        });
+    };
+
 
     /**
      * ajax方法封装

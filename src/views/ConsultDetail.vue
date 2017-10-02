@@ -3,7 +3,8 @@
       <div class="top-block">
         <p class="block-title">完成咨询<span class="iconfont icon-queding"></span></p>
         <div class="btn-area">
-          <span class="btn btn-green-outline btn-small">查看评价</span>
+          <!-- <span class="btn btn-green-outline btn-small">查看评价</span> -->
+          <span class="btn btn-green-outline btn-small" @click="toAppointment(1)">再次咨询</span>
           <span class="btn btn-green btn-small">咨询详情</span>
         </div>
       </div>
@@ -14,14 +15,14 @@
       <div class="bottom-block">
         <div class="detail-msg-item">
           <div class="msg-content">
-            <span class="iconfont icon-queding"></span>
+            <span class="iconfont icon-yonghu1"></span>
             用户名称：朱两边
           </div>
         </div>
 
         <div class="detail-msg-item">
           <div class="msg-content">
-            <span class="iconfont icon-queding"></span>
+            <span class="iconfont icon-shiduan"></span>
             咨询时段：2节/30分钟
           </div>
         </div>
@@ -29,14 +30,14 @@
 
         <div class="detail-msg-item">
           <div class="msg-content">
-            <span class="iconfont icon-queding"></span>
+            <span class="iconfont icon-zhuanjiaku"></span>
             专家名称：习近平
           </div>
         </div>
 
         <div class="detail-msg-item">
           <h6 class="msg-title">
-            <span class="iconfont icon-queding"></span>
+            <span class="iconfont icon-wenti"></span>
             问题描述
           </h6>
           <p class="problem-detail">在预约专家时，填写的相关话题内容。显示全部在预约专家时，填写的相关话题内容。显示全部
@@ -45,34 +46,35 @@
 
         <div class="detail-msg-item">
           <div class="msg-content">
-            <span class="iconfont icon-queding"></span>
+            <span class="iconfont icon-jine"></span>
             支付金额：￥300
           </div>
         </div>
 
         <div class="detail-msg-item">
           <div class="msg-content">
-            <span class="iconfont icon-queding"></span>
+            <span class="iconfont icon-pingfen2"></span>
             评价：10分
           </div>
         </div>
 
         <div class="detail-msg-item">
           <h6 class="msg-title">
-            <span class="iconfont icon-queding"></span>
+            <span class="iconfont icon-pingjia1"></span>
             评价详情
           </h6>
           <div class="comment-detail">
             <img class="user-avatar" src="../../static/timg.jpeg">
-            <p class="comment-content"> 我是评价详情我是评价详情我是评价详情我是评价详情我是评价详情我是评价详情我是评价详情我是评价详情
+            <p class="comment-content text-ellipsis2"> 我是评价详情我是评价详情我是评价详情我是评价详情我是评价详情我是评价详情我是评价详情我是评价详情
             我是评价详情我是评价详情我是评价详情我是评价详情我是评价详情我是评价详情我是评价详情我是评价详情
             </p>
           </div>
+          <p class="to-comment-detail" @click="toCommentDetail(1)">查看评论详情<span class="iconfont icon-jiantou-1"></span></p>
         </div>
 
         <div class="detail-msg-item">
           <h6 class="msg-title">
-            <span class="iconfont icon-queding"></span>
+            <span class="iconfont icon-closeaccount"></span>
              结算汇总
           </h6>
           <div class="cost-list">
@@ -158,9 +160,17 @@ export default {
     }
   },
   methods:{
-
-  
-  
+    toAppointment(id){
+      this.$router.push({
+        path:'/appoint',
+        query:{
+          expertId:id,
+        }
+      })
+    },
+    toCommentDetail(id){
+      this.$router.push('/comment/detail/'+id);
+    }
   },
   mounted(){
      console.log(this.$route.params)
@@ -277,6 +287,14 @@ export default {
 .bottom-block .detail-msg-item .comment-detail .comment-content{
    flex: 1;
    line-height: 1.5;
+   width: 0;
+   -webkit-line-clamp:3;
+}
+.bottom-block .detail-msg-item .to-comment-detail{
+  margin-top: 15px;
+  padding-right: 5px;
+  text-align: right;
+  color: #55cbc4;
 }
 .order-status-panel-mask{
   position: fixed;

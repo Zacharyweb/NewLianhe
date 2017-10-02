@@ -2,7 +2,7 @@
   <div>
     <div class="base-form common-panel">
       <div class="panel-title">
-         <h4><span class="iconfont icon-icon"></span>请简要描述您的问题：</h4>
+         <h4><span class="iconfont icon-wenti"></span>请简要描述您的问题：</h4>
       </div>
       <div class="textarea-wrap">
         <textarea v-model="problem" placeholder="可描述自己需要解答的问题"></textarea>
@@ -10,14 +10,14 @@
     </div>
     <div class="common-panel">
       <div class="panel-title">
-         <h4><span class="iconfont icon-icon"></span>费用</h4>
+         <h4><span class="iconfont icon-jine"></span>费用</h4>
       </div>
       <div class="panel-content">
         <p class="appoint-cost-tips">咨询以节为收费单元，每节30分钟，请选择您需要的节数。</p>
         <div class="appint-class-input">
-           <span @click="()=>{ this.classNum--}">-</span>
+           <span class="iconfont icon-jianshao" @click="()=>{ this.classNum--}"></span>
            <input type="text" v-model="classNum">
-           <span @click="()=>{ this.classNum++}">+</span>
+           <span class="iconfont icon-zengjia" @click="()=>{ this.classNum++}"></span>
         </div>
       </div>
     </div>
@@ -96,7 +96,7 @@ export default {
   }
   .panel-content .appint-class-input span{
     width: 40px;
-    font-size: 30px;
+    font-size: 24px;
     text-align: center;
     line-height: 40px;
 

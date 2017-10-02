@@ -12,7 +12,6 @@
                      :class="{'icon-pingfen':score < item ,'icon-pingfen-':score >= item}"
                 >
                 </span>
-      
               </div>
            </div>
       </div>

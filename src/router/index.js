@@ -15,8 +15,13 @@ import SignIn from '@/views/SignIn'
 
 //咨询页
 import Consultation from '@/views/Consultation'
+import ExpertConsult from '@/views/Consultation/ExpertConsult' 
+import CustomerConsult from '@/views/Consultation/CustomerConsult' 
 //咨询详情页
 import ConsultDetail from '@/views/ConsultDetail'
+
+
+
 //用户评价页
 import Comment from '@/views/Comment'
 //评价详情页
@@ -86,7 +91,6 @@ export default new Router({
     //发起咨询
     {
       path: '/appoint',
-      name: 'MakeAppoint',
       component: MakeAppoint,
       children:[
         { path: '/',name: 'MakeAppointStep1',component: MakeAppointStep1},
@@ -105,8 +109,11 @@ export default new Router({
     //咨询
     {
       path: '/consult',
-      name: 'Consultation',
-      component: Consultation
+      component: Consultation,
+      children:[
+        { path: '/',name: 'ExpertConsult',component: ExpertConsult},
+        { path: 'customer',name: 'CustomerConsult',component: CustomerConsult},
+      ]
     },
 
     // 咨询详情
@@ -154,7 +161,6 @@ export default new Router({
     //成为专家
     {
       path: '/upgrade',
-      name: 'Upgrade',
       component: Upgrade,
       children:[
         { path: '/',name: 'UpgradeStep1',component: UpgradeStep1},
