@@ -7,7 +7,24 @@
         <p class="notice-text">专家xxx已同意解答问题，并约定了时间</p>
         <span class="todetail-icon iconfont icon-jiantou-copy-copy"></span>
       </div>
+      <div class="center">
+        <vue-core-image-upload
+          class="btn btn-primary"
+          crop-ratio="1:1"
+          crop="local"
+          @imageuploaded="imageuploaded"
+          :data="data"
+          :max-file-size="5242880"
+          text="你好啊啊啊啊啊"
+          :cropBtn="cropBtn"
+          url="http://101.198.151.190/api/upload.php" >
+          <!-- <p style="color:#333;">点击我上传</p> -->
+        </vue-core-image-upload>
+      </div>
       <category-bar :tab-bar-arr='tabBarArr'></category-bar>
+
+
+
       <v-scroll :on-refresh="onRefresh" :on-infinite="onInfinite" :bottom="60" :top="215">
          <p class="btn btn-large btn-red" @click="showAlert">Alert测试</p>
          <p class="btn btn-large btn-red" @click="showConfirm">Confirm测试</p>
@@ -29,6 +46,9 @@ import TabBar  from '../components/TabBar.vue'
 import CategoryBar  from '../components/CategoryBar.vue'
 import Scroll  from '../components/Scroll.vue'
 import BottomNav from '../components/BottomNav.vue'
+
+
+import VueCoreImageUpload from 'vue-core-image-upload'
 import T from '../tool/tool'
 export default {
   name: 'Home',
@@ -39,6 +59,7 @@ export default {
     'category-bar':CategoryBar,
     'bottom-nav': BottomNav,
     'header-nav': HeaderNav,
+     'vue-core-image-upload': VueCoreImageUpload,
 
   },
    data () {
@@ -52,7 +73,10 @@ export default {
         {name:'税收',icon:{'icon-shuiwu':true},color:'#f5be3f'},
         {name:'海关',icon:{'icon-haiguan':true},color:'#51a1ff'}
       ],
-      focusOnSeach: true
+      focusOnSeach: true,
+       src: 'http://img1.vued.vanthink.cn/vued0a233185b6027244f9d43e653227439a.png',
+       data:{},
+       cropBtn: {ok:'确定选中','cancel':'取消'}
     }
   },
   methods:{
@@ -108,31 +132,36 @@ export default {
 
       e.preventDefault();
       this.$router.push('search')
+    },
+    imageuploaded(res) {
+      if (res.errcode == 0) {
+        this.src = res.data.src;
+      }
     }
   
   },
   mounted(){
-    T.get({
-      url:'/webDev/couresByCategory.htm',
-      data:{
-        pageNo: 1, 
-        psize: 5, 
-        type: 10
-      },
-      headers: {},
-      transformRequest: [function (data) {
-         T.showLoading();
-         return data;
-      }],
-      transformResponse: [function (data) {
-         T.hideLoading();
-         return data;
-      }],
-    }).then((res)=>{
-      console.log(res);
-    }).catch(function(err){
-      console.log(err)
-    });
+    // T.get({
+    //   url:'/webDev/couresByCategory.htm',
+    //   data:{
+    //     pageNo: 1, 
+    //     psize: 5, 
+    //     type: 10
+    //   },
+    //   headers: {},
+    //   transformRequest: [function (data) {
+    //      T.showLoading();
+    //      return data;
+    //   }],
+    //   transformResponse: [function (data) {
+    //      T.hideLoading();
+    //      return data;
+    //   }],
+    // }).then((res)=>{
+    //   console.log(res);
+    // }).catch(function(err){
+    //   console.log(err)
+    // });
      setTimeout(()=>{
       this.arr = [1,1,1,1,1,1,1,1,1,1,1,1];
         T.checkFirstPageData(this.arr);

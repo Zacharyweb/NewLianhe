@@ -1,0 +1,442 @@
+<template>
+  <div>
+    <header-nav :title="'咨询室'"/>
+    <v-scroll :on-refresh="onRefresh"  :bottom="vScrollBottom" :top="50">
+      <div class="chat-msg-wrap" @touchstart="checkInputPanelHeight">
+        <!-- 左侧消息 -->
+        <div class="msg-item left-msg">
+          <span class="msg-time">2017-7-20 19:20:20</span>
+          <img class="user-avatar" src="../../static/timg.jpeg" >
+          <div class="chat-content">我是文字内容，我是文字内容我是说维斯我是文字内容我是说维斯我是文字内容我是说维斯我是文字内容我是说维斯我是文字内容我是说维斯我是文字内容我是说维斯我是文字内容我是说维斯~</div>
+        </div>  
+        <!-- 右侧消息 -->
+        <div class="msg-item right-msg">
+          <span class="msg-time">2017-7-20 19:20:20</span>
+          <div class="chat-content">我是文字内容，我是文字内容我是说维斯我是文字内容我是说维斯我是文字内容我是说维斯我是文字内容我是说维斯我是文字内容我是说维斯我是文字内容我是说维斯我是文字内容我是说维斯~</div>
+          <img class="user-avatar" src="../../static/timg.jpeg" >
+        </div> 
+        <!-- 左侧语音 -->
+        <div class="msg-item left-msg">
+          <span class="msg-time">2017-7-20 19:20:20</span>
+          <img class="user-avatar" src="../../static/timg.jpeg" >
+          <div class="chat-content voice-content" @click="playAudio(56)"> 
+             <span class="voice-icon-bar voice-icon-bar1" :class="{'voice-icon-play1':audioPlay}"></span>
+             <span class="voice-icon-bar voice-icon-bar2" :class="{'voice-icon-play2':audioPlay}"></span>
+             <span class="voice-icon-bar voice-icon-bar3" :class="{'voice-icon-play3':audioPlay}"></span>
+             <span class="voice-icon-bar voice-icon-bar4" :class="{'voice-icon-play4':audioPlay}"></span>
+             <span class="voice-icon-bar voice-icon-bar5" :class="{'voice-icon-play5':audioPlay}"></span>
+             <span class="voice-time">6"</span>
+          </div>
+        </div> 
+        <!-- 右侧语音 -->
+        <div class="msg-item right-msg">
+          <span class="msg-time">2017-7-20 19:20:20</span>
+          <div class="chat-content voice-content" @click="playAudio(56)"> 
+             <span class="voice-time">6"</span>
+             <span class="voice-icon-bar voice-icon-bar1" :class="{'voice-icon-play1':audioPlay}"></span>
+             <span class="voice-icon-bar voice-icon-bar2" :class="{'voice-icon-play2':audioPlay}"></span>
+             <span class="voice-icon-bar voice-icon-bar3" :class="{'voice-icon-play3':audioPlay}"></span>
+             <span class="voice-icon-bar voice-icon-bar4" :class="{'voice-icon-play4':audioPlay}"></span>
+             <span class="voice-icon-bar voice-icon-bar5" :class="{'voice-icon-play5':audioPlay}"></span>
+          </div>
+          <img class="user-avatar" src="../../static/timg.jpeg" >
+        </div> 
+        <!-- 左侧图片 -->
+        <div class="msg-item left-msg">
+          <span class="msg-time">2017-7-20 19:20:20</span>
+          <img class="user-avatar" src="../../static/timg.jpeg" >
+          <div class="chat-content">
+            <img src="../../static/timg.jpeg"  @click="showImgDetail">
+          </div>
+        </div>
+        <!-- 右侧图片 -->
+        <div class="msg-item right-msg">
+          <span class="msg-time">2017-7-20 19:20:20</span>
+          <div class="chat-content">
+            <img src="../../static/timg.jpeg"  @click="showImgDetail">
+          </div>
+          <img class="user-avatar" src="../../static/timg.jpeg" >
+        </div>        
+      </div>
+    </v-scroll>
+    <div class="input-panel" ref="inputPanel">
+      <div class="textarea-wrap" v-show="!voiceInputShow">
+       <p class="back-text">{{inputMsg}}</p>
+       <textarea  v-model="inputMsg" @change="textAreaChange"></textarea>
+      </div>
+      <div class="voice-input" v-show="voiceInputShow" @touchstart="beginVoiceInput" @touchend="endVoiceInput">
+        按住进行语音输入
+      </div>
+      <span class="voice-btn option-btn" v-show="!voiceInputShow" @click="toVoiceInput">
+        <i class="iconfont icon-yuyin1"></i>
+      </span>
+      <span class="text-btn option-btn" v-show="voiceInputShow" @click="toTextInput">
+        <i class="iconfont icon-bianji"></i>
+      </span>
+      <span class="img-btn option-btn" @click="toSeleceImg">
+        <i class="iconfont icon-tupian"></i>
+      </span>
+
+      <span class="send-btn" @click="toSendMsg">发送</span>
+    </div>
+    <div class="voice-input-tips" v-show="voiceInputTipsShow">
+      <p class="tips-icon"><span class="iconfont icon-yuyin"></span></p>
+      <p class="tips-text">正在录入语音</p>
+    </div>
+  
+
+    <div class="img-detail-panel" v-if="imgDetailShow" @click="hideImgDetail">
+      <img class="scaleIn" :class="{'scaleOut':imgDetailScaleOut}" src="../../static/timg.jpeg" >
+    </div>
+   
+    <audio ref="audioObj" src="http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E06DCBDC9AB7C49FD713D632D313AC4858BACB8DDD29067D3C601481D36E62053BF8DFEAF74C0A5CCFADD6471160CAF3E6A&fromtag=46"></audio> 
+  </div>
+</template>
+
+<script>
+import Scroll  from '../components/Scroll.vue'
+import HeaderNav  from '../components/HeaderNav.vue'
+import T from '../tool/tool'
+export default {
+  name: 'ChatRoom',
+  components:{
+    'header-nav':HeaderNav,
+    'v-scroll': Scroll
+  },
+   data () {
+    return {
+      vScrollBottom:70,
+      inputMsg:'',
+      imgDetailShow:false,
+      imgDetailScaleOut:false,
+      audioPlay:false,
+      voiceInputShow:false,
+      voiceInputTipsShow:false
+
+    }
+  },
+  methods:{
+    onRefresh(done){
+      setTimeout(()=>{
+        done();
+      },1000)
+    },
+    showImgDetail(){
+      this.imgDetailShow = true;
+      this.imgDetailScaleOut = false;
+    },
+    hideImgDetail(){
+      this.imgDetailScaleOut = true;
+      setTimeout(()=>{
+         this.imgDetailShow = false;
+      },200)  
+    },
+    toVoiceInput(){
+        this.voiceInputShow = true;
+        this.vScrollBottom = 70;
+    },
+    toSeleceImg(){
+
+    },
+    toTextInput(){
+        this.voiceInputShow = false;
+        this.vScrollBottom = this.$refs.inputPanel.offsetHeight;
+    },
+    checkInputPanelHeight(){
+       this.vScrollBottom = this.$refs.inputPanel.offsetHeight;
+    },
+    toSendMsg(){
+      if(!this.voiceInputShow){
+         this.inputMsg = '';
+         this.vScrollBottom = 70;
+      } 
+    },
+    playAudio(id){
+      this.audioPlay = !this.audioPlay;
+      if(this.audioPlay){
+        this.$refs.audioObj.play();
+      }else{
+        this.$refs.audioObj.pause();
+      }
+    },
+    beginVoiceInput(){
+      this.voiceInputTipsShow = true;
+    },
+    endVoiceInput(){
+      this.voiceInputTipsShow = false;
+    },
+    textAreaChange(){
+      // this.vScrollBottom = this.$refs.inputPanel.offsetHeight;
+    },
+  },
+  mounted(){
+   
+  }
+}
+</script>
+<style scoped>
+ .input-panel{
+  box-sizing: border-box; 
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-top: 1px solid #ccc;
+  background-color: #e3e3e3;
+  padding: 10px 55px 10px 90px;   
+ 
+ }
+ .voice-input{
+  min-height: 44px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  text-align: center;
+  line-height: 44px;
+  background-color: #f1f1f1;
+  -webkit-user-select:none;
+ }
+ .input-panel .textarea-wrap{   
+      position: relative;
+      min-height: 46px;    
+ }
+ .input-panel .back-text{
+    padding: 13px;
+    font-size: 16px;
+    line-height:1.5;
+ }    
+ .voice-input-tips{
+   position: fixed;
+   top: 30%;
+   left: 50%;
+   margin-left: -60px;
+   background-color: rgba(0, 0, 0, 0.8);
+   border-radius: 8px;
+   width: 120px;
+   padding: 20px 0;
+   text-align: center;
+   color: #fff;
+ }
+ .voice-input-tips .tips-icon .iconfont{
+   font-size: 40px;
+ }
+ .input-panel textarea{
+  box-sizing: border-box; 
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;  
+  height: 100%;
+  padding: 10px; 
+  font-size: 16px;
+  line-height:1.5;
+ }
+ .input-panel .option-btn{
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  bottom: 15px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  line-height: 30px;
+  text-align: center;
+  background-color: #fff;   
+ }
+ .input-panel .option-btn.voice-btn{
+   left: 10px;
+}
+.input-panel .option-btn.text-btn{
+   left: 10px;
+}
+.input-panel .option-btn.img-btn{
+   left: 50px;
+}
+
+
+.input-panel .send-btn{
+  position: absolute;
+  bottom: 15px;
+  right: 10px;
+  font-size: 18px;
+  color:#55cbc4;    
+}
+.chat-msg-wrap{
+  padding: 0 15px;
+  padding-bottom: 10px;
+}
+.chat-msg-wrap .msg-item{
+   padding-top: 30px;
+   margin-top: 15px;
+   display: flex;
+   position: relative;
+} 
+
+.chat-msg-wrap .msg-item .msg-time{
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0,0,0,0.5);
+  padding: 2px 4px;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 12px;
+}
+.chat-msg-wrap .msg-item .user-avatar{
+   width: 48px;
+   height: 48px;
+   border-radius: 50%;
+}
+.chat-msg-wrap .msg-item .chat-content{
+    position: relative;
+  line-height: 1.5;
+  background: #B4EEB4;
+  padding: 10px;
+  border-radius: 8px;
+  max-width: 240px;
+}
+.chat-msg-wrap .msg-item .chat-content::before{
+  position: absolute;
+  content: '';
+  width: 0;
+  height: 0;
+  border-width: 6px 12px;
+  border-style: solid;
+  border-color: #B4EEB4;  
+  top: 12px;
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+} 
+.chat-msg-wrap .msg-item.left-msg .user-avatar{
+    margin-right: 15px;
+}
+.chat-msg-wrap .msg-item.left-msg .chat-content::before{
+  border-left-color: transparent;
+  left: -23px;
+}
+.chat-msg-wrap .msg-item.right-msg {
+  justify-content: flex-end;
+}
+.chat-msg-wrap .msg-item.right-msg .user-avatar{
+    margin-left: 15px;
+}
+.chat-msg-wrap .msg-item.right-msg .chat-content::before{
+  border-right-color: transparent;
+  right: -23px;
+}
+.chat-msg-wrap .msg-item  .chat-content img{
+  width: 120px;
+  vertical-align: bottom;
+}
+
+.img-detail-panel{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: #000;
+  z-index: 11;
+}
+.img-detail-panel img{
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 100%;
+} 
+.scaleIn{
+  animation: scaleIn 0.3s;
+} 
+@keyframes scaleIn{
+  from { transform:scale(0.3,0.3) translateY(0%)}
+  to { transform:scale(1,1) translateY(-50%)}
+}
+
+
+.scaleOut{
+  animation: scaleOut 0.3s;
+} 
+@keyframes scaleOut{
+  from {transform:scale(1,1) translateY(-50%)}
+  to {transform:scale(0.3,0.3) translateY(0%)}
+}
+
+
+.chat-msg-wrap .msg-item .chat-content.voice-content{
+  display: flex;
+  align-items: center;
+}
+.chat-msg-wrap .msg-item .chat-content.voice-content .voice-icon-bar{
+  width:3px;  
+  height: 80%;   
+  margin-left: 3px;  
+  border-radius: 50px;    
+  background-color: #55cbc4;  
+  vertical-align: middle;  
+  display: inline-block;  
+}
+
+@keyframes voicePlay{  
+    0%{  
+        height: 20%;
+    }  
+    20%{  
+        height: 40%;  
+    }  
+    50%{  
+        height: 70%;  
+    }  
+    80%{  
+        height: 40%;      
+    }  
+    100%{  
+        height: 20%;  
+    }  
+}         
+
+.chat-msg-wrap .msg-item .chat-content.voice-content .voice-icon-bar1{  
+    margin-left: 10px;
+    height: 20%;
+}  
+.chat-msg-wrap .msg-item .chat-content.voice-content .voice-icon-bar2{  
+    height: 40%;
+}  
+.chat-msg-wrap .msg-item .chat-content.voice-content .voice-icon-bar3{  
+    height: 70%;
+}  
+.chat-msg-wrap .msg-item .chat-content.voice-content .voice-icon-bar4{  
+    height: 40%;
+}  
+.chat-msg-wrap .msg-item .chat-content.voice-content .voice-icon-bar5{  
+     margin-right: 10px;
+     height: 20%; 
+}  
+.voice-icon-play1{
+    animation:voicePlay 0.6s infinite 0.1s;  
+   -webkit-animation:voicePlay 0.6s infinite 0.1s;  
+}
+.voice-icon-play2{
+   animation:voicePlay 0.6s infinite 0.2s;  
+   -webkit-animation:voicePlay 0.6s infinite 0.2s;  
+}
+.voice-icon-play3{
+    animation:voicePlay 0.6s infinite 0.3s;  
+   -webkit-animation:voicePlay 0.6s infinite 0.3s;  
+}
+.voice-icon-play4{
+   animation:voicePlay 0.6s infinite 0.4s;  
+   -webkit-animation:voicePlay 0.6s infinite 0.4s;  
+}
+.voice-icon-play5{
+   animation:voicePlay 0.6s infinite 0.5s;  
+   -webkit-animation:voicePlay 0.6s infinite 0.5s; 
+}
+
+audio{
+  position: absolute;
+  visibility: hidden;
+}
+
+</style>

@@ -19,7 +19,8 @@ import ExpertConsult from '@/views/Consultation/ExpertConsult'
 import CustomerConsult from '@/views/Consultation/CustomerConsult' 
 //咨询详情页
 import ConsultDetail from '@/views/ConsultDetail'
-
+//咨询室
+import ChatRoom from '@/views/ChatRoom'
 
 
 //用户评价页
@@ -122,6 +123,14 @@ export default new Router({
       name: 'ConsultDetail',
       component: ConsultDetail
     },
+
+    //咨询室
+    {
+      path: '/chat/:id',
+      name: 'ChatRoom',
+      component: ChatRoom
+    },
+
 
     // 用户评价
     {

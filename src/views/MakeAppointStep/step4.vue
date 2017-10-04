@@ -28,6 +28,10 @@ export default {
 
     toConsultHome(){
         T.postAppointCurrentStep(5);
+        setTimeout(()=>{
+          this.$router.push('/chat/56');
+
+        },300)
     }
   },
   mounted(){

@@ -5,7 +5,7 @@
         <div class="btn-area">
           <!-- <span class="btn btn-green-outline btn-small">查看评价</span> -->
           <span class="btn btn-green-outline btn-small" @click="toAppointment(1)">再次咨询</span>
-          <span class="btn btn-green btn-small">咨询详情</span>
+          <span class="btn btn-green btn-small" @click="toConsultHome">咨询详情</span>
         </div>
       </div>
       <div class="center-block">
@@ -170,7 +170,11 @@ export default {
     },
     toCommentDetail(id){
       this.$router.push('/comment/detail/'+id);
+    },
+    toConsultHome(){
+      this.$router.push('/chat/56');
     }
+    
   },
   mounted(){
      console.log(this.$route.params)

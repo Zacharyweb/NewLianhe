@@ -26,7 +26,7 @@
             <p class="item-cost"> ¥300 / 2节</p>
             <p class="item-detail text-ellipsis">预约专家时输入的问题详情，最多显示一行预约专家时输入的问题详情，最多显示一行</p>
             <p class="btn-area">
-              <span class="btn btn-green-outline">咨询室</span>
+              <span class="btn btn-green-outline" @click="toConsultHome(1)">咨询室</span>
             </p>
           </li>
           <li class="consult-item">

@@ -238,4 +238,6 @@ export default {
   line-height: 1.5;
   border: none;
 }
+
+
 </style>
