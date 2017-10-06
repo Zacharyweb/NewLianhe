@@ -1,7 +1,14 @@
 <template>
   <div>
     <header-nav :title="'咨询室'"/>
+      <p class="count-time-wrap">
+        <span class="iconfont icon-shijian"></span>
+        <span class="count-hours">{{hours}}:</span>
+        <span class="count-minutes">{{minutes}}:</span>
+        <span class="count-seconds">{{seconds}}</span>
+      </p>
     <v-scroll :on-refresh="onRefresh"  :bottom="vScrollBottom" :top="50">
+
       <div class="chat-msg-wrap" @touchstart="checkInputPanelHeight">
         <!-- 左侧消息 -->
         <div class="msg-item left-msg">
@@ -111,8 +118,11 @@ export default {
       imgDetailScaleOut:false,
       audioPlay:false,
       voiceInputShow:false,
-      voiceInputTipsShow:false
-
+      voiceInputTipsShow:false,
+      countTimes:128,
+      hours:'00',
+      minutes:'00',
+      seconds:'00'
     }
   },
   methods:{
@@ -136,7 +146,7 @@ export default {
         this.vScrollBottom = 70;
     },
     toSeleceImg(){
-
+ 
     },
     toTextInput(){
         this.voiceInputShow = false;
@@ -168,9 +178,21 @@ export default {
     textAreaChange(){
       // this.vScrollBottom = this.$refs.inputPanel.offsetHeight;
     },
+    initCountTime(){
+      setInterval(()=>{
+          var h = Math.floor(this.countTimes/3600);
+          var m = Math.floor(this.countTimes/60%60) ;
+          var s = Math.floor(this.countTimes%60);
+          this.hours = h < 10 ? '0' + h : '' + h;
+          this.minutes = m < 10 ? '0' + m : '' + m;
+          this.seconds = s < 10 ? '0' + s : '' + s;
+          this.countTimes = --this.countTimes;
+      },1000)
+
+    }
   },
   mounted(){
-   
+    this.initCountTime();
   }
 }
 </script>
@@ -437,6 +459,22 @@ export default {
 audio{
   position: absolute;
   visibility: hidden;
+}
+
+.count-time-wrap{
+  display: flex;
+  height: 50px;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  right: 10px;
+  color: #fff;
+  z-index: 10;
+  font-size: 18px;
+}
+.count-time-wrap .iconfont{
+  padding-right: 10px;
+  font-size: 20px;
 }
 
 </style>
