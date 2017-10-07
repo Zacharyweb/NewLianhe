@@ -155,6 +155,7 @@ export default {
   }
   .edit-panel .img-list img{
     height: 70px;
+    vertical-align: bottom;
   }
   .edit-panel .img-list .edit-img{
     position: absolute;
