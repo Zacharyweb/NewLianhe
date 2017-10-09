@@ -132,10 +132,11 @@ export default {
     justify-content: flex-end;
   }
   #consultPage .consult-list .consult-item .btn-area .btn{
-      padding: 2px 5px;
-      height:30px;
-      border-radius:4px;
-      font-size:16px;
+      padding: 0px 8px;
+      height:28px;
+      border-radius:2px;
+      font-size:14px;
+      line-height: 28px;
       margin-left: 5px;
   } 
 </style>

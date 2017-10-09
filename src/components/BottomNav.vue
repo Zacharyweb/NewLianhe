@@ -60,5 +60,6 @@ export default {
   }
   .bottom-nav .nav-item .nav-name{
     margin-top: 2px;
+    font-size: 12px;
   }
 </style>

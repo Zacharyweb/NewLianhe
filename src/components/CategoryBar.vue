@@ -69,17 +69,18 @@ export default {
       margin:0 17px;
    }
    .category-bar .category-item .iconfont{
-      width: 50px;
-      height: 50px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
       color: #fff;
-      line-height: 50px;
+      line-height: 48px;
       text-align: center;
       font-size: 30px;
    }
    .category-bar .category-item .category-name{
     margin-top: 6px;
     color: #666;
+    font-size: 14px;
    }
    .category-bar .category-item .category-item{
 
