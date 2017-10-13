@@ -60,6 +60,7 @@ export default {
       position:relative;
       line-height: 50px;
       text-align: center;
+      font-size: 14px;
    }
    .tab-bar .tab-item .index-bar{
       position: absolute;

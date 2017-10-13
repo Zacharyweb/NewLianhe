@@ -192,6 +192,7 @@ export default {
     height: 60px;
   }
   .info-tabs .tab-item{
+    font-size: 14px;
      width: 120px;
      border: 1px solid #fff;
      color: #fff;
@@ -218,7 +219,7 @@ export default {
     align-items:center;
     height:40px;
     padding:10px 5px;
-    font-size:16px;
+    font-size:14px;
     position:relative;
     border-bottom: 1px solid #e6e6e6;
   }
@@ -226,7 +227,7 @@ export default {
     flex:1;
     padding-left: 20px;
     border:none;
-    font-size:16px;
+    font-size:14px;
   }
   .base-form .tags-item{
     padding: 15px 5px;
@@ -237,7 +238,7 @@ export default {
 
   }
   .base-form .tags-item .label{
-    font-size: 16px;
+    font-size: 14px;
     margin-bottom: 10px;
   }
   .base-form .tags-item .tags-wrap{
@@ -248,7 +249,7 @@ export default {
     padding: 0 6px;
     text-align: center;
     line-height: 26px;
-    font-size: 16px;
+    font-size: 14px;
     border: 1px solid #ccc;
     color: #ccc;
     border-radius: 4px;
@@ -291,7 +292,7 @@ export default {
     margin-bottom: 10px;
   }
   .intro-form .form-input .label{
-    font-size: 18px;
+    font-size: 14px;
     width: 80px;
 
   }

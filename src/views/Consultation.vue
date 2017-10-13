@@ -75,6 +75,7 @@ export default {
     line-height: 30px;
     text-align: center;
     color:#55cbc4;
+    font-size: 14px;
   }
   #consultPage .consult-tabs .consult-item.active{
     color:#fff;
@@ -94,49 +95,60 @@ export default {
     padding: 0 20px;
 
   }
+  #consultPage .consult-list{
+   
+  }
   #consultPage .consult-list .consult-item{
+    margin-top: 10px;
     position: relative;
-    padding: 15px 10px;
+    padding: 10px 20px;
+    box-shadow: 4.6px 3.9px 16px 0px rgba(120, 119, 108, 0.2);
 
   }
-  #consultPage .consult-list .consult-item+.consult-item{
-    border-top: 1px solid #e3e3e3;
-  }
   #consultPage .consult-list .consult-item .item-status{
+    font-size: 13px;
     position: absolute;
-    top: 10px;
+    top: 8px;
     right: 20px;
     color: #E64340;
   }
   #consultPage .consult-list .consult-item .item-order-num{
-    color: #666;
+    font-size: 13px;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 6px;
     margin-bottom: 8px;
   }
   #consultPage .consult-list .consult-item .item-name{
-    font-size: 18px;
+    font-size: 16px;
     color: #555;
     font-weight: 600;
     margin-bottom: 10px;
   }
   #consultPage .consult-list .consult-item .item-cost{
+    font-size: 13px;
     color: #55cbc4;
     margin-bottom: 4px;
   } 
   #consultPage .consult-list .consult-item .item-detail{
+    font-size: 14px;
     color: #888;
-    font-size: 16px;
     margin-bottom: 8px;
   }
   #consultPage .consult-list .consult-item .btn-area{
+    padding-top: 10px;
+    border-top: 1px solid #eee;
     display: flex;
     justify-content: flex-end;
   }
   #consultPage .consult-list .consult-item .btn-area .btn{
-      padding: 0px 8px;
-      height:28px;
-      border-radius:2px;
-      font-size:14px;
-      line-height: 28px;
+      padding: 0px 10px;
+     
+      
+      height:24px;
+      border-radius:14px;
+      font-size:12px;
+      line-height: 24px;
       margin-left: 5px;
   } 
 </style>

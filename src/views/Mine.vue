@@ -110,8 +110,8 @@ export default {
     border-bottom: 1px solid #e6e6e6;
   }
   .mine-msg .mine-avatar{
-    width: 80px;
-    height: 80px;
+    width: 66px;
+    height: 66px;
     border-radius: 50%;
     margin-right: 20px;
   }
@@ -124,10 +124,12 @@ export default {
   }
   
   .mine-msg .mine-base-msg .mine-nickname{
-    font-size: 20px;
+    font-size: 16px;
     margin-right: 20px;
+    font-weight: bold;
   }
   .mine-msg .mine-base-msg .mine-tel{
+    font-size: 14px;
     color: #666;
   }
 
@@ -135,6 +137,7 @@ export default {
       display: flex;
       align-items: center;
       color: #666;
+      font-size: 14px;
 
   }
   .mine-msg .mine-status .status-text{
@@ -173,10 +176,11 @@ export default {
   .router-bar .router-bar-item .item-left{
     display: flex;
     align-items: center;
+    font-size: 15px;
   }
   .router-bar .router-bar-item .item-left .iconfont{
     color: #55cbc4;
-    font-size: 26px;
+    font-size: 20px;
     margin-right: 10px;
 
   }

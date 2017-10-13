@@ -68,7 +68,7 @@ export default {
     border-radius: 5px;
     background-color:#fff;
     color:#333;
-    font-size:16px;
+    font-size:14px;
     line-height:36px;
   }
   .search-bar .iconfont{
@@ -81,7 +81,7 @@ export default {
   }
   .search-bar .cancel-btn{
     padding-left: 15px;
-    font-size: 20px;
+    font-size: 16px;
     color: #fff;
     white-space:nowrap;
   }

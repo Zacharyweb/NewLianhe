@@ -108,7 +108,7 @@ export default {
     align-items:center;
     height:36px;
     padding:10px 5px;
-    font-size:16px;
+    font-size:14px;
     position:relative;
     border-bottom: 1px solid #e6e6e6;
   }
@@ -116,7 +116,7 @@ export default {
     flex:1;
     padding-left: 20px;
     border:none;
-    font-size:16px;
+    font-size:14px;
   }
   .tags-item{
     padding: 10px 5px;
@@ -127,7 +127,7 @@ export default {
 
   }
   .tags-item .label{
-    font-size: 16px;
+    font-size: 14px;
     margin-bottom: 10px;
   }
   .tags-item .tags-wrap{
@@ -137,8 +137,8 @@ export default {
   .tags-item .tags-wrap .tag-item{
     padding: 0 6px;
     text-align: center;
-    line-height: 26px;
-    font-size: 16px;
+    line-height: 24px;
+    font-size: 12px;
     border: 1px solid #ccc;
     color: #ccc;
     border-radius: 4px;

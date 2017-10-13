@@ -116,6 +116,7 @@ export default {
   .relation-list .relation-item .user-msg{
     flex: 1;
     width: 0;
+    font-size: 14px;
   }
   .relation-list .relation-item+.relation-item{
     border-top: 1px solid #eee;
@@ -127,8 +128,9 @@ export default {
     margin-right: 15px;
   }
   .relation-list .relation-item .user-remark{
-      margin-bottom: 10px;
+      margin-bottom: 6px;
       color: #666;  
+      
   }
   .relation-list .relation-item .user-intro{
       
@@ -137,16 +139,16 @@ export default {
       color: #999;
   }
   .relation-list.has-resign-list .relation-item{
-    padding-bottom: 20px;
+    padding-bottom: 15px;
   }
   .relation-list.has-resign-list .relation-item .user-status{
      position: absolute;
-     bottom: 10px;
+     bottom: 16px;
      left: 75px;
-     font-size: 14px;
+     font-size: 12px;
   }
   .add-relation-tips{
-    font-size: 15px;
+    font-size: 14px;
     padding: 10px 20px;
     text-align: center;
     line-height: 1.5;
@@ -156,8 +158,8 @@ export default {
     position: fixed;
     top: 30%;
     left: 50%;
-    width: 300px;
-    margin-left: -170px;
+    width: 260px;
+    margin-left: -150px;
     padding: 20px;
     border-radius: 4px;
     background-color: #fff;
@@ -178,7 +180,7 @@ export default {
     z-index: 9;
   }
   .add-relation-modal h5{
-    font-size: 18px;
+    font-size: 16px;
     color: #55cbc4;
   }
   .add-relation-modal .input-wrap{
@@ -187,14 +189,14 @@ export default {
     align-items: center;
   }
   .add-relation-modal .input-wrap .label{
-    font-size: 16px;
+    font-size: 14px;
     color: #666;
   }
   .add-relation-modal .input-wrap input{
      flex: 1;
      border: 1px solid #ccc;
      padding: 0 15px;
-     font-size: 16px;
+     font-size: 14px;
      line-height: 36px;
   }
   .add-relation-modal .btns-wrap{
@@ -202,5 +204,8 @@ export default {
     padding-left: 48px;
     display: flex;
     justify-content: space-between;
+  }
+  .add-relation-modal .btns-wrap .btn-small{
+    font-size: 14px;
   }
 </style>
