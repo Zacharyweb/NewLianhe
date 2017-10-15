@@ -2,7 +2,7 @@
   <div>
     <div class="check-page">
         <div class="checking-tips">
-          专家已同意接收您的咨询请求，马上完成支付即可开始咨询。
+          专家已同意接受您的咨询请求，马上完成支付即可开始咨询。
         </div>
         <div class="btn-wrapper">
            <p class="btn btn-green btn-large" @click="toPay">支付{{amount}}元</p>

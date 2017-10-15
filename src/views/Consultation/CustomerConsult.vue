@@ -4,7 +4,7 @@
           <li class="consult-item">
             <span class="item-status">等待同意</span>
             <p class="item-order-num">20170712130020</p>
-            <p class="item-name">专家姓名</p>
+            <p class="item-name">客户姓名</p>
             <p class="item-cost"> ¥300 / 2节</p>
             <p class="item-detail text-ellipsis">预约专家时输入的问题详情，最多显示一行</p>
             <p class="btn-area">
@@ -15,24 +15,24 @@
           <li class="consult-item">
             <span class="item-status">等待支付</span>
             <p class="item-order-num">20170712130020</p>
-            <p class="item-name">专家姓名</p>
+            <p class="item-name">客户姓名</p>
             <p class="item-cost"> ¥300 / 2节</p>
             <p class="item-detail text-ellipsis">预约专家时输入的问题详情，最多显示一行预约专家时输入的问题详情，最多显示一行</p>
           </li>
           <li class="consult-item">
-            <span class="item-status">等待咨询/咨询中</span>
+            <span class="item-status">支付完成</span>
             <p class="item-order-num">20170712130020</p>
-            <p class="item-name">专家姓名</p>
+            <p class="item-name">客户姓名</p>
             <p class="item-cost"> ¥300 / 2节</p>
             <p class="item-detail text-ellipsis">预约专家时输入的问题详情，最多显示一行预约专家时输入的问题详情，最多显示一行</p>
             <p class="btn-area">
-              <span class="btn btn-green-outline" @click="toConsultHome(1)">咨询室</span>
+              <span class="btn btn-green-outline" @click="toConsultHome(1)">进入咨询室</span>
             </p>
           </li>
           <li class="consult-item">
             <span class="item-status">完成咨询</span>
             <p class="item-order-num">20170712130020</p>
-            <p class="item-name">专家姓名</p>
+            <p class="item-name">客户姓名</p>
             <p class="item-cost"> ¥300 / 2节</p>
             <p class="item-detail text-ellipsis">预约专家时输入的问题详情，最多显示一行预约专家时输入的问题详情，最多显示一行</p>
             <p class="btn-area">
@@ -43,7 +43,7 @@
           <li class="consult-item">
             <span class="item-status">完成咨询</span>
             <p class="item-order-num">20170712130020</p>
-            <p class="item-name">专家姓名</p>
+            <p class="item-name">客户姓名</p>
             <p class="item-cost"> ¥300 / 2节</p>
             <p class="item-detail text-ellipsis">预约专家时输入的问题详情，最多显示一行预约专家时输入的问题详情，最多显示一行</p>
             <p class="btn-area">
@@ -54,7 +54,7 @@
           <li class="consult-item">
             <span class="item-status">完成结算</span>
             <p class="item-order-num">20170712130020</p>
-            <p class="item-name">专家姓名</p>
+            <p class="item-name">客户姓名</p>
             <p class="item-cost"> ¥300 / 2节</p>
             <p class="item-detail text-ellipsis">预约专家时输入的问题详情，最多显示一行预约专家时输入的问题详情，最多显示一行</p>
             <p class="btn-area">

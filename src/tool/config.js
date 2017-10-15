@@ -12,7 +12,19 @@ const config = {
 
     version:'1.0.0',//接口版本号
     pageSize:10,//分页条数
-    OS:'HTML'//平台类型
+    OS:'HTML',//平台类型
+
+
+    taxCate:[
+             {name:'企业所得税',id:1},
+             {name:'个人所得税',id:2},
+             {name:'增值税',id:3},
+             {name:'关联交易',id:4},
+             {name:'房产税收',id:5},
+             {name:'税收优惠',id:6},
+             {name:'税务检查',id:7},
+             {name:'征收管理',id:8}
+    ]
 
 };
 

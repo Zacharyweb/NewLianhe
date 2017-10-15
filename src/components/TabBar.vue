@@ -2,8 +2,8 @@
     <div class="tab-bar">
       <swiper :options="swiperOption">
         <swiper-slide v-for="(item,index) in tabBarArr" :key="index">
-          <div class="tab-item" :class="{'selected':currentIndex === index}" @click="changeTab(index)">
-             <span>{{item}}</span>
+          <div class="tab-item" :class="{'selected':currentIndex === item.id}" @click="changeTab(item.id)">
+             <span>{{item.name}}</span>
              <span class="index-bar"></span> 
           </div>
         </swiper-slide>

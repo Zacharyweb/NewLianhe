@@ -9,7 +9,7 @@
       <div class="step-item">
         <span class="step-fill" :class="{'stretch':currentStep >= 2}"></span>
         <span class="circle-icon" :class="{'current':currentStep == 2,'prev':currentStep > 2}"></span>
-        <p class="step-name">等待回复</p>
+        <p class="step-name">等待确认</p>
       </div>
       <div class="step-item">
         <span class="step-fill" :class="{'stretch':currentStep >= 3}"></span>
@@ -23,6 +23,22 @@
       </div>
       <div class="step-item">
         <span class="step-fill" :class="{'stretch':currentStep >= 5}"></span>
+        <span class="circle-icon" :class="{'current':currentStep == 5,'prev':currentStep > 3}"></span>
+        <p class="step-name">咨询室</p>
+      </div>
+      <div class="step-item">
+        <span class="step-fill" :class="{'stretch':currentStep >= 6}"></span>
+        <span class="circle-icon" :class="{'current':currentStep == 6,'prev':currentStep > 3}"></span>
+        <p class="step-name">反馈</p>
+      </div>
+      <div class="step-item">
+        <span class="step-fill" :class="{'stretch':currentStep >= 7}"></span>
+        <span class="circle-icon" :class="{'current':currentStep == 7,'prev':currentStep > 3}"></span>
+        <p class="step-name">完成</p>
+      </div>
+
+      <div class="step-item">
+        <span class="step-fill" :class="{'stretch':currentStep >= 8}"></span>
       </div>
     </div>
     <!-- 步骤表单 -->
@@ -64,6 +80,7 @@ export default {
   },
   mounted(){
     this.$PubSub.subscribe('POSTAPPOINTCURRENTSTEP',this.setStep);
+    document.title="咨询";
   }
 }
 </script>
@@ -107,9 +124,10 @@ export default {
   } 
   .step-line .step-item .step-name{
     font-size: 14px;
+    max-width: 30px;
     color: #666;
     position: absolute;
-    bottom: -40px;
+    top: 15px;
     right: 0;
     transform: translateX(50%);
 

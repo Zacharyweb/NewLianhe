@@ -88,17 +88,17 @@ export default {
   },
   mounted(){
     this.hasResignUser = [{
-      name:'朱坚',
+      name:'真实姓名',
       avatarImg:'../../static/timg.jpeg',
-      mobile:'15757177498',
-      nickName:'朱两边',
-      tags:'优谷数据前端工程师',
+      mobile:'手机号码',
+      nickName:'网站昵称',
+      tags:'个人标签',
       askNum:'1'
     }];
     this.notResignUser =  [{
-      name:'何茹',
+      name:'真实姓名',
       avatarImg:'../../static/timg.jpeg',
-      mobile:'15757177490',
+      mobile:'手机号码',
     }];
   }
 }

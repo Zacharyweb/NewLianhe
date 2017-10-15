@@ -8,11 +8,11 @@
                  <img class="expert-avatar" src="../../static/timg.jpeg">
                  <div class="expert-info">
                    <p class="expert-msg text-ellipsis">
-                     <b class="expert-name">威震天</b>
+                     <b class="expert-name">专家01</b>
                      <span class="status-online">营业中</span>
                    </p>
                    <p class="expert-tags text-ellipsis">
-                    幽谷数据有限公司著名导弹专家
+                    杭州市滨江区国家税务局副局长
                    </p>
                    <p class="expert-topic text-ellipsis">
                     擅长领域XXXXXXXXXXXXX
@@ -23,14 +23,14 @@
                  <img class="expert-avatar" src="../../static/timg.jpeg">
                  <div class="expert-info">
                    <p class="expert-msg text-ellipsis">
-                     <b class="expert-name">威震天</b>
+                     <b class="expert-name">专家02</b>
                   
                      <span class="status-outline">休息中</span>
                    </p>
                    <p class="expert-tags text-ellipsis">
-                    幽谷数据有限公司著名导弹专家
+                    杭州市江干区国家税务局科长
                    </p>
-                   <p class="expert-topic text-ellipsis">制定的话题话题制定的话题话题制定的话题话题制定的话题话题制定的话题话题
+                   <p class="expert-topic text-ellipsis">擅长领域XXXXXXXXXXXXXXXXXXXXXXXXXX
                    </p>
                  </div>
                </li>
@@ -43,6 +43,7 @@
 <script>
 import TabBar  from '../components/TabBar.vue'
 import Scroll  from '../components/Scroll.vue'
+import config from '../tool/config'
 import T from '../tool/tool'
 export default {
   name: 'Home',
@@ -52,7 +53,7 @@ export default {
   },
   data () {
     return {
-      subCateArr:[]
+      subCateArr:[{name:'全部',id:0}]
     }
   },
   methods:{
@@ -72,7 +73,12 @@ export default {
   },
   mounted(){
       var a = this.$route.query.name;
-      this.subCateArr = [a+1,a+2,a+3,a+4,a+5,a+6,a+7,a+8,a+9,a+10];
+      if(this.$route.query.type == 4){
+        this.subCateArr = [...this.subCateArr,...config.taxCate];
+      }else{
+        this.subCateArr = [...this.subCateArr,{name:a+'细分领域',id:1}];
+      }
+      
       T.checkFirstPageData(this.subCateArr);
       document.title = this.$route.query.name;
       
