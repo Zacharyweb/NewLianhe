@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
+//测试页
 import Demo from '@/views/Demo'
+import ChooseIdentity from '@/views/ChooseIdentity'
 
 //首页
 import Home from '@/views/Home'
@@ -61,6 +64,11 @@ export default new Router({
       name: 'Demo',
       component: Demo
     },
+    {
+      path: '/identity',
+      name: 'ChooseIdentity',
+      component: ChooseIdentity
+    },
     // 首页
     {
       path: '/',
@@ -112,8 +120,8 @@ export default new Router({
       path: '/consult',
       component: Consultation,
       children:[
-        { path: '/',name: 'ExpertConsult',component: ExpertConsult},
-        { path: 'customer',name: 'CustomerConsult',component: CustomerConsult},
+        { path: '/',name: 'CustomerConsult',component: CustomerConsult},
+        { path: 'expert',name: 'ExpertConsult',component: ExpertConsult},
       ]
     },
 

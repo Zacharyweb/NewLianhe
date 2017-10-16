@@ -32,14 +32,14 @@
           </div>
           <span class="iconfont icon-jiantou-1"></span>
         </li>
-        <li class="router-bar-item" @click="becomeExpert">
+        <li class="router-bar-item" @click="becomeExpert" v-if="$store.state.identity == 0">
           <div class="item-left">
             <span class="iconfont icon-pingjia"></span>
             <span class="router-bar-name">成为专家</span>
           </div>
           <span class="iconfont icon-jiantou-1"></span>
         </li>
-        <li class="router-bar-item" @click="$router.push('/einfo')">
+        <li class="router-bar-item" @click="$router.push('/einfo')" v-if="$store.state.identity == 1">
           <div class="item-left">
             <span class="iconfont icon-icon3"></span>
             <span class="router-bar-name">专家资料</span>

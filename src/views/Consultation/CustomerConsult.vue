@@ -120,7 +120,7 @@ export default {
     }
   },
   mounted(){
-    T.postConsultTab(1);
+    T.postConsultTab(0);
   }
 }
 </script>

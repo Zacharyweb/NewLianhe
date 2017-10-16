@@ -40,7 +40,7 @@ export default {
   .header-nav h2{
     line-height: 50px;
     text-align: center;
-    font-size: 20px;
+    font-size: 18px;
     color:#fff;
   }
   .header-nav .return-icon{

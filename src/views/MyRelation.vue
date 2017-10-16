@@ -89,7 +89,7 @@ export default {
   mounted(){
     this.hasResignUser = [{
       name:'真实姓名',
-      avatarImg:'../../static/timg.jpeg',
+      avatarImg:'https://s1.ax1x.com/2017/10/16/JQZeP.jpg',
       mobile:'手机号码',
       nickName:'网站昵称',
       tags:'个人标签',
@@ -97,7 +97,7 @@ export default {
     }];
     this.notResignUser =  [{
       name:'真实姓名',
-      avatarImg:'../../static/timg.jpeg',
+      avatarImg:'https://s1.ax1x.com/2017/10/16/JQZeP.jpg',
       mobile:'手机号码',
     }];
   }

@@ -102,6 +102,7 @@ export default {
     margin-top: 60px;
     padding:15px;
     padding-bottom: 0;
+    font-size: 14px;
   }
   .base-form .base-form-item{
     display:flex;
@@ -116,7 +117,7 @@ export default {
     flex:1;
     padding-left: 20px;
     border:none;
-    font-size:16px;
+
   }
   .tags-item{
     padding: 15px 5px;
@@ -127,7 +128,7 @@ export default {
 
   }
   .tags-item .label{
-    font-size: 16px;
+    font-size: 15px;
     margin-bottom: 10px;
   }
   .tags-item .tags-wrap{
@@ -138,7 +139,7 @@ export default {
     padding: 0 6px;
     text-align: center;
     line-height: 26px;
-    font-size: 16px;
+
     border: 1px solid #ccc;
     color: #ccc;
     border-radius: 4px;

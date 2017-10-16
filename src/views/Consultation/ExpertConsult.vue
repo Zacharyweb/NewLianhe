@@ -22,7 +22,7 @@
             </p>
           </li>
           <li class="consult-item">
-            <span class="item-status">等待咨询/咨询中</span>
+            <span class="item-status">支付完成</span>
             <p class="item-order-num">20170712130020</p>
             <p class="item-name">专家姓名</p>
             <p class="item-cost"> ¥300 / 2节</p>
@@ -108,7 +108,7 @@ export default {
     }
   },
   mounted(){
-    T.postConsultTab(0);
+    T.postConsultTab(1);
   }
 }
 </script>

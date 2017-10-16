@@ -14,14 +14,16 @@ Vue.use(Vuex)
 Vue.use(VueAwesomeSwiper)
 var store = new Vuex.Store({
   state: {
-    count: 0
+    identity: 99 // 存储当前用户身份 0：普通用户 1：专家用户 99:身份未确认
   },
   mutations: {
-    add (state) {
-      state.count++
+    change_identity(state,identity){
+      state.identity = identity;
     }
   }
 })
+
+
 
 /* eslint-disable no-new */
 new Vue({
@@ -29,5 +31,10 @@ new Vue({
   router,
   store,
   template: '<App/>',
-  components: { App }
+  components: { App },
+  mounted(){
+    // let identity = localStorage.getItem('USER_IDENTITY') || 99;
+    let identity = sessionStorage.getItem('USER_IDENTITY') || 99;
+    this.$store.commit('change_identity',identity);
+  }
 })

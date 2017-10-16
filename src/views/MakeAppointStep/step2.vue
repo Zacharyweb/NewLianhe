@@ -2,7 +2,7 @@
   <div>
        <div class="check-page">
        <div class="checking-tips">
-         您发起的咨询已提交，请等待专家回复~
+         您发起的咨询已提交，请等待专家确认~
        </div>
       <div class="btn-wrapper">
           <p class="btn btn-green btn-large" @click="returnBack">返回咨询列表</p>

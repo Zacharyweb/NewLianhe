@@ -1,14 +1,15 @@
 <template>
   <div id="consultPage">
-    <div class="consult-tabs">
-      <div class="consult-item expert-tab" :class="{'active':currentTab == 0}" @click="changeTab(0)">专家咨询</div>
-      <div class="consult-item customer-tab" :class="{'active':currentTab == 1}" @click="changeTab(1)">客户咨询</div>
+    <div class="consult-tabs" v-if="$store.state.identity == 1">
+      <div class="consult-item customer-tab" :class="{'active':currentTab == 0}" @click="changeTab(0)">客户咨询</div>
+      <div class="consult-item expert-tab" :class="{'active':currentTab == 1}" @click="changeTab(1)">专家咨询</div>
+      
     </div>
-    <v-scroll :on-refresh="onRefresh"  :bottom="60" :top="50">
-      <div class="consult-panel">
+    <header-nav v-if="$store.state.identity == 0" :title="'咨询订单'" :has-return-icon="false"/></header-nav>
+    <v-scroll :on-refresh="onRefresh" :bottom="60" :top="listTop">
+      <div class="consult-panel" >
            <router-view></router-view>
       </div>
-     
     </v-scroll>
     <bottom-nav :nav-index="1"></bottom-nav>
   </div>
@@ -28,6 +29,7 @@ export default {
   },
   data () {
     return {
+        listTop:50,
         currentTab:0
     }
   },
@@ -46,7 +48,7 @@ export default {
           this.$router.push('/consult/')
       }
       if(index == 1){
-          this.$router.push('/consult/customer')
+          this.$router.push('/consult/expert')
       }
     },
     setTab(type,index){
@@ -55,6 +57,11 @@ export default {
   },
   mounted(){
     this.$PubSub.subscribe('POSTCONSULTTAB',this.setTab);
+    this.$nextTick(()=>{
+      if(this.$store.state.identity == 0){
+         this.listTop = 40;
+      }
+    })
   }
 }
 </script>
@@ -82,10 +89,10 @@ export default {
     background-color: #55cbc4;
   }
   #consultPage .consult-tabs .consult-item.expert-tab{
-    border-radius: 4px 0 0 4px;
+    border-radius: 0 4px 4px 0; 
   }
   #consultPage .consult-tabs .consult-item.customer-tab{
-    border-radius: 0 4px 4px 0;
+    border-radius: 4px 0 0 4px;
   }
   #consultPage .consult-list{
     background-color: #fff;
@@ -96,19 +103,22 @@ export default {
 
   }
   #consultPage .consult-list{
-   
+    padding-bottom: 20px;
   }
   #consultPage .consult-list .consult-item{
-    margin-top: 10px;
+
+    margin-top: 15px;
     position: relative;
-    padding: 10px 20px;
+    padding: 15px 20px;
     box-shadow: 4.6px 3.9px 16px 0px rgba(120, 119, 108, 0.2);
+    border-radius: 4px;
+    border:1px solid #eee;
 
   }
   #consultPage .consult-list .consult-item .item-status{
     font-size: 13px;
     position: absolute;
-    top: 8px;
+    top: 12px;
     right: 20px;
     color: #E64340;
   }
@@ -116,8 +126,8 @@ export default {
     font-size: 13px;
     color: #333;
     border-bottom: 1px solid #eee;
-    padding-bottom: 6px;
-    margin-bottom: 8px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
   }
   #consultPage .consult-list .consult-item .item-name{
     font-size: 16px;

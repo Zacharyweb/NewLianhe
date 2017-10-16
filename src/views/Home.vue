@@ -2,9 +2,6 @@
   <div>
       <search-bar :on-focus="focusSearchBar" :show-cancel="false"></search-bar>
       <v-scroll :on-refresh="onRefresh" :bottom="60" :top="60">
-         <div>
-           
-         </div>
          <category-bar :tab-bar-arr='tabBarArr'></category-bar>
     <!--      <div class="recommend-expert">
            <h3 class="recommend-text">为您推荐</h3>
@@ -96,11 +93,14 @@ export default {
     },
     toExpertDetail(id){
       this.$router.push('expert/'+id)
-
     }
   },
   mounted(){
     document.title = '首页';
+
+    if(this.$store.state.identity == 99){
+       this.$router.push('/identity');
+    }
   }
 }
 </script>

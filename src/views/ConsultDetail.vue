@@ -40,7 +40,7 @@
             <span class="iconfont icon-wenti"></span>
             问题描述
           </h6>
-          <p class="problem-detail">在预约专家时，填写的相关话题内容。显示全部在预约专家时，填写的相关话题内容。显示全部
+          <p class="problem-detail">在预约专家时，填写的相关话题内容。显示全部在预约专家时，填写的相关话题内容。
           </p>
         </div>
 
@@ -83,11 +83,11 @@
               <span class="add-text">￥300.00</span>
             </p>
             <p class="list-item">
-              <span>手续费</span>
+              <span>XX费</span>
               <span class="reduce-text">-￥30.00</span>
             </p>
             <p class="list-item">
-              <span>税费</span>
+              <span>XX费</span>
               <span class="reduce-text">-￥15.00</span>
             </p>
             <p class="list-item">
@@ -95,11 +95,11 @@
               <span class="add-text">￥255.00</span>
             </p>  
           </div>
-          <div class="show-order-status">
+    <!--       <div class="show-order-status">
             <span class="btn btn-green-outline btn-large" 
             @click="()=>{this.orderStatusPanelShow = true}">查看订单状态
             </span>  
-          </div>
+          </div> -->
         </div>
      
       </div>
@@ -188,13 +188,13 @@ export default {
   border-bottom: 1px solid #eee;
 }
 .top-block .block-title{
-  font-size: 20px;
+  font-size: 18px;
   color: #333;
   text-align: center;
   line-height: 36px;
 }
 .top-block .block-title .iconfont{
-  font-size: 30px;
+  font-size: 24px;
   margin-left: 20px;
   color: #55cbc4;
 }
@@ -213,6 +213,7 @@ export default {
   background-color: #fff;
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
+  font-size: 14px;
 }
 .center-block .order-msg-item{
   line-height: 50px;
@@ -232,7 +233,7 @@ export default {
   margin-bottom: 10px;
 }
 .bottom-block .detail-msg-item .msg-content{
-  font-size: 18px;
+  font-size: 14px;
   line-height: 30px;
 }
 .bottom-block .detail-msg-item .msg-content .iconfont{
@@ -242,7 +243,7 @@ export default {
 
 
 .bottom-block .detail-msg-item .msg-title{
-  font-size: 18px;
+  font-size: 14px;
   line-height: 30px;
   border-bottom: 1px solid #eee;
   padding-bottom: 10px;
@@ -255,11 +256,12 @@ export default {
 
 .bottom-block .detail-msg-item .problem-detail{
   padding-top: 15px;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.5;
   text-indent: 2em;
 }
 .bottom-block .detail-msg-item .cost-list .list-item{
+  font-size: 14px;
   display: flex;
   line-height: 48px;
   justify-content: space-between;
@@ -281,6 +283,7 @@ export default {
 .bottom-block .detail-msg-item .comment-detail{
    padding-top: 15px;
    display: flex;
+   font-size: 14px;
 }
 .bottom-block .detail-msg-item .comment-detail .user-avatar{
    width: 60px;
@@ -295,6 +298,7 @@ export default {
    -webkit-line-clamp:3;
 }
 .bottom-block .detail-msg-item .to-comment-detail{
+  font-size: 14px;
   margin-top: 15px;
   padding-right: 5px;
   text-align: right;

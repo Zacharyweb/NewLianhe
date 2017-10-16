@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="expert-detail-page">
       <v-scroll :on-refresh="onRefresh"  :bottom="48" :top="0" >
       <!-- swiper -->
       <swiper :options="swiperOption">
@@ -21,8 +21,8 @@
         <div class="swiper-pagination" slot="pagination"></div>
       </swiper>
         <div class="expert-msg">
-          <h4 class="expert-name">朱两边</h4>
-          <p class="expert-tags">上海市市政厅行政秘书长</p>
+          <h4 class="expert-name">专家姓名</h4>
+          <p class="expert-tags">专家任职机构职位个人标签</p>
         </div>
         <ul class="expert-dynamic common-panel">
           <li><span class="iconfont icon-pingfen1"></span>评分：10</li>
@@ -32,7 +32,7 @@
         <!-- 评价 -->
         <div class="user-comment common-panel">
           <div class="panel-title">
-             <h4><span class="iconfont icon-pingjia"></span>用户评价</h4>
+             <h4><span class="iconfont icon-pingjia"></span>关系户评价</h4>
           </div>
           <ul class="comment-list">
             <li class="comment-item" v-for="item in commentList">
@@ -41,7 +41,7 @@
                  <div class="user-text-msg">
                    <p class="user-nickname">{{item.nickName}}</p>
                    <p class="user-tags">
-                     <span class="tag-item "v-for="tag in item.tags">{{tag}}</span>
+                     <span class="tag-item">{{item.tags}}</span>
                    </p>
                  </div>
                </div>
@@ -58,7 +58,7 @@
              <h4><span class="iconfont icon-huatiguanli"></span>专长介绍</h4>
           </div>
           <div class="topic-item">
-            <p class="topic-content">我有专长我有专长我有专长我有专长我有专长我有专长我有专长我有专长我有专长</p>
+            <p class="topic-content">我是专长介绍内容我是专长介绍内容我是专长介绍内容我是专长介绍内容我是专长介绍内容我是专长介绍内容我是专长介绍内容我是专长介绍内容我是专长介绍内容我是专长介绍内容。</p>
           </div>
         </div>
 
@@ -112,22 +112,18 @@ export default {
       ],
       commentList:[
         {
-          nickName:'董子健',
-          img:'../../static/timg.jpeg',
-          tags:['独立','客观','青年演员阿'],
+          nickName:'关系户01昵称',
+          img:'https://s1.ax1x.com/2017/10/16/JQZeP.jpg',
+          tags:'关系户01的任职机构职位等个人标签',
           comment:'我是评论内容我是评论内容我是评论内容我是评论内容我是评论内容我是评论内容我是评论内容我是评论内容我是评论内容我是评论内容',
-          topic:'演员的自我修养演员的自我修养演员的自我修养演员的自我修养演员的自我修养我修养演员的自我修养演员的自我修养',
-          allTopicShow:false,
           time:'2017-9-10',
           id:'22222222'
         },
          {
-          nickName:'董子健',
-          img:'../../static/timg.jpeg',
-          tags:['独立','客观','青年演员阿'],
+          nickName:'关系户02昵称',
+          img:'https://s1.ax1x.com/2017/10/16/JQZeP.jpg',
+          tags:'关系户02的任职机构职位等个人标签',
           comment:'我是评论内容我是评论内容我是评论内容我是评论内容我是评论内容我是评论内容我是评论内容我是评论内容我是评论内容我是评论内容',
-          topic:'演员的自我修养演员的自我修养演员的自我修养演员的自我修养演员的自我修养我修养演员的自我修养演员的自我修养',
-          allTopicShow:false,
           time:'2017-9-10',
           id:'12213213'
         }
@@ -179,6 +175,10 @@ export default {
 }
 </script>
 <style scoped>
+.expert-detail-page{
+  font-size: 14px;
+  line-height: 1.4;
+}
 .slide_item{
   height: 200px;
   text-align: center;
@@ -194,7 +194,7 @@ export default {
   margin-bottom: 10px;
 }
 .expert-msg .expert-name{
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   margin-bottom: 10px;
 }
@@ -223,14 +223,11 @@ export default {
   border-top: 1px solid #e6e6e6;
 }
 .expert-topic .topic-item .topic-content{
-  line-height: 1.6;
-  margin-bottom: 14px;
 }
 .expert-topic .topic-item .topic-cost{
   display: flex;
   justify-content: space-between;
   padding-right: 20px;
-  font-size: 14px;
 }
 .expert-topic .topic-item .topic-price{
   color: #E64340;
@@ -244,7 +241,6 @@ export default {
 }
 .expert-intro .intro-content{
   padding-top: 15px;
-  line-height: 1.4;
   color: #666;
  -webkit-line-clamp:5;
 }
@@ -292,16 +288,20 @@ export default {
   color: #999;
 }
 .user-comment .comment-item .comment-content{
+  font-size: 14px;
   padding-top: 10px;
   color: #444;
-  line-height: 1.4;
   -webkit-line-clamp:3;
 }
 .user-comment .comment-item .to-comment-detail{
+  font-size: 14px;
   margin-top: 15px;
   padding-right: 5px;
   text-align: right;
   color: #55cbc4;
+}
+.user-comment .comment-item .to-comment-detail .iconfont{
+  font-size: 14px;
 }
 .user-comment .comment-item .comment-time{
   padding-right: 25px;
