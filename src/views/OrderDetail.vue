@@ -2,35 +2,35 @@
   <div class="order-detail">
     <div class="step-line">
       <div class="step-item">
-        <span class="step-fill" :class="{'stretch':status >= 0}"></span>
-        <span class="circle-icon" :class="{'current':status == 0,'prev':status > 0}"></span>
-        <p class="step-name">发起咨询</p>
+        <span class="step-fill" :class="{'stretch':status >= -1}"></span>
+        <span class="circle-icon" :class="{'current':status == -1,'prev':status > -1}"></span>
+        <p class="step-name bottom">发起咨询</p>
       </div>
       <div class="step-item">
         <span class="step-fill" :class="{'stretch':status >= 0}"></span>
         <span class="circle-icon" :class="{'current':status == 0,'prev':status > 0}"></span>
-        <p class="step-name">等待确认</p>
+        <p class="step-name top">等待确认</p>
       </div>
       <div class="step-item">
         <span class="step-fill" :class="{'stretch':status >= 1}"></span>
         <span class="circle-icon" :class="{'current':status == 1,'prev':status > 1}"></span>
-        <p class="step-name">支付费用</p>
+        <p class="step-name bottom">支付费用</p>
       </div>
       <div class="step-item">
         <span class="step-fill" :class="{'stretch':status >= 2}"></span>
         <span class="circle-icon" :class="{'current':status == 2,'prev':status > 2}"></span>
-        <p class="step-name">咨询</p>
+        <p class="step-name top">问题咨询</p>
       </div>
   
       <div class="step-item">
         <span class="step-fill" :class="{'stretch':status >= 3}"></span>
         <span class="circle-icon" :class="{'current':status == 3,'prev':status > 3}"></span>
-        <p class="step-name">评价</p>
+        <p class="step-name bottom">评价反馈</p>
       </div>
       <div class="step-item">
         <span class="step-fill" :class="{'stretch':status >= 4}"></span>
         <span class="circle-icon" :class="{'current':status == 4,'prev':status > 4}"></span>
-        <p class="step-name">完成</p>
+        <p class="step-name top">订单完成</p>
       </div>
 
       <div class="step-item">
@@ -324,7 +324,7 @@ export default {
 </script>
 <style scoped>
 .order-detail{
-  padding-top: 30px;
+  padding-top: 50px;
 }
 .top-block{
   background-color: #fff;
@@ -484,6 +484,7 @@ export default {
   width: 100%;
   height: 100%;
   background-color: rgba(0,0,0,0.6);
+  z-index: 10;
 }
 .order-status-panel{
   position: fixed;
@@ -546,7 +547,7 @@ export default {
 
   .step-line{
     display: flex;
-    height: 60px;
+    height: 50px;
   }
   .step-line .step-item{
     flex: 1;
@@ -559,7 +560,7 @@ export default {
     left: 0;
     top: 0;
     height: 2px;
-    background-color: #FF4040;
+    background-color: #55cbc4;
     width: 0;
     transition: all 0.3s;
   }
@@ -580,20 +581,24 @@ export default {
   } 
   .step-line .step-item .step-name{
     font-size: 14px;
-    max-width: 30px;
+    white-space: nowrap;
     color: #666;
     position: absolute;
-    top: 15px;
     right: 0;
     transform: translateX(50%);
-
+  }
+  .step-line .step-item .step-name.top{
+    bottom: 15px;
+  }
+  .step-line .step-item .step-name.bottom{
+    top: 15px;  
   }
   .step-line .step-item .circle-icon.current{
-     background-color: #55cbc4;
+     background-color: #f4992e;
   } 
 
   .step-line .step-item .circle-icon.prev{
-   background-color: #FF4040;
+   background-color: #55cbc4;
   } 
 
 </style>
