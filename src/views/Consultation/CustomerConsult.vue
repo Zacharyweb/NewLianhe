@@ -1,67 +1,35 @@
 <template>
   <!-- 客户咨询 -->
   <ul class="consult-list">
-          <li class="consult-item">
-            <span class="item-status">等待同意</span>
-            <p class="item-order-num">20170712130020</p>
-            <p class="item-name">客户姓名</p>
-            <p class="item-cost"> ¥300 / 2节</p>
-            <p class="item-detail text-ellipsis">预约专家时输入的问题详情，最多显示一行</p>
-            <p class="btn-area">
-              <span class="btn btn-green-outline" @click="agreeConsult(111111)">同意</span>
-              <span class="btn btn-green-outline" @click="refuseConsult(222222)">拒绝</span>
+          <li v-for="(item,index) in orderList" class="consult-item" @click="toOrderDetail(item.orderNo,item.status,1)">
+            <span class="item-status">
+              {{statusTable[item.status]}}
+            </span>
+            <p class="item-order-num">{{item.orderNo}}</p>
+            <p class="item-name">{{item.customer}}</p>
+            <p class="item-cost"> ¥{{item.cost}} / {{item.classNum}}节</p>
+            <p class="item-detail text-ellipsis">{{item.problem}}</p>
+            <p class="btn-area" v-if="item.status==0">
+              <span class="btn btn-green-outline" @click.stop="agreeConsult(item.orderNo)">同意</span>
+              <span class="btn btn-green-outline" @click.stop="refuseConsult(item.orderNo)">拒绝</span>
+            </p>
+      
+            <p class="btn-area" v-if="item.status==2">
+              <span class="btn btn-green-outline" @click.stop="toChatRoom(item.orderNo)">进入咨询室</span>
+            </p>
+            <p class="btn-area" v-if="item.status==3">
+              <span class="btn btn-green-outline" @click.stop="toChatRoom(item.orderNo)">咨询详情</span>
+            </p>
+            <p class="btn-area" v-if="item.status==4">
+              <span class="btn btn-green-outline" @click.stop="toCommentDetail(item.orderNo)">评价详情</span>
+              <span class="btn btn-green-outline" @click.stop="toChatRoom(item.orderNo)">咨询详情</span>
+            </p>
+            <p class="btn-area" v-if="item.status==5">
+              <span class="btn btn-green-outline" @click.stop="toCommentDetail(item.orderNo)">评价详情</span>
+              <span class="btn btn-green-outline" @click.stop="toChatRoom(item.orderNo)">咨询详情</span>
             </p>
           </li>
-          <li class="consult-item">
-            <span class="item-status">等待支付</span>
-            <p class="item-order-num">20170712130020</p>
-            <p class="item-name">客户姓名</p>
-            <p class="item-cost"> ¥300 / 2节</p>
-            <p class="item-detail text-ellipsis">预约专家时输入的问题详情，最多显示一行预约专家时输入的问题详情，最多显示一行</p>
-          </li>
-          <li class="consult-item">
-            <span class="item-status">支付完成</span>
-            <p class="item-order-num">20170712130020</p>
-            <p class="item-name">客户姓名</p>
-            <p class="item-cost"> ¥300 / 2节</p>
-            <p class="item-detail text-ellipsis">预约专家时输入的问题详情，最多显示一行预约专家时输入的问题详情，最多显示一行</p>
-            <p class="btn-area">
-              <span class="btn btn-green-outline" @click="toConsultHome(1)">进入咨询室</span>
-            </p>
-          </li>
-          <li class="consult-item">
-            <span class="item-status">完成咨询</span>
-            <p class="item-order-num">20170712130020</p>
-            <p class="item-name">客户姓名</p>
-            <p class="item-cost"> ¥300 / 2节</p>
-            <p class="item-detail text-ellipsis">预约专家时输入的问题详情，最多显示一行预约专家时输入的问题详情，最多显示一行</p>
-            <p class="btn-area">
-              <span class="btn btn-green-outline" @click="toComment(1)">评价</span>
-              <span class="btn btn-green-outline "@click="toDetail(123,1)">咨询详情</span>
-            </p>
-          </li>
-          <li class="consult-item">
-            <span class="item-status">完成咨询</span>
-            <p class="item-order-num">20170712130020</p>
-            <p class="item-name">客户姓名</p>
-            <p class="item-cost"> ¥300 / 2节</p>
-            <p class="item-detail text-ellipsis">预约专家时输入的问题详情，最多显示一行预约专家时输入的问题详情，最多显示一行</p>
-            <p class="btn-area">
-              <span class="btn btn-green-outline" @click="toCommentDetail(1)">回复评价</span>
-              <span class="btn btn-green-outline" @click="toDetail(123,1)">咨询详情</span>
-            </p>
-          </li>
-          <li class="consult-item">
-            <span class="item-status">完成结算</span>
-            <p class="item-order-num">20170712130020</p>
-            <p class="item-name">客户姓名</p>
-            <p class="item-cost"> ¥300 / 2节</p>
-            <p class="item-detail text-ellipsis">预约专家时输入的问题详情，最多显示一行预约专家时输入的问题详情，最多显示一行</p>
-            <p class="btn-area">
-              <span class="btn btn-green-outline" @click="toCommentDetail(1)">查看评价</span>
-              <span class="btn btn-green-outline" @click="toDetail(123,1)">咨询详情</span>
-            </p>
-          </li>
+     
   </ul>
 </template>
 
@@ -75,19 +43,67 @@ export default {
   },
   data () {
     return {
-      
+      statusTable:['等待确认','等待支付','支付完成','完成咨询','已评价','完成结算'],
+      orderList:[
+        {
+          status:0,
+          orderNo:'20170712130020',
+          customer:'客户01',
+          cost:300,
+          classNum:2,
+          problem:'预约专家时输入的问题详情，最多显示一行'
+        },
+        {
+          status:1,
+          orderNo:'20170712130021',
+          customer:'客户02',
+          cost:300,
+          classNum:2,
+          problem:'预约专家时输入的问题详情，最多显示一行'
+        },
+        {
+          status:2,
+          orderNo:'20170712130022',
+          customer:'客户03',
+          cost:450,
+          classNum:3,
+          problem:'预约专家时输入的问题详情，最多显示一行'
+        },
+        {
+          status:3,
+          orderNo:'20170712130023',
+          customer:'客户04',
+          cost:300,
+          classNum:2,
+          problem:'预约专家时输入的问题详情，最多显示一行'
+        },
+        {
+          status:4,
+          orderNo:'20170712130024',
+          customer:'客户05',
+          cost:150,
+          classNum:1,
+          problem:'预约专家时输入的问题详情，最多显示一行'
+        },
+        {
+          status:5,
+          orderNo:'20170712130025',
+          customer:'客户06',
+          cost:300,
+          classNum:2,
+          problem:'预约专家时输入的问题详情，最多显示一行'
+        }
+      ]
     }
   },
   methods:{
-    toDetail(id,type){
-      this.$router.push('/consult/detail/'+id+'/'+type)
+    toOrderDetail(orderNo,status,flag){
+       this.$router.push('/order/detail/'+orderNo+'/'+status+'/'+flag);
     },
-    toConsultHome(id){
-      this.$router.push({
-         path:'/appoint/step4',
-         query:{
-           orderId:id,
-         }
+
+    toChatRoom(id){
+       this.$router.push({
+         path:'/chat'+'/'+id,
       })
     },
     toComment(id){
@@ -96,6 +112,7 @@ export default {
     toCommentDetail(id){
       this.$router.push('/comment/detail/'+id);
     },
+
     agreeConsult(id){
       T.Confirm({
         text:'确定接受此次咨询?',

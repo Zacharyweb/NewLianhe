@@ -143,7 +143,7 @@ export default {
   }
   .relation-list.has-resign-list .relation-item .user-status{
      position: absolute;
-     bottom: 16px;
+     bottom: 12px;
      left: 75px;
      font-size: 12px;
   }

@@ -60,6 +60,7 @@ export default {
     this.$nextTick(()=>{
       if(this.$store.state.identity == 0){
          this.listTop = 40;
+         this.changeTab(1);
       }
     })
   }

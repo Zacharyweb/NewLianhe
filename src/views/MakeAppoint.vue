@@ -1,143 +1,186 @@
 <template>
-  <div class="be-expert">
-    <div class="step-line">
-      <div class="step-item">
-        <span class="step-fill" :class="{'stretch':currentStep >= 1}"></span>
-        <span class="circle-icon" :class="{'current':currentStep == 1,'prev':currentStep > 1}"></span>
-        <p class="step-name">发起咨询</p>
+  <div class="make-appoint">
+    <div class="base-form common-panel">
+      <div class="panel-title">
+         <h4><span class="iconfont icon-wenti"></span>请简要描述您的问题：</h4>
       </div>
-      <div class="step-item">
-        <span class="step-fill" :class="{'stretch':currentStep >= 2}"></span>
-        <span class="circle-icon" :class="{'current':currentStep == 2,'prev':currentStep > 2}"></span>
-        <p class="step-name">等待确认</p>
-      </div>
-      <div class="step-item">
-        <span class="step-fill" :class="{'stretch':currentStep >= 3}"></span>
-        <span class="circle-icon" :class="{'current':currentStep == 3,'prev':currentStep > 3}"></span>
-        <p class="step-name">支付费用</p>
-      </div>
-      <div class="step-item">
-        <span class="step-fill" :class="{'stretch':currentStep >= 4}"></span>
-        <span class="circle-icon" :class="{'current':currentStep == 4,'prev':currentStep > 3}"></span>
-        <p class="step-name">开始咨询</p>
-      </div>
-      <div class="step-item">
-        <span class="step-fill" :class="{'stretch':currentStep >= 5}"></span>
-        <span class="circle-icon" :class="{'current':currentStep == 5,'prev':currentStep > 3}"></span>
-        <p class="step-name">咨询室</p>
-      </div>
-      <div class="step-item">
-        <span class="step-fill" :class="{'stretch':currentStep >= 6}"></span>
-        <span class="circle-icon" :class="{'current':currentStep == 6,'prev':currentStep > 3}"></span>
-        <p class="step-name">反馈</p>
-      </div>
-      <div class="step-item">
-        <span class="step-fill" :class="{'stretch':currentStep >= 7}"></span>
-        <span class="circle-icon" :class="{'current':currentStep == 7,'prev':currentStep > 3}"></span>
-        <p class="step-name">完成</p>
-      </div>
-
-      <div class="step-item">
-        <span class="step-fill" :class="{'stretch':currentStep >= 8}"></span>
+      <div class="textarea-wrap">
+        <textarea v-model="problem" placeholder="可描述自己需要解答的问题"></textarea>
       </div>
     </div>
-    <!-- 步骤表单 -->
-    <router-view></router-view>
+    <div class="common-panel appoint-cost-panel">
+      <div class="panel-title">
+         <h4><span class="iconfont icon-jine"></span>费用</h4>
+      </div>
+      <div class="panel-content">
+        <p class="appoint-cost-tips">咨询以节为收费单元，每节30分钟，请选择您需要的节数。</p>
+        <div class="appint-class-input">
+           <span class="iconfont icon-jianshao1" @click="()=>{ this.classNum--}"></span>
+           <input type="text" v-model="classNum">
+           <span class="iconfont icon-zengjia1" @click="()=>{ this.classNum++}"></span>
+        </div>
+      </div>
+    </div>
+    <div class="common-panel estimate-cost-panel">
+      <div class="estimate-cost">
+         <span class="text">预计费用</span>
+         <span class="amount">{{classNum*perClassCost}}<i>元</i></span>
+         <span class="appoint-class">{{classNum}}节（共{{classNum*perClassTime}}分钟）</span>
+      </div>
+    </div>
+    <p class="agree-clause">
+      <span class="iconfont icon-queding" :class="{'disabled':!agreecClause}" @click="toggleClause"></span>
+      我已阅读并同意服务条款
+    </p>
+    <div class="btn-wrapper">
+      <p class="btn btn-green btn-large" @click="submitAppiont">提交</p>
+    </div>
   </div>
 </template>
 
 <script>
-import Scroll  from '../components/Scroll.vue'
 import T from '../tool/tool'
-
 export default {
-  name: 'TopicDetail',
+  name: 'MakeAppoint',
   components:{
-    'v-scroll':Scroll
+ 
   },
   data () {
     return {
-      currentStep:1,
-      a:'abc'
+      problem:'',
+      classNum:1,
+      perClassTime:30,
+      perClassCost:100,
+      agreecClause:true
     }
   },
   methods:{
-    onRefresh(done){
-      done();
+    changeExperience(num){
+      
     },
-    setStep(type,num){
-      this.currentStep = num;
-      console.log(num)
-      if(num == 2){
-          this.$router.push({
-             path:'/appoint/step2',
-             query:{
-               expertId:this.$route.query.expertId,
-             }
-          })
+    submitAppiont(){
+      if(!this.agreecClause){
+        T.showToast({text:'您未同意服务条款'});
+        return;
       }
-    } 
+      T.showToast({text:'提交成功，请等待专家确认~'});
+      let orderNo = '88888888888';
+      setTimeout(()=>{
+        this.$router.push('/order/detail/'+orderNo+'/0/0')
+      },1000)
+
+    },
+    toggleClause(){
+      this.agreecClause = !this.agreecClause;
+    }
   },
   mounted(){
-    this.$PubSub.subscribe('POSTAPPOINTCURRENTSTEP',this.setStep);
-    document.title="咨询";
+     document.title="发起咨询";
   }
 }
 </script>
 <style scoped>
-  .be-expert{
-    margin-top: 40px;
+  .make-appoint{
+    margin-top: 0px;
   }
-  .step-line{
-    display: flex;
 
+  .base-form{
+    margin-top: 20px;
+    padding:15px;
   }
-  .step-line .step-item{
-    flex: 1;
-    background-color: #ddd;
-    height: 2px;
-    position: relative;
+  .base-form.common-panel .panel-title {
+    padding-bottom: 0px;
+    border-bottom: none;
   }
-  .step-line .step-item .step-fill{
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 2px;
-    background-color: #FF4040;
-    width: 0;
-    transition: all 0.3s;
+  .textarea-wrap{
+    padding-top: 15px;
   }
-  .step-line .step-item .step-fill.stretch{
+  .textarea-wrap textarea{
+    box-sizing: border-box;
     width: 100%;
-  }
-  .step-line .step-item .circle-icon{
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    border: 2px solid #fff;
-    background-color: #ccc;
-    top: 50%;
-    right: 0;
-    transform: translate(50%,-50%);
-    z-index: 10;
-  } 
-  .step-line .step-item .step-name{
+    height: 120px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px 15px;
     font-size: 14px;
-    max-width: 30px;
-    color: #666;
-    position: absolute;
-    top: 15px;
-    right: 0;
-    transform: translateX(50%);
+  }
+  .common-panel.appoint-cost-panel{
+    margin-bottom: 0;
+    border-bottom:none;
+    padding-bottom: 20px;
 
   }
-  .step-line .step-item .circle-icon.current{
-     background-color: #55cbc4;
+  .common-panel.estimate-cost-panel{
+    border-top:none;
   } 
+  .panel-content{
+    padding-top: 15px;
+  }
+  .panel-content .appoint-cost-tips{
+    font-size: 14px;
+    padding: 0 5px;
+    margin-bottom:15px;
+  }
+  .panel-content .appint-class-input{
+    display: flex;
+    justify-content: center;
+  }
+  .panel-content .appint-class-input span{
+    width: 40px;
+    font-size: 24px;
+    text-align: center;
+    line-height: 40px;
+    color: #55cbc4; 
+  }
+  .panel-content .appint-class-input input{
+    width: 60px;
+    line-height: 40px;
+    font-size: 20px;
+    border:none;
+    margin: 0 20px;
+    text-align: center;
+  }
+  .estimate-cost{
+    padding-top: 15px;
+    border-top: 1px solid #e6e6e6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .estimate-cost .text{
+    font-size: 12px;
+    padding: 4px 6px;
+    background-color: #55cbc4;
+    color: #fff;
+  }
+  .estimate-cost .amount{
+    font-size: 20px;
+    color: #E64340;
+  }
+  .estimate-cost .amount i{
+    font-size: 14px;
+  }
+  .estimate-cost .appoint-class{
+    font-size: 15px;
+    color: #666;
+  }
+  .agree-clause{
+    font-size: 14px;
+    padding:0 18px;
+  }
+  .agree-clause .iconfont{
+    color: #55cbc4;
+    margin-right: 5px;
+  }
+  .agree-clause .iconfont.disabled{
+     color: #ccc;
+  }
+  .btn-wrapper{
+    padding:15px;
+  }
 
-  .step-line .step-item .circle-icon.prev{
-   background-color: #FF4040;
-  } 
+
+
+
 
 </style>

@@ -53,12 +53,13 @@
           </ul>
         </div>
 
-        <div class="expert-topic common-panel">
+         
+        <div class="expert-strength common-panel">
           <div class="panel-title">
              <h4><span class="iconfont icon-huatiguanli"></span>专长介绍</h4>
           </div>
-          <div class="topic-item">
-            <p class="topic-content">我是专长介绍内容我是专长介绍内容我是专长介绍内容我是专长介绍内容我是专长介绍内容我是专长介绍内容我是专长介绍内容我是专长介绍内容我是专长介绍内容我是专长介绍内容。</p>
+          <div class="strength-item">
+            <p class="strength-content">我是专长介绍内容我是专长介绍内容我是专长介绍内容我是专长介绍内容我是专长介绍内容我是专长介绍内容我是专长介绍内容我是专长介绍内容我是专长介绍内容我是专长介绍内容。</p>
           </div>
         </div>
 
@@ -102,7 +103,7 @@ export default {
           paginationClickable: true,
           autoplay:2000
       },
-      // allTopicShow: false,
+      // allstrengthShow: false,
       allIntroShow:false,
       allArticleShow:false,
       articelList:[
@@ -151,10 +152,6 @@ export default {
     hideAllArticle(){
       this.allArticleShow = false;
       this.articelList = this.articelList.slice(0,3);
-    },
-    toTopicDetail(id){
-      var expertId = this.$route.params.expertId;
-      this.$router.push('/expert/'+expertId+'/topic/'+id)
     },
     toCommentDetail(id){
       this.$router.push('/comment/detail/'+id);
@@ -210,35 +207,23 @@ export default {
   padding-right: 4px;
   color: #55cbc4;
 }
-.expert-topic{
+.expert-strength{
   padding: 0px 20px;
 }
-.expert-topic .panel-title{
+.expert-strength .panel-title{
   padding-top: 15px;
 }
-.expert-topic .topic-item{
+.expert-strength .strength-item{
   padding: 15px 0;
 }
-.expert-topic .topic-item+.topic-item{
+.expert-strength .strength-item+.strength-item{
   border-top: 1px solid #e6e6e6;
 }
-.expert-topic .topic-item .topic-content{
+.expert-strength .strength-item .strength-content{
 }
-.expert-topic .topic-item .topic-cost{
-  display: flex;
-  justify-content: space-between;
-  padding-right: 20px;
-}
-.expert-topic .topic-item .topic-price{
-  color: #E64340;
-}
-.expert-topic .topic-item .topic-price i{
-  font-size: 18px;
-}
-.expert-topic .topic-item .topic-duration{
-  color: #666;
-  line-height: 22px;
-}
+
+
+
 .expert-intro .intro-content{
   padding-top: 15px;
   color: #666;

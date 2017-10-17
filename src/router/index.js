@@ -20,8 +20,9 @@ import SignIn from '@/views/SignIn'
 import Consultation from '@/views/Consultation'
 import ExpertConsult from '@/views/Consultation/ExpertConsult' 
 import CustomerConsult from '@/views/Consultation/CustomerConsult' 
-//咨询详情页
-import ConsultDetail from '@/views/ConsultDetail'
+
+//订单详情页
+import OrderDetail from '@/views/OrderDetail'
 //咨询室
 import ChatRoom from '@/views/ChatRoom'
 
@@ -34,10 +35,8 @@ import CommentDetail from '@/views/CommentDetail'
 
 // 发起咨询
 import MakeAppoint from '@/views/MakeAppoint'
-import MakeAppointStep1 from '@/views/MakeAppointStep/step1'
-import MakeAppointStep2 from '@/views/MakeAppointStep/step2'
-import MakeAppointStep3 from '@/views/MakeAppointStep/step3'
-import MakeAppointStep4 from '@/views/MakeAppointStep/step4'
+// import MakeAppointStep1 from '@/views/MakeAppointStep/step1'
+// import MakeAppointStep2 from '@/views/MakeAppointStep/step2'
 
 
 //我的
@@ -100,13 +99,8 @@ export default new Router({
     //发起咨询
     {
       path: '/appoint',
+      name:'MakeAppoint',
       component: MakeAppoint,
-      children:[
-        { path: '/',name: 'MakeAppointStep1',component: MakeAppointStep1},
-        { path: 'step2',name: 'MakeAppointStep2',component: MakeAppointStep2},
-        { path: 'step3',name: 'MakeAppointStep3',component: MakeAppointStep3},
-        { path: 'step4',name: 'MakeAppointStep4',component: MakeAppointStep4},
-      ]
     },
     // 注册
     {
@@ -125,11 +119,11 @@ export default new Router({
       ]
     },
 
-    // 咨询详情
+    // 订单详情
     {
-      path: '/consult/detail/:id/:type',
-      name: 'ConsultDetail',
-      component: ConsultDetail
+      path: '/order/detail/:orderNo/:status/:flag',
+      name: 'OrderDetail',
+      component: OrderDetail
     },
 
     //咨询室
