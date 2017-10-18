@@ -481,6 +481,7 @@ audio{
     right: 10px;
     color: #fff;
     z-index: 10;
+    transform: translateZ(101px);
 }
 .end-chat-btn{
   position: fixed;
@@ -494,6 +495,7 @@ audio{
   line-height: 24px;
   padding:0 6px;
   border-radius: 4px;
+  transform: translateZ(101px);
 }
 
 

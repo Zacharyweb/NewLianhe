@@ -61,6 +61,7 @@ export default {
     bottom: 60px;
     z-index:999;
     background-color: rgba(255,255,255,0.4);
+    transform: translateZ(101px);
   }
   .loader-inner{
     position: absolute;
@@ -169,6 +170,7 @@ export default {
     top:0;
     left:0;
     z-index:9999;
+    transform: translateZ(101px);
   }
   .toast-mask .toast{
     position: absolute;
@@ -180,7 +182,7 @@ export default {
     border-radius: 4px;
     color: #fff;
     line-height: 1.5;
-   width: 80%;
+    width: 80%;
     text-align: center;
     -webkit-animation: showIn 0.1s;
     animation: showIn 0.2s;
