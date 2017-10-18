@@ -5,13 +5,17 @@
       <img class="mine-avatar" src="../../static/timg.jpeg">
       <div class="mine-text-msg">
         <p class="mine-base-msg">
-          <span class="mine-nickname">朱两边</span>
-          <span class="mine-tel">16767188567</span>
+          <span class="mine-nickname">朱两边
+              <i class="mine-identity" v-if="$store.state.identity == 0">普通用户</i>
+              <i class="mine-identity" v-if="$store.state.identity == 1">专家用户</i>
+          </span>
+         <!--  <span class="mine-tel">16767188567</span> -->
         </p>
-        <p class="mine-status">
+      
+        <p class="mine-status" v-if="$store.state.identity == 1">
           <span class="status-text">当前状态：</span>
-          <span class="status-item" :class="{'active':myStatus == 1}" @click="toWork">营业</span>
-          <span class="status-item" :class="{'active':myStatus == 0}" @click="toRest">休息</span>
+          <span class="status-item" v-if="myStatus == 1">营业中</span>
+          <span class="status-item" v-if="myStatus == 0">休息中</span>
         </p>
       </div> 
     </div>
@@ -25,7 +29,7 @@
           </div>
           <span class="iconfont icon-jiantou-1"></span>
         </li>
-        <li class="router-bar-item" @click="$router.push('/myinfo')">
+        <li class="router-bar-item" @click="$router.push('/myinfo')" v-if="$store.state.identity == 0">
           <div class="item-left">
             <span class="iconfont icon-bianji"></span>
             <span class="router-bar-name">我的资料</span>
@@ -42,7 +46,7 @@
         <li class="router-bar-item" @click="$router.push('/einfo')" v-if="$store.state.identity == 1">
           <div class="item-left">
             <span class="iconfont icon-icon3"></span>
-            <span class="router-bar-name">专家资料</span>
+            <span class="router-bar-name">我的资料</span>
           </div>
           <span class="iconfont icon-jiantou-1"></span>
         </li>
@@ -76,23 +80,7 @@ export default {
     },
     becomeExpert(){
       this.$router.push('/upgrade')
-    },
-    toWork(){
-      if(this.myStatus == 1){
-        return;
-      }
-      this.myStatus = 1;
-      T.showToast({text:'开始营业咯~'});
-    },
-    toRest(){
-      if(this.myStatus == 0){
-        return;
-      }
-      this.myStatus = 0;
-      T.showToast({text:'下班休息咯~'});
-    },
-
-  
+    }
   },
   mounted(){
    
@@ -120,42 +108,50 @@ export default {
     width: 0;
   }
   .mine-msg .mine-base-msg{
+    display: flex;
     margin-bottom: 10px;
+    
   }
   
   .mine-msg .mine-base-msg .mine-nickname{
+    position: relative;
     font-size: 16px;
-    margin-right: 20px;
+   /* margin-right: 15px;*/
     font-weight: bold;
   }
   .mine-msg .mine-base-msg .mine-tel{
     font-size: 14px;
     color: #666;
   }
-
+  .mine-msg .mine-base-msg .mine-identity{
+    white-space: nowrap;
+    border-radius: 4px;
+    font-size: 12px;
+    padding:4px 5px;
+    background-color: #e9ae6a;
+    color: #fff;
+    position: absolute;
+    top:0;
+    right: -10px;
+    transform: translateX(100%);
+  }
   .mine-msg .mine-status{
       display: flex;
       align-items: center;
       color: #666;
-      font-size: 14px;
+      font-size: 15px;
 
   }
   .mine-msg .mine-status .status-text{
-      
       margin-right: 5px;
   }
   .mine-msg .mine-status .status-item{
+     font-size: 15px;
      margin-right: 15px;
      line-height: 24px;
      padding: 0 8px;
      border-radius: 2px;
   }
-  .mine-msg .mine-status .status-item.active{
-     color: #fff;
-     background-color: #55cbc4;
-  }
-
-
   .router-bar{
     border-bottom: 1px solid #e6e6e6;
     padding: 0 20px;

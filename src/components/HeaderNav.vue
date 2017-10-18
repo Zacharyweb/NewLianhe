@@ -36,9 +36,12 @@ export default {
     position: relative;
     height: 50px;
     background-color: #55cbc4;
+    transform: translateZ(100px);
+    display: flex;
+    align-items: center;
   }
   .header-nav h2{
-    line-height: 50px;
+    flex:1;
     text-align: center;
     font-size: 18px;
     color:#fff;

@@ -7,7 +7,7 @@
              <h4>专长介绍<span class="require-icon">*</span></h4>
           </div>
            <div class="form-input">
-             <textarea v-model="skillContent" placeholder="请填写专长介绍,200字以内"></textarea>
+             <textarea v-model="skillContent" placeholder="请填写擅长咨询的范围和案例,200字以内~"></textarea>
            </div>
       </div>
       <!-- 咨询费用 -->
@@ -39,7 +39,7 @@
              <h4>个人介绍<i class="require-icon">*</i></h4>
           </div>
            <div class="textarea-wrap">
-             <textarea v-model="personIntro" placeholder="请填写个人介绍"></textarea>
+             <textarea v-model="personIntro" placeholder="请填写学历、资质、经历、特长爱好等信息~"></textarea>
            </div>
       </div>
         <!-- 图片介绍 -->
@@ -98,6 +98,7 @@ export default {
 <style scoped>
   .intro-form{
     margin-top: 60px;
+    font-size: 14px;
   }
   .intro-form .common-panel .panel-title {
     border: none;
@@ -107,7 +108,7 @@ export default {
     box-sizing: border-box;
     line-height: 40px;
     border: 1px solid #eee;
-    font-size: 16px;
+    font-size: 14px;
     padding: 0 10px;
   }
   .intro-form input{
@@ -126,7 +127,7 @@ export default {
     margin-bottom: 10px;
   }
   .intro-form .form-input .label{
-    font-size: 18px;
+    font-size: 15px;
     width: 80px;
 
   }

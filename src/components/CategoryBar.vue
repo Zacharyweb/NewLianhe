@@ -13,6 +13,7 @@
 
 <script>
 require('swiper/dist/css/swiper.css')
+import T from '../tool/tool.js'
 export default {
   name: 'TabBar',
   props: {
@@ -34,8 +35,11 @@ export default {
   },
   methods:{
     changeTab(index){
+      if(this.tabBarArr[index].type == -1){
+        T.showToast({text:'更多领域将即将开放，敬请期待~'});
+        return;
+      }
       this.currentIndex = index;
-
       this.$router.push({
         path:'/cate',
         query:{
@@ -69,11 +73,13 @@ export default {
       margin:0 17px;
    }
    .category-bar .category-item .iconfont{
+      box-sizing: border-box;
       width: 48px;
       height: 48px;
       border-radius: 50%;
       color: #fff;
-      line-height: 48px;
+      padding:9px;
+    /*  line-height: 48px;*/
       text-align: center;
       font-size: 30px;
    }

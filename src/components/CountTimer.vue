@@ -15,6 +15,7 @@ export default {
       hours:'00',
       minutes:'00',
       seconds:'00',
+      timer:null
     }
   },
   props: {
@@ -58,10 +59,9 @@ export default {
      initCountTime(){
         if(this.countTimes == -1){
           return;
-        }
-        let timer; 
+        } 
         let flag = false;
-        timer = setInterval(()=>{
+        this.timer = setInterval(()=>{
             this.transformTime(this.countTimes);
 
             // 开始回调
@@ -74,7 +74,7 @@ export default {
             this.countTimes = --this.countTimes;
 
             if(this.countTimes == -1){
-               clearInterval(timer);
+               clearInterval(this.timer);
                // 结束回调
                this.onEnd?this.onEnd():'';
             }
@@ -90,6 +90,9 @@ export default {
       this.initCountTime();
     }
     
+  },
+  destroyed(){
+    clearInterval(this.timer);
   }
 }
 </script>

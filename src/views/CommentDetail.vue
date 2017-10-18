@@ -23,13 +23,13 @@
           <div class="comment-item user-comment">
             <span class="comment-time">2017-10:02 08:43</span>
             <img class="user-avatar" src="../../static/timg.jpeg">
-            <p class="comment-content">聊的很开心，知道了声乐有哪几种唱法，觉得很值，谢谢专家指导~</p>
+            <p class="comment-content">我是评价内容~我是评价内容~我是评价内容~</p>
           </div>
-          <div class="comment-item expert-reply">
+        <!--   <div class="comment-item expert-reply">
              <span class="comment-time">2017-10:02 08:43</span>
              <p class="comment-content">谢谢您的评价~</p>
              <img class="user-avatar" src="../../static/timg.jpeg">
-           </div>
+           </div> -->
         </div>
       </div>
     </div>
@@ -121,7 +121,7 @@ export default {
    color: #FFC125;
  }
 .comment-detail-wrap .detail-msg-item .msg-title{
-  font-size: 18px;
+  font-size: 17px;
   line-height: 30px;
   border-bottom: 1px solid #eee;
   padding-bottom: 10px;
@@ -169,6 +169,7 @@ export default {
   background: #B4EEB4;
   padding: 10px;
   border-radius: 8px;
+  font-size: 16px;
 }
 .comment-detail-wrap .comment-detail .user-comment .comment-content{
   flex: 1;
@@ -223,8 +224,8 @@ export default {
   font-size: 18px;
 }
 .reply-panel .reply-panel-top .send-btn{
-  line-height: 28px;
-  padding: 0 8px;
+  padding: 4px 10px;
+  font-size: 15px;
   border: 1px solid #fff;
   border-radius: 4px;
 }
@@ -234,7 +235,7 @@ export default {
 .reply-panel-body textarea{
   width: 100%;
   height: 400px;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.5;
   border: none;
 }

@@ -2,8 +2,8 @@
   <div>
 
     <div class="info-tabs">
-      <p class="tab-item base-tab" :class="{'active':currentTab == 0}" @click="currentTab = 0">基本资料</p>
-      <p class="tab-item inrto-tab" :class="{'active':currentTab == 1}" @click="currentTab = 1">介绍资料</p>
+      <p class="tab-item base-tab" :class="{'active':currentTab == 0}" @click="currentTab = 0">基本信息</p>
+      <p class="tab-item inrto-tab" :class="{'active':currentTab == 1}" @click="currentTab = 1">专家信息</p>
     </div>
     <v-scroll :on-refresh="onRefresh"  :bottom="48" :top="60">
     <!-- 基本资料 -->
@@ -17,13 +17,20 @@
           <input type="tel" maxlength="11" placeholder="请输入手机号码" v-model="tel">
       </p>
       <p class="base-form-item">
-          <span class="label">公司<i class="require-icon">*</i>：</span>
-          <input type="tel" maxlength="30" placeholder="请输入任职机构" v-model="company">
+          <span class="label">公司/机关<i class="require-icon">*</i>：</span>
+          <input type="tel" maxlength="30" placeholder="请输入任职机构以及有关部门科室" v-model="company">
       </p>
       <p class="base-form-item">
-          <span class="label">职位<i class="require-icon">*</i>：</span>
-          <input type="tel" maxlength="30" placeholder="请输入任职职位" v-model="position">
+          <span class="label">职位/专业<i class="require-icon">*</i>：</span>
+          <input type="tel" maxlength="30" placeholder="请输入任职职位或所从事的专业" v-model="position">
       </p>
+      <div class="tags-item">
+          <p class="label">专家分类<i class="require-icon">*</i>：</p>
+          <p class="tags-wrap">
+            <span class="tag-item" :class="{'active':experType == 1}" @click="chageExperType(1)">公开专家</span>
+            <span class="tag-item" :class="{'active':experType == 2}" @click="chageExperType(2)">关系户专家</span>
+          </p>
+      </div>
       <div class="tags-item">
           <p class="label">工作经验<i class="require-icon">*</i>：</p>
           <p class="tags-wrap">
@@ -64,7 +71,7 @@
              <h4>专长介绍<span class="require-icon">*</span></h4>
           </div>
            <div class="form-input">
-             <textarea v-model="skillContent" placeholder="请填写专长介绍,200字以内"></textarea>
+             <textarea v-model="skillContent" placeholder="请填写擅长咨询的范围和案例,200字以内~"></textarea>
            </div>
       </div>
       <!-- 咨询费用 -->
@@ -96,7 +103,7 @@
              <h4>个人介绍<i class="require-icon">*</i></h4>
           </div>
            <div class="textarea-wrap">
-             <textarea v-model="personIntro" placeholder="请填写个人介绍"></textarea>
+             <textarea v-model="personIntro" placeholder="请填写学历、资质、经历、特长爱好等信息~"></textarea>
            </div>
       </div>
         <!-- 图片介绍 -->
@@ -145,6 +152,7 @@ export default {
       tel:'',
       company: '',
       position:'',
+      experType:1,
       exper: 0,
       skill: 0,
       subSkill: 0,
@@ -161,6 +169,9 @@ export default {
       setTimeout(()=>{
         done();
       },1000)
+    },
+    chageExperType(num){
+      this.experType = num;
     },
     changeExperience(num){
       this.exper = num;
@@ -246,10 +257,10 @@ export default {
     flex-wrap: wrap;
   }
   .base-form .tags-item .tags-wrap .tag-item{
-    padding: 0 6px;
+    padding: 5px 6px;
     text-align: center;
-    line-height: 26px;
-    font-size: 14px;
+    /*line-height: 26px;*/
+    font-size: 12px;
     border: 1px solid #ccc;
     color: #ccc;
     border-radius: 4px;
@@ -273,7 +284,7 @@ export default {
     box-sizing: border-box;
     line-height: 40px;
     border: 1px solid #eee;
-    font-size: 16px;
+    font-size: 14px;
     padding: 0 10px;
   }
   .intro-form input{

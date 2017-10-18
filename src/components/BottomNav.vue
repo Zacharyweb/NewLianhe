@@ -1,14 +1,14 @@
 <template>
   <ul class="bottom-nav">
-    <li class="nav-item" :class="{'active': navIndex == 0}" @click="changeNav('/')">
+    <li class="nav-item" :class="{'active': navIndex == 0}" @click="changeNav('/','联合咨询')">
       <span class="iconfont icon-zhuye"></span>
       <p class="nav-name">首页</p>
     </li>
-    <li class="nav-item" :class="{'active': navIndex == 1}" @click="changeNav('/consult')">
+    <li class="nav-item" :class="{'active': navIndex == 1}" @click="changeNav('/consult','咨询')">
       <span class="iconfont icon-faxian"></span>
       <p class="nav-name">咨询</p>
     </li>
-    <li class="nav-item" :class="{'active': navIndex == 2}" @click="changeNav('/mine')">
+    <li class="nav-item" :class="{'active': navIndex == 2}" @click="changeNav('/mine','我的')">
       <span class="iconfont icon-zhuye1"></span>
       <p class="nav-name">我的</p>
     </li>
@@ -29,7 +29,8 @@ export default {
     }
   },
   methods:{
-    changeNav(path){
+    changeNav(path,title){
+      document.title = title;
       this.$router.push(path);
     }
  

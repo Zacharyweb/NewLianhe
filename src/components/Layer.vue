@@ -172,7 +172,7 @@ export default {
   }
   .toast-mask .toast{
     position: absolute;
-    top:40%;
+    top:10px;
     left:50%;
     padding: 10px 15px;
     transform: translateX(-50%);
@@ -180,7 +180,7 @@ export default {
     border-radius: 4px;
     color: #fff;
     line-height: 1.5;
-    max-width: 200px;
+   width: 80%;
     text-align: center;
     -webkit-animation: showIn 0.1s;
     animation: showIn 0.2s;

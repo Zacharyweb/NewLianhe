@@ -7,24 +7,26 @@
         <span class="count-minutes">{{minutes}}:</span>
         <span class="count-seconds">{{seconds}}</span>
       </div> -->
-      <count-timer class="count-timer" 
+      <count-timer v-if="countShow"
+                   class="count-timer" 
                    ref="countTimer" 
                    :counts="counts"  
                    :on-end="countEnd" 
                    :on-change="countChange"
       />
+      <div class="end-chat-btn" v-if="!countShow" @click="endChat">结束对话</div>
     <v-scroll :on-refresh="onRefresh"  :bottom="vScrollBottom" :top="50">
       <div class="chat-msg-wrap" @touchstart="checkInputPanelHeight">
         <!-- 左侧消息 -->
         <div class="msg-item left-msg">
           <span class="msg-time">2017-7-20 19:20:20</span>
           <img class="user-avatar" src="../../static/timg.jpeg" >
-          <div class="chat-content">我是文字内容，我是文字内容我是说维斯我是文字内容我是说维斯我是文字内容我是说维斯我是文字内容我是说维斯我是文字内容我是说维斯我是文字内容我是说维斯我是文字内容我是说维斯~</div>
+          <div class="chat-content">我是文字内容~</div>
         </div>  
         <!-- 右侧消息 -->
         <div class="msg-item right-msg">
           <span class="msg-time">2017-7-20 19:20:20</span>
-          <div class="chat-content">我是文字内容，我是文字内容我是说维斯我是文字内容我是说维斯我是文字内容我是说维斯我是文字内容我是说维斯我是文字内容我是说维斯我是文字内容我是说维斯我是文字内容我是说维斯~</div>
+          <div class="chat-content">我是文字内容~</div>
           <img class="user-avatar" src="../../static/timg.jpeg" >
         </div> 
         <!-- 左侧语音 -->
@@ -74,7 +76,7 @@
     <div class="input-panel" ref="inputPanel">
       <div class="textarea-wrap" v-show="!voiceInputShow">
        <p class="back-text">{{inputMsg}}</p>
-       <textarea  v-model="inputMsg" @change="textAreaChange"></textarea>
+       <textarea  v-model="inputMsg" @change="textAreaChange" @focus="textAreaFocus"></textarea>
       </div>
       <div class="voice-input" v-show="voiceInputShow" @touchstart="beginVoiceInput" @touchend="endVoiceInput">
         按住进行语音输入
@@ -98,7 +100,7 @@
   
 
     <div class="img-detail-panel" v-if="imgDetailShow" @click="hideImgDetail">
-      <img class="scaleIn" :class="{'scaleOut':imgDetailScaleOut}" src="../../static/timg.jpeg" >
+      <img class="scaleIn" :class="{'scaleOut':imgDetailScaleOut}" src="https://s1.ax1x.com/2017/10/16/JQZeP.jpg" >
     </div>
    
     <audio ref="audioObj" src="http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E06DCBDC9AB7C49FD713D632D313AC4858BACB8DDD29067D3C601481D36E62053BF8DFEAF74C0A5CCFADD6471160CAF3E6A&fromtag=46"></audio> 
@@ -126,7 +128,8 @@ export default {
       audioPlay:false,
       voiceInputShow:false,
       voiceInputTipsShow:false,
-      counts:1800,
+      counts:130,
+      countShow:true
     }
   },
   methods:{
@@ -183,13 +186,26 @@ export default {
       // this.vScrollBottom = this.$refs.inputPanel.offsetHeight;
     },
     countChange(i){
-      console.log(i)
+      if( i == 120 ){
+        T.showToast({text:'咨询时间还剩2分钟，请注意时间~'});
+      }
     },
-      countEnd(){
-      console.log('end')
+    countEnd(){
+      T.showToast({text:'咨询结束~'});
+      this.countShow = false;
+    },
+    endChat(){
+      this.$router.push('/order/detail/20170712130023/3/0');
+    },
+    textAreaFocus(){
+       let inputPanel = this.$refs.inputPanel;
+       inputPanel.scrollIntoView(false);
     }
   },
   mounted(){
+   
+  },
+  destroyed(){
     
   }
 }
@@ -216,12 +232,12 @@ export default {
   -webkit-user-select:none;
  }
  .input-panel .textarea-wrap{   
-      position: relative;
-      min-height: 46px;    
+    position: relative;
+    min-height: 46px;    
  }
  .input-panel .back-text{
     padding: 13px;
-    font-size: 16px;
+    font-size: 14px;
     line-height:1.5;
  }    
  .voice-input-tips{
@@ -248,8 +264,8 @@ export default {
   border-radius: 6px;
   width: 100%;  
   height: 100%;
-  padding: 10px; 
-  font-size: 16px;
+  padding: 11px; 
+  font-size: 14px;
   line-height:1.5;
  }
  .input-panel .option-btn{
@@ -278,7 +294,7 @@ export default {
   position: absolute;
   bottom: 15px;
   right: 10px;
-  font-size: 18px;
+  font-size: 16px;
   color:#55cbc4;    
 }
 .chat-msg-wrap{
@@ -465,6 +481,19 @@ audio{
     right: 10px;
     color: #fff;
     z-index: 10;
+}
+.end-chat-btn{
+  position: fixed;
+  top: 12px;
+  right: 10px;
+  color: #fff;
+  z-index: 10;
+  color: #fff;
+  border:1px solid #fff;
+  font-size: 14px;
+  line-height: 24px;
+  padding:0 6px;
+  border-radius: 4px;
 }
 
 

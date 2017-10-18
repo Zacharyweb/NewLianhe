@@ -10,13 +10,27 @@
           <input type="tel" maxlength="11" placeholder="请输入手机号码" v-model="tel">
       </p>
       <p class="base-form-item">
-          <span class="label">公司<i class="require-icon">*</i>：</span>
-          <input type="tel" maxlength="30" placeholder="请输入任职机构" v-model="company">
+          <span class="label">公司/机关<i class="require-icon">*</i>：</span>
+          <input type="tel" maxlength="30" placeholder="请输入任职机构以及有关部门科室" v-model="company">
       </p>
       <p class="base-form-item">
-          <span class="label">职位<i class="require-icon">*</i>：</span>
-          <input type="tel" maxlength="30" placeholder="请输入任职职位" v-model="position">
+          <span class="label">职位/专业<i class="require-icon">*</i>：</span>
+          <input type="tel" maxlength="30" placeholder="请输入任职职位或所从事的专业" v-model="position">
       </p>
+<!--       <div class="tags-item">
+          <p class="label">目前状态<i class="require-icon">*</i>：</p>
+          <p class="tags-wrap">
+            <span class="tag-item" :class="{'active':workStatus == 1}" @click="chageWorkStatus(1)">在职</span>
+            <span class="tag-item" :class="{'active':workStatus == 2}" @click="chageWorkStatus(2)">已离退</span>
+          </p>
+      </div> -->
+      <div class="tags-item">
+          <p class="label">专家分类<i class="require-icon">*</i>：</p>
+          <p class="tags-wrap">
+            <span class="tag-item" :class="{'active':experType == 1}" @click="chageExperType(1)">公开专家</span>
+            <span class="tag-item" :class="{'active':experType == 2}" @click="chageExperType(2)">关系户专家</span>
+          </p>
+      </div>
       <div class="tags-item">
           <p class="label">工作经验<i class="require-icon">*</i>：</p>
           <p class="tags-wrap">
@@ -27,7 +41,7 @@
           </p>
       </div>
       <div class="tags-item">
-          <p class="label">擅长的领域<i class="require-icon">*</i>：</p>
+          <p class="label">领域<i class="require-icon">*</i>：</p>
           <p class="tags-wrap">
             <span class="tag-item" :class="{'active':skill == 1}" @click="changeSkill(1)">财务</span>
             <span class="tag-item" :class="{'active':skill == 2}" @click="changeSkill(2)">税务</span>
@@ -35,7 +49,6 @@
             <span class="tag-item" :class="{'active':skill == 4}" @click="changeSkill(4)">房产</span>
             <span class="tag-item" :class="{'active':skill == 5}" @click="changeSkill(5)">教育</span>
             <span class="tag-item" :class="{'active':skill == 6}" @click="changeSkill(6)">海关</span>
-            <span class="tag-item" :class="{'active':skill == 7}" @click="changeSkill(7)">法务</span>
             <span class="tag-item" :class="{'active':skill == 7}" @click="changeSkill(7)">法务</span>
           </p>
       </div>
@@ -46,11 +59,6 @@
             <span class="tag-item" :class="{'active':subSkill == 2}" @click="changeSubSkill(2)">财务2</span>
             <span class="tag-item" :class="{'active':subSkill == 3}" @click="changeSubSkill(3)">财务3</span>
             <span class="tag-item" :class="{'active':subSkill == 4}" @click="changeSubSkill(4)">财务4</span>
-            <span class="tag-item" :class="{'active':subSkill == 5}" @click="changeSubSkill(5)">财务4</span>
-            <span class="tag-item" :class="{'active':subSkill == 6}" @click="changeSubSkill(6)">财务4</span>
-            <span class="tag-item" :class="{'active':subSkill == 7}" @click="changeSubSkill(7)">财务4</span>
-            <span class="tag-item" :class="{'active':subSkill == 8}" @click="changeSubSkill(8)">财务4</span>
-            <span class="tag-item" :class="{'active':subSkill == 9}" @click="changeSubSkill(9)">财务4</span>
           </p>
       </div>
     </div>
@@ -73,12 +81,20 @@ export default {
       tel:'',
       company: '',
       position:'',
+      workStatus:1,
+      experType:1,
       exper: 0,
       skill: 0,
       subSkill: 0,
     }
   },
   methods:{
+    chageExperType(num){
+      this.experType = num;
+    },
+    chageWorkStatus(num){
+      this.workStatus = num;
+    },
     changeExperience(num){
       this.exper = num;
     },
@@ -109,11 +125,12 @@ export default {
     align-items:center;
     height:40px;
     padding:10px 5px;
-    font-size:16px;
+    font-size:14px;
     position:relative;
     border-bottom: 1px solid #e6e6e6;
   }
   .base-form .base-form-item input{
+    font-size: 14px;
     flex:1;
     padding-left: 20px;
     border:none;
@@ -128,7 +145,7 @@ export default {
 
   }
   .tags-item .label{
-    font-size: 15px;
+    font-size: 14px;
     margin-bottom: 10px;
   }
   .tags-item .tags-wrap{
@@ -136,10 +153,10 @@ export default {
     flex-wrap: wrap;
   }
   .tags-item .tags-wrap .tag-item{
-    padding: 0 6px;
+    padding: 5px 6px;
     text-align: center;
-    line-height: 26px;
-
+    /*line-height: 24px;*/
+    font-size: 12px;
     border: 1px solid #ccc;
     color: #ccc;
     border-radius: 4px;

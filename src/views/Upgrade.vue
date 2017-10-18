@@ -9,7 +9,7 @@
       <div class="step-item">
         <span class="step-fill" :class="{'stretch':currentStep >= 2}"></span>
         <span class="circle-icon" :class="{'current':currentStep == 2,'prev':currentStep > 2}"></span>
-        <p class="step-name">介绍信息</p>
+        <p class="step-name">专家信息</p>
       </div>
       <div class="step-item">
         <span class="step-fill" :class="{'stretch':currentStep >= 3}"></span>

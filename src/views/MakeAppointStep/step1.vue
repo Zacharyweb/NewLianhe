@@ -1,5 +1,5 @@
 <template>
-  <div class="make-appoint">
+  <div>
     <div class="base-form common-panel">
       <div class="panel-title">
          <h4><span class="iconfont icon-wenti"></span>请简要描述您的问题：</h4>
@@ -39,9 +39,9 @@
 </template>
 
 <script>
-import T from '../tool/tool'
+import T from '../../tool/tool'
 export default {
-  name: 'MakeAppoint',
+  name: 'MakeAppointStep2',
   components:{
  
   },
@@ -63,27 +63,23 @@ export default {
         T.showToast({text:'您未同意服务条款'});
         return;
       }
-      T.showToast({text:'提交成功，请等待专家确认~'});
-      let orderNo = '88888888888';
-      setTimeout(()=>{
-        this.$router.push('/order/detail/'+orderNo+'/0/0')
-      },1000)
-
+      this.$router.push({
+         path:'/appoint/step2',
+         query:{
+           expertId:this.$route.query.expertId,
+         }
+      })
     },
     toggleClause(){
       this.agreecClause = !this.agreecClause;
     }
   },
   mounted(){
-     document.title="发起咨询";
+
   }
 }
 </script>
 <style scoped>
-  .make-appoint{
-    margin-top: 0px;
-  }
-
   .base-form{
     margin-top: 20px;
     padding:15px;
@@ -142,41 +138,20 @@ export default {
   }
   .estimate-cost{
     padding-top: 15px;
-    padding-left: 10px;
     border-top: 1px solid #e6e6e6;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    position: relative;
   }
   .estimate-cost .text{
     font-size: 12px;
-    padding: 4px 8px;
-    background-color: #e9ae6a;
+    padding: 4px 6px;
+    background-color: #55cbc4;
     color: #fff;
-    position: relative;
-  }
-  .estimate-cost .text::before,
-  .estimate-cost .text::after{
-    content: '';
-    position: absolute;
-    top:50%;
-    margin-top: -4px;
-    width: 8px;
-    height: 8px;
-    background-color:#fff;
-    border-radius: 50%;
-  }
-  .estimate-cost .text::before{
-    left:-4px;
-  }
-  .estimate-cost .text::after{
-    right: -4px;
   }
   .estimate-cost .amount{
-    font-weight: bold;
     font-size: 20px;
-    color: #f4992e;
+    color: #E64340;
   }
   .estimate-cost .amount i{
     font-size: 14px;
@@ -199,9 +174,4 @@ export default {
   .btn-wrapper{
     padding:15px;
   }
-
-
-
-
-
 </style>

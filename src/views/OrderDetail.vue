@@ -39,7 +39,7 @@
     </div>
       <div class="top-block">
         <p class="block-title">
-          {{statusTable[status]}}
+          {{statusTable[status] || '订单关闭'}}
           <span class="iconfont icon-youjiantou" 
                 @click="()=>{this.orderStatusPanelShow = true}"
           ></span>
@@ -53,11 +53,26 @@
                :on-end="countEnd" 
             />
         </div>
-        <p class="leave-time-tips" v-if="status ==0">专家超时未确认，则订单自动关闭。</p>
+        <p class="status-tips" v-if="status ==0">专家超时未确认，则订单自动关闭。</p>
         <div class="btn-area" v-if="status ==0 && !isCustomer">
           <span class="btn btn-green btn-small" @click="agreeOrder($route.params.orderNo)">同意</span>
           <span class="btn btn-green-outline btn-small" @click="refuseOrder($route.params.orderNo)">拒绝</span>
         </div>
+
+        <p class="status-tips" v-if="status == -2">专家超时未确认或拒绝此次咨询，订单关闭。</p>
+        <p class="status-tips" v-if="status == -3">客户取消本次咨询，订单关闭。</p>
+        <p class="status-tips" v-if="status ==1 && isCustomer">专家已同意接受您的咨询请求，马上完成支付即可开始咨询~</p>
+
+      
+        <div class="btn-area" v-if="status == -2">
+          <span class="btn btn-green-outline btn-small" @click="toOrderList">返回订单列表</span>      
+        </div>
+
+        <div class="btn-area" v-if="status == -3">
+          <span class="btn btn-green-outline btn-small" @click="toOrderList">返回订单列表</span>
+          <span class="btn btn-green btn-small" @click="toAppointment(88)">重新发起咨询</span>      
+        </div>
+
         <div class="btn-area" v-if="status ==0 && isCustomer">
           <span class="btn btn-green btn-small" @click="toOrderList">返回订单列表</span>
           <span class="btn btn-green-outline btn-small" @click="cancelConsult($route.params.orderNo)">取消咨询</span>
@@ -69,7 +84,7 @@
 
         <div class="btn-area" v-if="status ==1 && isCustomer">
           <span class="btn btn-green-outline btn-small" @click="cancelConsult($route.params.orderNo)">取消咨询</span>
-          <span class="btn btn-green btn-small" @click="toPay($route.params.orderNo)">去支付</span>
+          <span class="btn btn-green btn-small" @click="toPay($route.params.orderNo)">立即支付</span>
         </div>
 
         <div class="btn-area" v-if="status ==2">
@@ -99,28 +114,28 @@
         <p class="order-msg-item">订单编号：<span>{{$route.params.orderNo}}</span></p>
       </div>
       <div class="bottom-block">
-        <div class="detail-msg-item" v-if="status >=0">
+        <div class="detail-msg-item" v-if="status >=-3">
           <div class="msg-content">
             <span class="iconfont icon-yonghu1"></span>
             用户名称：客户名称
           </div>
         </div>
 
-        <div class="detail-msg-item" v-if="status >=0">
+        <div class="detail-msg-item" v-if="status >=-3">
           <div class="msg-content">
             <span class="iconfont icon-shiduan"></span>
             咨询时段：2节/30分钟
           </div>
         </div>
 
-        <div class="detail-msg-item" v-if="status >=0">
+        <div class="detail-msg-item" v-if="status >=-3">
           <div class="msg-content">
             <span class="iconfont icon-zhuanjiaku"></span>
             专家名称：专家名称
           </div>
         </div>
 
-        <div class="detail-msg-item" v-if="status >=0">
+        <div class="detail-msg-item" v-if="status >=-3">
           <h6 class="msg-title">
             <span class="iconfont icon-wenti"></span>
             问题描述
@@ -129,7 +144,7 @@
           </p>
         </div>
 
-        <div class="detail-msg-item" v-if="status >=0">
+        <div class="detail-msg-item" v-if="status >=-3">
           <div class="msg-content">
             <span class="iconfont icon-jine"></span>
             订单金额：￥300
@@ -190,8 +205,12 @@
         <h6>订单状态变更</h6>
         <div class="status-list-wrap">
           <ul class="status-list">
-            <li class="status-item" v-if="status >=0">
+            <li class="status-item" v-if="status >=-3">
               <span class="status-name">下单</span>
+              <span class="status-time">2017-07-30 13:30:20</span>
+            </li>
+            <li class="status-item" v-if="status == -2 || status == -3">
+              <span class="status-name">订单关闭</span>
               <span class="status-time">2017-07-30 13:30:20</span>
             </li>
             <li class="status-item" v-if="status >=1">
@@ -231,7 +250,7 @@ export default {
   },
   data () {
     return {
-        counts:30,
+        counts:15,
         isCustomer:true,
         orderStatusPanelShow:false,
         statusTable:['等待确认','等待支付','支付完成','完成咨询','已评价','完成结算'],
@@ -263,7 +282,7 @@ export default {
       T.Confirm({
         text:'确定取消订单'+id +'?',
         confirm:function(){
-          that.toOrderList();
+          that.status = -3;
         },
         cancel:function(){
 
@@ -283,10 +302,11 @@ export default {
       });
     },
     refuseOrder(){
+      let that = this;
       T.Confirm({
         text:'确定拒绝此订单咨询?',
         confirm:function(){
-           
+           that.status = -2;
         },
         cancel:function(){
         
@@ -311,7 +331,7 @@ export default {
        this.$router.push('/comment/detail/'+id);
     },
     countEnd(){
-
+        this.status = -2;
     }
   },
   mounted(){
@@ -360,7 +380,7 @@ export default {
   font-size: 22px; 
   color:#f4992e;
 }
-.top-block .leave-time-tips{
+.top-block .status-tips{
   text-align: center;
   font-size: 12px;
   color: #aaa;
@@ -497,6 +517,7 @@ export default {
   font-size: 15px;
   transition: all 0.3s;
   transform: translateY(100%);
+  z-index: 11;
 }
 .order-status-panel.show{
   transform: translateY(0);

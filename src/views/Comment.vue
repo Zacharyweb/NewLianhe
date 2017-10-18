@@ -87,7 +87,7 @@ export default {
     box-sizing: border-box;
     line-height: 1.3;
     border: 1px solid #eee;
-    font-size: 16px;
+    font-size: 14px;
     padding: 10px 15px;
     height: 150px;
     width: 100%;

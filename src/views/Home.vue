@@ -71,12 +71,13 @@ export default {
       msg: 'Welcome to Your Vue.js App',
       arr:[],
       tabBarArr:[
-        {name:'法务',icon:{'icon-zanfuwutubiao06-copy':true},color:'#7ed321',type:1},
-        {name:'财务',icon:{'icon-caiwu1':true},color:'#f5a623',type:2},
-        {name:'工商',icon:{'icon-gongshang1':true},color:'#f56423',type:3},
-        {name:'税收',icon:{'icon-shuiwu':true},color:'#f5be3f',type:4},
-        {name:'海关',icon:{'icon-haiguan':true},color:'#51a1ff',type:5},
-        {name:'教育',icon:{'icon-shuben':true},color:'#f56423',type:6},
+        // {name:'法务',icon:{'icon-zanfuwutubiao06-copy':true},color:'#7ed321',type:1},
+        // {name:'财务',icon:{'icon-caiwu1':true},color:'#f5a623',type:2},
+        // {name:'工商',icon:{'icon-gongshang1':true},color:'#f56423',type:3},
+        {name:'税务',icon:{'icon-shuiwu':true},color:'#f5be3f',type:4},
+        // {name:'海关',icon:{'icon-haiguan':true},color:'#51a1ff',type:5},
+        // {name:'教育',icon:{'icon-shuben':true},color:'#f56423',type:6},
+        {name:'更多分类',icon:{'icon-gengduo':true},color:'#e6e6e6',type:-1},
       ]
     }
   },
@@ -96,7 +97,7 @@ export default {
     }
   },
   mounted(){
-    document.title = '首页';
+    document.title = '联合咨询';
 
     if(this.$store.state.identity == 99){
        this.$router.push('/identity');
