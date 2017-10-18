@@ -34,8 +34,8 @@
       </div>
     </div>
   </v-scroll>
-      
-    <div class="btn btn-green btn-large position-bottom" @click="showReplyPanel">回复</div>
+    <!-- 回复评价 -->
+    <!-- <div class="btn btn-green btn-large position-bottom" @click="showReplyPanel">回复</div> -->
 
     <!-- 回复弹窗 -->
     <div class="reply-panel" :class="{'show':replyPanelShow}">
