@@ -36,7 +36,7 @@ export default {
   methods:{
     changeTab(index){
       if(this.tabBarArr[index].type == -1){
-        T.showToast({text:'更多领域将即将开放，敬请期待~'});
+        T.showToast({text:'更多分类将即将开放，敬请期待~'});
         return;
       }
       this.currentIndex = index;

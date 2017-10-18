@@ -1,12 +1,6 @@
 <template>
   <div class="chat-room">
     <header-nav :title="'咨询室'"/>
-<!--       <div class="count-time-wrap">
-        <span class="iconfont icon-shijian"></span>
-        <span class="count-hours">{{hours}}:</span>
-        <span class="count-minutes">{{minutes}}:</span>
-        <span class="count-seconds">{{seconds}}</span>
-      </div> -->
       <count-timer v-if="countShow"
                    class="count-timer" 
                    ref="countTimer" 
@@ -33,27 +27,27 @@
         <div class="msg-item left-msg">
           <span class="msg-time">2017-7-20 19:20:20</span>
           <img class="user-avatar" src="../../static/timg.jpeg" >
-          <div class="chat-content voice-content" @click="playAudio(56)"> 
-             <span class="voice-icon-bar voice-icon-bar1" :class="{'voice-icon-play1':audioPlay}"></span>
-             <span class="voice-icon-bar voice-icon-bar2" :class="{'voice-icon-play2':audioPlay}"></span>
-             <span class="voice-icon-bar voice-icon-bar3" :class="{'voice-icon-play3':audioPlay}"></span>
-             <span class="voice-icon-bar voice-icon-bar4" :class="{'voice-icon-play4':audioPlay}"></span>
-             <span class="voice-icon-bar voice-icon-bar5" :class="{'voice-icon-play5':audioPlay}"></span>
+          <div class="chat-content voice-content" @click="playAudio(1)"> 
+             <span class="voice-icon-bar voice-icon-bar1" :class="{'voice-icon-play1':audioPlayId == 1 && audioPlay}"></span>
+             <span class="voice-icon-bar voice-icon-bar2" :class="{'voice-icon-play2':audioPlayId == 1 && audioPlay}"></span>
+             <span class="voice-icon-bar voice-icon-bar3" :class="{'voice-icon-play3':audioPlayId == 1 && audioPlay}"></span>
+             <span class="voice-icon-bar voice-icon-bar4" :class="{'voice-icon-play4':audioPlayId == 1 && audioPlay}"></span>
+             <span class="voice-icon-bar voice-icon-bar5" :class="{'voice-icon-play5':audioPlayId == 1 && audioPlay}"></span>
              <span class="voice-time">6"</span>
           </div>
         </div> 
         <!-- 右侧语音 -->
         <div class="msg-item right-msg">
           <span class="msg-time">2017-7-20 19:20:20</span>
-          <div class="chat-content voice-content" @click="playAudio(56)"> 
+          <div class="chat-content voice-content" @click="playAudio(2)"> 
              <span class="voice-time">6"</span>
-             <span class="voice-icon-bar voice-icon-bar1" :class="{'voice-icon-play1':audioPlay}"></span>
-             <span class="voice-icon-bar voice-icon-bar2" :class="{'voice-icon-play2':audioPlay}"></span>
-             <span class="voice-icon-bar voice-icon-bar3" :class="{'voice-icon-play3':audioPlay}"></span>
-             <span class="voice-icon-bar voice-icon-bar4" :class="{'voice-icon-play4':audioPlay}"></span>
-             <span class="voice-icon-bar voice-icon-bar5" :class="{'voice-icon-play5':audioPlay}"></span>
+             <span class="voice-icon-bar voice-icon-bar1" :class="{'voice-icon-play1':audioPlayId == 2 && audioPlay}"></span>
+             <span class="voice-icon-bar voice-icon-bar2" :class="{'voice-icon-play2':audioPlayId == 2 && audioPlay}"></span>
+             <span class="voice-icon-bar voice-icon-bar3" :class="{'voice-icon-play3':audioPlayId == 2 && audioPlay}"></span>
+             <span class="voice-icon-bar voice-icon-bar4" :class="{'voice-icon-play4':audioPlayId == 2 && audioPlay}"></span>
+             <span class="voice-icon-bar voice-icon-bar5" :class="{'voice-icon-play5':audioPlayId == 2 && audioPlay}"></span>
           </div>
-          <img class="user-avatar" src="../../static/timg.jpeg" >
+          <img class="user-avatar" src="../../static/timg.jpeg">
         </div> 
         <!-- 左侧图片 -->
         <div class="msg-item left-msg">
@@ -129,7 +123,8 @@ export default {
       voiceInputShow:false,
       voiceInputTipsShow:false,
       counts:130,
-      countShow:true
+      countShow:true,
+      audioPlayId:-1
     }
   },
   methods:{
@@ -169,12 +164,14 @@ export default {
       } 
     },
     playAudio(id){
-      this.audioPlay = !this.audioPlay;
-      if(this.audioPlay){
-        this.$refs.audioObj.play();
-      }else{
+      if(id == this.audioPlayId){
+        this.audioPlay = false;
         this.$refs.audioObj.pause();
+        return;
       }
+      this.audioPlayId = id;
+      this.audioPlay = true;
+      this.$refs.audioObj.play();
     },
     beginVoiceInput(){
       this.voiceInputTipsShow = true;
@@ -406,48 +403,45 @@ export default {
 }
 .chat-msg-wrap .msg-item .chat-content.voice-content .voice-icon-bar{
   width:3px;  
-  height: 80%;   
   margin-left: 3px;  
   border-radius: 50px;    
   background-color: #55cbc4;  
-  vertical-align: middle;  
-  display: inline-block;  
 }
 
 @keyframes voicePlay{  
     0%{  
-        height: 20%;
+        height: 6px;
     }  
     20%{  
-        height: 40%;  
+        height: 14px;  
     }  
     50%{  
-        height: 70%;  
+        height: 20px;  
     }  
     80%{  
-        height: 40%;      
+        height: 14px;      
     }  
     100%{  
-        height: 20%;  
+        height: 6px;  
     }  
 }         
 
 .chat-msg-wrap .msg-item .chat-content.voice-content .voice-icon-bar1{  
     margin-left: 10px;
-    height: 20%;
+    height: 6px;
 }  
 .chat-msg-wrap .msg-item .chat-content.voice-content .voice-icon-bar2{  
-    height: 40%;
+    height: 14px;
 }  
 .chat-msg-wrap .msg-item .chat-content.voice-content .voice-icon-bar3{  
-    height: 70%;
+    height: 20px;
 }  
 .chat-msg-wrap .msg-item .chat-content.voice-content .voice-icon-bar4{  
-    height: 40%;
+    height: 14px;
 }  
 .chat-msg-wrap .msg-item .chat-content.voice-content .voice-icon-bar5{  
-     margin-right: 10px;
-     height: 20%; 
+   margin-right: 10px;
+   height: 6px; 
 }  
 .voice-icon-play1{
     animation:voicePlay 0.6s infinite 0.1s;  

@@ -24,11 +24,33 @@
           <h4 class="expert-name">专家姓名</h4>
           <p class="expert-tags">专家任职机构职位个人标签</p>
         </div>
+    <!--     <div class="open-time-panel common-panel">
+          <p class="open-time-title"><span class="iconfont icon-yingyeshijianzidingyi"></span>营业时间</p>
+          <p class="open-time-item">周一至周五18:00-22:00</p>
+          <p class="open-time-item">双休日10:00-22:00</p>
+        </div>   -->
+
+
+
+
         <ul class="expert-dynamic common-panel">
           <li><span class="iconfont icon-pingfen1"></span>评分：10</li>
           <li><span class="iconfont icon-people"></span>16人约过</li>
           <li class="reply-time"><span class="iconfont icon-shijian"></span>营业中</li>
         </ul>   
+
+        <div class="open-time-panel common-panel">
+          <div class="panel-title">
+             <h4><span class="iconfont icon-yingyeshijianzidingyi"></span>营业时间</h4>
+          </div>
+          <div class="open-time-content">
+             <p class="open-time-item">
+              <span>周一至周五18:00-22:00</span>
+              <span style="padding-left:20px;">双休日10:00-22:00</span>
+             </p>
+     
+          </div>
+        </div>
         <!-- 评价 -->
         <div class="user-comment common-panel">
           <div class="panel-title">
@@ -195,6 +217,25 @@ export default {
   font-weight: bold;
   margin-bottom: 10px;
 }
+.open-time-panel.common-panel{
+  padding-top: 8px;
+}
+.open-time-panel.common-panel .panel-title{
+  padding-bottom: 2px;
+}
+.open-time-panel .open-time-content{
+  
+}
+.open-time-panel .open-time-item{
+  padding-left: 10px;
+  margin-top: 12px;
+  display: flex;
+}
+.open-time-panel .open-time-item{
+  color: #666;
+  flex: 1;
+}
+
 .expert-dynamic{
   display: flex;
   justify-content: space-between;
