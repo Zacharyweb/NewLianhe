@@ -73,6 +73,56 @@
            <div class="form-input">
              <textarea v-model="skillContent" placeholder="请填写擅长咨询的范围和案例,200字以内~"></textarea>
            </div>
+      </div>     
+      <!-- 个人介绍 -->
+      <div class="common-panel">
+          <div class="panel-title">
+             <h4>个人介绍<i class="require-icon">*</i></h4>
+          </div>
+           <div class="textarea-wrap">
+             <textarea v-model="personIntro" placeholder="请填写学历、资质、经历、特长爱好等信息~"></textarea>
+           </div>
+      </div>
+        <!-- 图片介绍 -->
+      <div class="edit-panel common-panel">
+          <div class="panel-title">
+             <h4>图片介绍</h4>
+          </div>
+          <div class="img-list">
+            <img class="add-img-btn" src="../../static/add_img.png" alt="">
+            <div class="img-item">
+              <img src="../../static/timg.jpeg"  alt="">
+              <p class="edit-img">
+                <span class="iconfont icon-3"></span> 
+              </p>
+            </div>
+          </div>
+      </div>
+      <!-- 营业时间 -->
+      <div class="common-panel choose-open-time-panel">
+          <div class="panel-title">
+             <h4>营业时间<span class="require-icon">*</span></h4>
+          </div>
+          <div class="form-input">
+            <span class="label">上午：</span>
+            <span class="time-picker-input" :class="{'grey':!time1}" @click="showTimePicker(1,1)">{{time1 || '请选择'}}</span>
+            <span class="devide-line">-</span>
+            <span class="time-picker-input" :class="{'grey':!time2}" @click="showTimePicker(1,2)">{{time2 || '请选择'}}</span>
+          </div>
+          <div class="form-input">
+            <span class="label">下午：</span>
+            <span class="time-picker-input" :class="{'grey':!time3}" @click="showTimePicker(2,3)">{{time3 || '请选择'}}</span>
+            <span class="devide-line">-</span>
+            <span class="time-picker-input" :class="{'grey':!time4}" @click="showTimePicker(2,4)">{{time4 || '请选择'}}</span>
+            
+          </div>
+          <div class="form-input">
+            <span class="label">晚上：</span>
+            <span class="time-picker-input" :class="{'grey':!time5}" @click="showTimePicker(3,5)">{{time5 || '请选择'}}</span>
+            <span class="devide-line">-</span>
+            <span class="time-picker-input" :class="{'grey':!time6}" @click="showTimePicker(3,6)">{{time6 || '请选择'}}</span>
+           </div>
+           
       </div>
       <!-- 咨询费用 -->
       <div class="common-panel">
@@ -97,34 +147,11 @@
              <input v-model="zfbAccount" placeholder="请填支付宝收款账号"></input> 
            </div>
       </div>
-      <!-- 个人介绍 -->
-      <div class="common-panel">
-          <div class="panel-title">
-             <h4>个人介绍<i class="require-icon">*</i></h4>
-          </div>
-           <div class="textarea-wrap">
-             <textarea v-model="personIntro" placeholder="请填写学历、资质、经历、特长爱好等信息~"></textarea>
-           </div>
-      </div>
-        <!-- 图片介绍 -->
-      <div class="edit-panel common-panel">
-          <div class="panel-title">
-             <h4>图片介绍</h4>
-          </div>
-          <div class="img-list">
-            <img class="add-img-btn" src="../../static/add_img.png" alt="">
-            <div class="img-item">
-              <img src="../../static/timg.jpeg"  alt="">
-              <p class="edit-img">
-                <span class="iconfont icon-3"></span> 
-              </p>
-            </div>
-        
-          </div>
-      </div>
+
     </div>
   
     </v-scroll>
+    <time-picker :show.sync="timePickerShow" @submite="submitTime" :type="timePickerType"></time-picker>
     <div class="btn-wrapper position-bottom" v-show="currentTab == 0">
       <p class="btn btn-green btn-large" @click="toSaveBase">保存</p>
     </div>
@@ -139,10 +166,12 @@
 <script>
 import T from '../tool/tool'
 import Scroll  from '../components/Scroll.vue'
+import Picker from '../components/timePicker.vue';
 export default {
   name: 'ExpertInfo',
   components:{
-   'v-scroll': Scroll
+   'v-scroll': Scroll,
+   'time-picker': Picker
   },
   data () {
     return {
@@ -162,6 +191,16 @@ export default {
       wxAccount:'',
       zfbAccount:'',
       personIntro:'',
+
+      timePickerShow:false,
+      timePickerType:0,
+      currentEditNum:0,
+      time1:'',
+      time2:'',
+      time3:'',
+      time4:'',
+      time5:'',
+      time6:'',
     }
   },
   methods:{
@@ -182,12 +221,43 @@ export default {
     changeSubSkill(num){
       this.subSkill = num;
     },
+    showTimePicker(type,num){
+      this.currentEditNum = num;
+      this.timePickerType = type;
+      console.log(this.timePickerType);
+      this.timePickerShow = true;
+    },
+    submitTime(h,m){
+      let result = h + ':' + m;
+      switch(this.currentEditNum){
+        case 1:
+          this.time1 = result;
+          break;
+        case 2:
+          this.time2 = result;
+          break;
+        case 3:
+          this.time3 = result;
+          break;
+        case 4:
+          this.time4 = result;
+          break;
+        case 5:
+          this.time5 = result;
+          break;
+        case 6:
+          this.time6 = result;
+          break;
+      }  
+      console.log(h,m)
+    },
     toSaveBase(){
       this.$router.go(-1);
     },
     toSaveIntro(){
       this.$router.go(-1);
     }
+
   },
   mounted(){
    
@@ -272,6 +342,22 @@ export default {
     border-color: #55cbc4;
   }
 
+  .choose-open-time-panel .form-input{
+    font-size: 14px;
+  }
+  .choose-open-time-panel .form-input .label{
+    width: auto;
+  }
+  .choose-open-time-panel .form-input .time-picker-input{
+    min-width: 42px;
+    min-height: 19px;
+    border:1px solid #eee;
+    margin:0 10px;
+    padding:11px 20px;
+  }
+  .choose-open-time-panel .form-input .time-picker-input.grey{
+    color: #aaa;
+  }
 
   .intro-form{
   

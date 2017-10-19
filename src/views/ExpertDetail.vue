@@ -37,15 +37,15 @@
           <div class="open-time-content">
              <ul class="open-time-items">
               <li>
-                <p>上午：</p>
+                <p>上午</p>
                 <p>08:00-11:00</p>
               </li>
               <li>
-                <p>下午：</p>
+                <p>下午</p>
                 <p>14:00-17:00</p>
               </li>
               <li>
-                <p>晚上：</p>
+                <p>晚上</p>
                 <p>19:00-22:00</p> 
               </li>
              </ul>
@@ -233,11 +233,11 @@ export default {
 }
 .open-time-panel .open-time-items li{
   flex: 1;
-  padding-left:10px;
+  padding-left:15px;
 
 }
 .open-time-panel .open-time-items li+li{
-  border-left: 1px dashed #ccc;
+  border-left: 1px solid #e6e6e6;
 }
 
 
@@ -245,8 +245,12 @@ export default {
   display: flex;
   justify-content: space-between;
 }
+.expert-dynamic li{
+  flex: 1;
+
+}
 .expert-dynamic li+li{
-  padding-left: 10px;
+  padding-left: 15px;
   border-left:  1px solid #e6e6e6;
 }
 .expert-dynamic li .iconfont{

@@ -154,7 +154,6 @@ export default {
       }
     },
     showTimePicker(type){
-      
       this.timePickerType = type;
       console.log(this.timePickerType);
       this.timePickerShow = true;
