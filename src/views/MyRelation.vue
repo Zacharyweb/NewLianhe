@@ -79,7 +79,7 @@ export default {
     submitModal(){
       var obj = {};
       obj.name = this.newName;
-      obj.avatarImg = '../../static/timg.jpeg';
+      obj.avatarImg = 'https://s1.ax1x.com/2017/10/16/JQZeP.jpg';
       obj.mobile = this.newMobile;
       this.notResignUser = [...this.notResignUser,obj];
       this.showModal = false;
