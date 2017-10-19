@@ -2,8 +2,8 @@
   <div>
 
     <div class="info-tabs">
-      <p class="tab-item base-tab" :class="{'active':currentTab == 0}" @click="currentTab = 0">基本信息</p>
-      <p class="tab-item inrto-tab" :class="{'active':currentTab == 1}" @click="currentTab = 1">专家信息</p>
+      <p class="tab-item base-tab" :class="{'active':currentTab == 0}" @click="chageCurrentTab(0)">基本信息</p>
+      <p class="tab-item inrto-tab" :class="{'active':currentTab == 1}" @click="chageCurrentTab(1)">专家信息</p>
     </div>
     <v-scroll :on-refresh="onRefresh"  :bottom="48" :top="60">
     <!-- 基本资料 -->
@@ -208,6 +208,10 @@ export default {
       setTimeout(()=>{
         done();
       },1000)
+    },
+    chageCurrentTab(num){
+      this.currentTab = num;
+      document.body.scrollTop = 0;
     },
     chageExperType(num){
       this.experType = num;
