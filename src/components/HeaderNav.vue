@@ -38,13 +38,13 @@ export default {
     background-color: #55cbc4;
     transform: translateZ(100px);
     display: flex;
-    align-items: center;
   }
   .header-nav h2{
     flex:1;
     text-align: center;
     font-size: 18px;
     color:#fff;
+    padding-top: 13px;
   }
   .header-nav .return-icon{
     position: absolute;

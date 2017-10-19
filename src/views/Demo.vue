@@ -17,17 +17,13 @@
           :max-file-size="5242880"
           text="你好啊啊啊啊啊"
           :cropBtn="cropBtn"
-          url="http://101.198.151.190/api/upload.php" >
-          <!-- <p style="color:#333;">点击我上传</p> -->
+          url="http://192.168.1.198:3001/upload" >
+      <!--     <p style="color:#333;">点击我上传</p> -->
         </vue-core-image-upload>
       </div>
       <category-bar :tab-bar-arr='tabBarArr'></category-bar>
       
       <div @click="showTimePicker(1)">选择上午</div>
-
-       <div @click="showTimePicker(2)">选择下午</div>
-
-        <div @click="showTimePicker(3)">选择晚上</div>
 
      
       <time-picker :show.sync="timePickerShow" @submite="submitTime" :type="timePickerType"></time-picker>
