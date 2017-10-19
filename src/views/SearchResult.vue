@@ -25,7 +25,7 @@
                <div class="expert-info">
                  <p class="expert-msg text-ellipsis">
                    <b class="expert-name">专家02</b>
-                   <span class="status-online">休息中</span>
+                   <span class="status-outline">休息中</span>
                  </p>
                  <p class="expert-tags text-ellipsis">
                   杭州市江干区国家税务局科长
