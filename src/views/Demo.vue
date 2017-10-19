@@ -22,10 +22,17 @@
         </vue-core-image-upload>
       </div>
       <category-bar :tab-bar-arr='tabBarArr'></category-bar>
+      
+      <div @click="showTimePicker(1)">选择上午</div>
 
+       <div @click="showTimePicker(2)">选择下午</div>
 
+        <div @click="showTimePicker(3)">选择晚上</div>
 
-      <v-scroll :on-refresh="onRefresh" :on-infinite="onInfinite" :bottom="60" :top="215">
+     
+      <time-picker :show.sync="timePickerShow" @submite="submitTime" :type="timePickerType"></time-picker>
+
+      <v-scroll :on-refresh="onRefresh" :on-infinite="onInfinite" :bottom="60" :top="360">
          <p class="btn btn-large btn-red" @click="showAlert">Alert测试</p>
          <p class="btn btn-large btn-red" @click="showConfirm">Confirm测试</p>
          <p class="btn btn-large btn-red" @click="showToast">吐司测试</p>
@@ -47,6 +54,7 @@ import CategoryBar  from '../components/CategoryBar.vue'
 import Scroll  from '../components/Scroll.vue'
 import BottomNav from '../components/BottomNav.vue'
 
+import Picker from '../components/timePicker.vue';
 
 import VueCoreImageUpload from 'vue-core-image-upload'
 import T from '../tool/tool'
@@ -59,7 +67,8 @@ export default {
     'category-bar':CategoryBar,
     'bottom-nav': BottomNav,
     'header-nav': HeaderNav,
-     'vue-core-image-upload': VueCoreImageUpload,
+    'vue-core-image-upload': VueCoreImageUpload,
+    'time-picker': Picker
 
   },
    data () {
@@ -76,7 +85,13 @@ export default {
       focusOnSeach: true,
        src: 'http://img1.vued.vanthink.cn/vued0a233185b6027244f9d43e653227439a.png',
        data:{},
-       cropBtn: {ok:'确定选中','cancel':'取消'}
+       cropBtn: {ok:'确定选中','cancel':'取消'},
+
+
+       timePickerShow:false,
+       timePickerType:0
+
+
     }
   },
   methods:{
@@ -137,7 +152,18 @@ export default {
       if (res.errcode == 0) {
         this.src = res.data.src;
       }
+    },
+    showTimePicker(type){
+      
+      this.timePickerType = type;
+      console.log(this.timePickerType);
+      this.timePickerShow = true;
+    },
+
+    submitTime(h,m){
+      console.log(h,m)
     }
+  
   
   },
   mounted(){
@@ -169,7 +195,7 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style>
 h1, h2 {
   font-weight: normal;
 }
@@ -212,4 +238,9 @@ h2{
 .index-notice .todetail-icon{
   font-size: 24px;
 }
+
+
+
+
+
 </style>

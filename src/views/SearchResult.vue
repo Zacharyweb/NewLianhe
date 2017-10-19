@@ -9,11 +9,11 @@
                <img class="expert-avatar" src="../../static/timg.jpeg">
                <div class="expert-info">
                  <p class="expert-msg text-ellipsis">
-                   <b class="expert-name">威震天</b>
+                   <b class="expert-name">专家01</b>
                    <span class="status-online">营业中</span>
                  </p>
                  <p class="expert-tags text-ellipsis">
-                  幽谷数据有限公司著名导弹专家
+                  杭州市滨江区国家税务局副局长
                  </p>
                  <p class="expert-topic text-ellipsis">
                   擅长领域XXXXXXXXXXXXX
@@ -24,11 +24,11 @@
                <img class="expert-avatar" src="../../static/timg.jpeg">
                <div class="expert-info">
                  <p class="expert-msg text-ellipsis">
-                   <b class="expert-name">威震天</b>
-                   <span class="status-online">营业中</span>
+                   <b class="expert-name">专家02</b>
+                   <span class="status-online">休息中</span>
                  </p>
                  <p class="expert-tags text-ellipsis">
-                  幽谷数据有限公司著名导弹专家
+                  杭州市江干区国家税务局科长
                  </p>
                  <p class="expert-topic text-ellipsis">
                   擅长领域XXXXXXXXXXXXX

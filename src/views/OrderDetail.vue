@@ -336,6 +336,7 @@ export default {
   },
   mounted(){
      console.log(this.$route.params);
+     document.title = '订单详情';
      if(this.$route.params.flag == 1){
         this.isCustomer =false;
      }

@@ -24,15 +24,6 @@
           <h4 class="expert-name">专家姓名</h4>
           <p class="expert-tags">专家任职机构职位个人标签</p>
         </div>
-    <!--     <div class="open-time-panel common-panel">
-          <p class="open-time-title"><span class="iconfont icon-yingyeshijianzidingyi"></span>营业时间</p>
-          <p class="open-time-item">周一至周五18:00-22:00</p>
-          <p class="open-time-item">双休日10:00-22:00</p>
-        </div>   -->
-
-
-
-
         <ul class="expert-dynamic common-panel">
           <li><span class="iconfont icon-pingfen1"></span>评分：10</li>
           <li><span class="iconfont icon-people"></span>16人约过</li>
@@ -44,11 +35,20 @@
              <h4><span class="iconfont icon-yingyeshijianzidingyi"></span>营业时间</h4>
           </div>
           <div class="open-time-content">
-             <p class="open-time-item">
-              <span>周一至周五18:00-22:00</span>
-              <span style="padding-left:20px;">双休日10:00-22:00</span>
-             </p>
-     
+             <ul class="open-time-items">
+              <li>
+                <p>上午：</p>
+                <p>08:00-11:00</p>
+              </li>
+              <li>
+                <p>下午：</p>
+                <p>14:00-17:00</p>
+              </li>
+              <li>
+                <p>晚上：</p>
+                <p>19:00-22:00</p> 
+              </li>
+             </ul>
           </div>
         </div>
         <!-- 评价 -->
@@ -90,7 +90,7 @@
           <div class="panel-title">
              <h4><span class="iconfont icon-icon3"></span>专家介绍</h4>
           </div>
-          <p class="intro-content" :class="{'text-ellipsis2':!allIntroShow}">这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍</p>
+          <p class="intro-content" :class="{'text-ellipsis2':!allIntroShow}">这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍这是自我介绍</p>
           <p class="to-see-all" v-show="!allIntroShow">
             <span class="to-see-all-btn" @click="allIntroShow = true">展开查看全部</span>
           </p>
@@ -226,15 +226,20 @@ export default {
 .open-time-panel .open-time-content{
   
 }
-.open-time-panel .open-time-item{
-  padding-left: 10px;
+.open-time-panel .open-time-items{
   margin-top: 12px;
   display: flex;
+
 }
-.open-time-panel .open-time-item{
-  color: #666;
+.open-time-panel .open-time-items li{
   flex: 1;
+  padding-left:10px;
+
 }
+.open-time-panel .open-time-items li+li{
+  border-left: 1px dashed #ccc;
+}
+
 
 .expert-dynamic{
   display: flex;

@@ -136,6 +136,7 @@ export default {
     transform: translateX(100%);
   }
   .mine-msg .mine-status{
+      padding-top: 5px;
       display: flex;
       align-items: center;
       color: #666;
@@ -146,11 +147,7 @@ export default {
       margin-right: 5px;
   }
   .mine-msg .mine-status .status-item{
-     font-size: 15px;
-     margin-right: 15px;
-     line-height: 24px;
-     padding: 0 8px;
-     border-radius: 2px;
+    
   }
   .router-bar{
     border-bottom: 1px solid #e6e6e6;

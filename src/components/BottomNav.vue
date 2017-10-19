@@ -4,7 +4,7 @@
       <span class="iconfont icon-zhuye"></span>
       <p class="nav-name">首页</p>
     </li>
-    <li class="nav-item" :class="{'active': navIndex == 1}" @click="changeNav('/consult','咨询')">
+    <li class="nav-item" :class="{'active': navIndex == 1}" @click="changeNav('/consult','咨询列表')">
       <span class="iconfont icon-faxian"></span>
       <p class="nav-name">咨询</p>
     </li>
@@ -31,6 +31,10 @@ export default {
   methods:{
     changeNav(path,title){
       document.title = title;
+      if(path == '/consult' && this.$store.state.identity !=1){
+          this.$router.push('/consult/expert');
+          return;
+      }
       this.$router.push(path);
     }
  

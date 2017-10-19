@@ -200,7 +200,7 @@ export default {
     }
   },
   mounted(){
-   
+   document.title="咨询室";
   },
   destroyed(){
     

@@ -3,17 +3,25 @@
     <div class="step-line">
       <div class="step-item">
         <span class="step-fill" :class="{'stretch':currentStep >= 1}"></span>
-        <span class="circle-icon" :class="{'current':currentStep == 1,'prev':currentStep > 1}"></span>
+        <span class="circle-icon" 
+              :class="{'current':currentStep == 1,'prev':currentStep > 1}"
+              @click="setStep('',1)"
+        ></span>
         <p class="step-name">基本信息</p>
       </div>
       <div class="step-item">
         <span class="step-fill" :class="{'stretch':currentStep >= 2}"></span>
-        <span class="circle-icon" :class="{'current':currentStep == 2,'prev':currentStep > 2}"></span>
+        <span class="circle-icon" 
+              :class="{'current':currentStep == 2,'prev':currentStep > 2}"
+              @click="setStep('',2)"
+        ></span>
         <p class="step-name">专家信息</p>
       </div>
       <div class="step-item">
         <span class="step-fill" :class="{'stretch':currentStep >= 3}"></span>
-        <span class="circle-icon" :class="{'current':currentStep == 3,'prev':currentStep > 3}"></span>
+        <span class="circle-icon" 
+              :class="{'current':currentStep == 3,'prev':currentStep > 3}"
+        ></span>
         <p class="step-name">成为专家</p>
       </div>
       <div class="step-item">
@@ -45,6 +53,9 @@ export default {
     },
     setStep(type,num){
       this.currentStep = num;
+      if(num == 1){
+        this.$router.push('/upgrade')
+      }
       if(num == 2){
         this.$router.push('/upgrade/step2')
       }

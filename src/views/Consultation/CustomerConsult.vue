@@ -138,6 +138,7 @@ export default {
   },
   mounted(){
     T.postConsultTab(0);
+    document.title = '咨询列表';
   }
 }
 </script>

@@ -80,7 +80,7 @@ export default {
       }
       
       T.checkFirstPageData(this.subCateArr);
-      document.title = this.$route.query.name;
+      document.title = this.$route.query.name+'专家';
       
       
   }
