@@ -5,7 +5,7 @@
       <p class="tab-item base-tab" :class="{'active':currentTab == 0}" @click="chageCurrentTab(0)">基本信息</p>
       <p class="tab-item inrto-tab" :class="{'active':currentTab == 1}" @click="chageCurrentTab(1)">专家信息</p>
     </div>
-    <v-scroll :on-refresh="onRefresh"  :bottom="48" :top="60">
+
     <!-- 基本资料 -->
     <div class="base-form common-panel" v-show="currentTab == 0">
       <p class="base-form-item">
@@ -150,7 +150,7 @@
 
     </div>
   
-    </v-scroll>
+ 
     <time-picker :show.sync="timePickerShow" @submite="submitTime" :type="timePickerType"></time-picker>
     <div class="btn-wrapper position-bottom" v-show="currentTab == 0">
       <p class="btn btn-green btn-large" @click="toSaveBase">保存</p>
@@ -228,7 +228,6 @@ export default {
     showTimePicker(type,num){
       this.currentEditNum = num;
       this.timePickerType = type;
-      console.log(this.timePickerType);
       this.timePickerShow = true;
     },
     submitTime(h,m){
@@ -270,6 +269,11 @@ export default {
 </script>
 <style scoped>
   .info-tabs{
+    position: fixed;
+    top:0;
+    left:0;
+    width: 100%;
+    z-index: 12;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -296,8 +300,8 @@ export default {
   }
   .base-form{
     padding:20px;
-    padding-top: 5px;
-    padding-bottom: 0;
+    padding-top: 65px;
+    padding-bottom: 50px;
   }
   .base-form .base-form-item{
     display:flex;
@@ -364,7 +368,8 @@ export default {
   }
 
   .intro-form{
-  
+     padding-top: 65px;
+    padding-bottom: 50px;
   }
   .intro-form .common-panel .panel-title {
     border: none;
