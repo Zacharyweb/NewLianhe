@@ -83,19 +83,20 @@
              <textarea v-model="personIntro" placeholder="请填写学历、资质、经历、特长爱好等信息~"></textarea>
            </div>
       </div>
-        <!-- 图片介绍 -->
+      <!-- 图片介绍 -->
       <div class="edit-panel common-panel">
           <div class="panel-title">
              <h4>图片介绍</h4>
           </div>
           <div class="img-list">
-            <img class="add-img-btn" src="../../static/add_img.png" alt="">
-            <div class="img-item">
-              <img src="../../static/timg.jpeg"  alt="">
+            <img class="add-img-btn" src="../../static/add_img.png" @click="uploadImg" v-if="imgIntroList.length < 5">
+            <div class="img-item" v-for="(item,index) in imgIntroList">
+              <img :src="item"  alt="">
               <p class="edit-img">
-                <span class="iconfont icon-3"></span> 
+                <span class="iconfont icon-3" @click="deleteImg(index)"></span> 
               </p>
             </div>
+           <input type="file" class="upload-btn" ref="uploadBtn" @change="uploadImgChange($event)" >
           </div>
       </div>
       <!-- 营业时间 -->
@@ -201,6 +202,8 @@ export default {
       time4:'',
       time5:'',
       time6:'',
+
+      imgIntroList:[]
     }
   },
   methods:{
@@ -259,6 +262,19 @@ export default {
     },
     toSaveIntro(){
       this.$router.go(-1);
+    },
+
+    uploadImg(){
+      let uploadBtn = this.$refs.uploadBtn;
+      uploadBtn.click();
+    },
+    uploadImgChange(e){
+      let file = e.target.files[0];
+      let localUrl = URL.createObjectURL(file);
+      this.imgIntroList.push(localUrl);
+    },
+    deleteImg(index){
+      this.imgIntroList.splice(index,1);
     }
 
   },

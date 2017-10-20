@@ -17,7 +17,7 @@
           :max-file-size="5242880"
           text="你好啊啊啊啊啊"
           :cropBtn="cropBtn"
-          url="http://192.168.1.198:3001/upload" >
+          url="http://192.168.1.198:3000/album/01/" >
       <!--     <p style="color:#333;">点击我上传</p> -->
         </vue-core-image-upload>
       </div>
@@ -145,6 +145,7 @@ export default {
       this.$router.push('search')
     },
     imageuploaded(res) {
+      console.log(res);
       if (res.errcode == 0) {
         this.src = res.data.src;
       }
