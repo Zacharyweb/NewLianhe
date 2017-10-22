@@ -1,7 +1,7 @@
 <template>
   <div>
       <v-scroll :on-refresh="onRefresh"  :bottom="48" :top="0" :no-more-text="'没有更多评论啦~'">
-        <!-- 政策解读 -->
+
         <div class="common-panel">
           <div class="panel-title">
              <h4><span class="iconfont icon-guanxi"></span>我的关系</h4>
@@ -28,7 +28,16 @@
              </li>
           </ul>
         </div>
-        <p class="add-relation-tips">添加关系人，当对方注册“联合咨询”时，将向对方推荐您的资料。</p>
+        <!--  <p class="add-relation-tips">添加关系人，当对方注册“联合咨询”时，将向对方推荐您的资料。</p> -->
+        <!-- 普通用户 -->
+        <p class="add-relation-tips" v-if="$store.state.identity == 0">       
+           添加关系户，对方登录时，将向对方推送您分享过评价的专家。
+        </p>
+        <!-- 专家用户 -->
+        <p class="add-relation-tips" v-if="$store.state.identity == 1">       
+           添加关系户，对方登录时，将向对方推送您和您分享过评价的专家。
+        </p>
+
       </v-scroll>
       <div class="add-relation-modal" :class="{'show':showModal}">
         <h5>联系人信息</h5>

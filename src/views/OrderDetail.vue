@@ -25,12 +25,12 @@
       <div class="step-item">
         <span class="step-fill" :class="{'stretch':status >= 3}"></span>
         <span class="circle-icon" :class="{'current':status == 3,'prev':status > 3}"></span>
-        <p class="step-name bottom">评价反馈</p>
+        <p class="step-name bottom">订单完成</p>
       </div>
       <div class="step-item">
         <span class="step-fill" :class="{'stretch':status >= 4}"></span>
         <span class="circle-icon" :class="{'current':status == 4,'prev':status > 4}"></span>
-        <p class="step-name top">订单完成</p>
+        <p class="step-name top">评价反馈</p>
       </div>
 
       <div class="step-item">
@@ -53,7 +53,7 @@
                :on-end="countEnd" 
             />
         </div>
-        <p class="status-tips" v-if="status ==0">专家超时未确认，则订单自动关闭。</p>
+        <p class="status-tips" v-if="status ==0">专家超过5分钟未确认，则订单自动关闭。</p>
         <div class="btn-area" v-if="status ==0 && !isCustomer">
           <span class="btn btn-green btn-small" @click="agreeOrder($route.params.orderNo)">同意</span>
           <span class="btn btn-green-outline btn-small" @click="refuseOrder($route.params.orderNo)">拒绝</span>
@@ -114,26 +114,28 @@
         <p class="order-msg-item">订单编号：<span>{{$route.params.orderNo}}</span></p>
       </div>
       <div class="bottom-block">
-        <div class="detail-msg-item" v-if="status >=-3">
+        <div class="detail-msg-item" v-if="status >=-3 && !isCustomer">
           <div class="msg-content">
             <span class="iconfont icon-yonghu1"></span>
             用户名称：客户名称
           </div>
         </div>
 
-        <div class="detail-msg-item" v-if="status >=-3">
+        <div class="detail-msg-item" v-if="status >=-3 && isCustomer">
+          <div class="msg-content">
+            <span class="iconfont icon-zhuanjiaku"></span>
+            专家名称：专家名称
+          </div>
+        </div>
+
+        <div class="detail-msg-item" v-if="status >=-3 ">
           <div class="msg-content">
             <span class="iconfont icon-shiduan"></span>
             咨询时段：2节/30分钟
           </div>
         </div>
 
-        <div class="detail-msg-item" v-if="status >=-3">
-          <div class="msg-content">
-            <span class="iconfont icon-zhuanjiaku"></span>
-            专家名称：专家名称
-          </div>
-        </div>
+        
 
         <div class="detail-msg-item" v-if="status >=-3">
           <h6 class="msg-title">
@@ -250,7 +252,7 @@ export default {
   },
   data () {
     return {
-        counts:15,
+        counts:300,
         isCustomer:true,
         orderStatusPanelShow:false,
         statusTable:['等待确认','等待支付','支付完成','完成咨询','已评价','完成结算'],

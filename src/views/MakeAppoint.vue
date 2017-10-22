@@ -2,10 +2,10 @@
   <div class="make-appoint">
     <div class="base-form common-panel">
       <div class="panel-title">
-         <h4><span class="iconfont icon-wenti"></span>请简要描述您的问题：</h4>
+         <h4><span class="iconfont icon-wenti"></span>问题：</h4>
       </div>
       <div class="textarea-wrap">
-        <textarea v-model="problem" placeholder="可描述自己需要解答的问题"></textarea>
+        <textarea v-model="problem" placeholder="请具体描述您需要咨询的问题"></textarea>
       </div>
     </div>
     <div class="common-panel appoint-cost-panel">
@@ -13,7 +13,7 @@
          <h4><span class="iconfont icon-jine"></span>费用</h4>
       </div>
       <div class="panel-content">
-        <p class="appoint-cost-tips">咨询以节为收费单元，每节30分钟，请选择您需要的节数。</p>
+        <p class="appoint-cost-tips">咨询以节为收费单元，每节30分钟。在第一次使用时，建议先选择一节，以后再按需购买，咨询费按实际使用节数结算，未使用的节数原路返回。</p>
         <div class="appint-class-input">
            <span class="iconfont icon-jianshao1" @click="()=>{ this.classNum--}"></span>
            <input type="text" v-model="classNum">

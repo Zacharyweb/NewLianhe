@@ -102,7 +102,7 @@
       </v-scroll>
       <div class="appoint-area position-bottom">
         <div class="appoint-cost">100元/节</div>
-        <div class="appoint-submit" @click="toAppointment">立即预约</div>
+        <div class="appoint-submit" @click="toAppointment">发起咨询</div>
       </div>
       
   </div>
