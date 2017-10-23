@@ -43,7 +43,7 @@ export default {
   },
   data () {
     return {
-      statusTable:['等待确认','等待支付','支付完成','完成咨询','已评价','完成结算'],
+      statusTable:['等待确认','等待支付','在线咨询','咨询完成','评价反馈','评价完成'],
       orderList:[
         {
           status:0,

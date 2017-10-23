@@ -18,11 +18,11 @@
       </p>
       <p class="base-form-item">
           <span class="label">公司/机关<i class="require-icon">*</i>：</span>
-          <input type="tel" maxlength="30" placeholder="请输入任职机构以及有关部门科室" v-model="company">
+          <input type="tel" maxlength="30" placeholder="请输入任职机构及有关部门科室" v-model="company">
       </p>
       <p class="base-form-item">
           <span class="label">职位/专业<i class="require-icon">*</i>：</span>
-          <input type="tel" maxlength="30" placeholder="请输入任职职位或所从事的专业" v-model="position">
+          <input type="tel" maxlength="30" placeholder="请输入职位或所从事的专业" v-model="position">
       </p>
       <div class="tags-item">
           <p class="label">专家分类<i class="require-icon">*</i>：</p>
@@ -30,6 +30,11 @@
             <span class="tag-item" :class="{'active':experType == 1}" @click="chageExperType(1)">公开专家</span>
             <span class="tag-item" :class="{'active':experType == 2}" @click="chageExperType(2)">关系户专家</span>
           </p>
+          <div class="select-tips">
+            <span>注</span>
+            <p>公开专家—为所有用户服务</p>
+            <p>关系户专家—只为关系户服务</p>
+          </div>
       </div>
       <div class="tags-item">
           <p class="label">工作经验<i class="require-icon">*</i>：</p>
@@ -123,6 +128,10 @@
             <span class="devide-line">-</span>
             <span class="time-picker-input" :class="{'grey':!time6}" @click="showTimePicker(3,6)">{{time6 || '请选择'}}</span>
            </div>
+          <div class="select-tips">
+            <span>注</span>
+            <p>不再营业时，请回到这里删除营业时间。</p>
+          </div>
            
       </div>
       <!-- 咨询费用 -->
@@ -338,6 +347,26 @@ export default {
     padding: 15px 5px;
 
   }
+  .select-tips{
+    font-size: 12px;
+    color: #999;
+    margin-top: 10px;
+    padding-left: 25px;
+    position: relative;
+  }
+  .select-tips span{
+    position: absolute;
+    top:0;
+    left:0;
+    color: #fff;
+    background-color: #55cbc4;
+    padding: 2px 4px;
+    border-radius: 2px;
+
+  }
+  .select-tips p{
+    padding-top: 5px;
+  }
   .base-form .tags-item+.tags-item{
     border-top: 1px solid #e6e6e6;
 
@@ -462,5 +491,8 @@ export default {
   }
   .btn-wrapper{
     width: 100%;
+  }
+  .upload-btn{
+    display: none;
   }
 </style>

@@ -19,13 +19,13 @@
       <div class="step-item">
         <span class="step-fill" :class="{'stretch':status >= 2}"></span>
         <span class="circle-icon" :class="{'current':status == 2,'prev':status > 2}"></span>
-        <p class="step-name top">问题咨询</p>
+        <p class="step-name top">在线咨询</p>
       </div>
   
       <div class="step-item">
         <span class="step-fill" :class="{'stretch':status >= 3}"></span>
         <span class="circle-icon" :class="{'current':status == 3,'prev':status > 3}"></span>
-        <p class="step-name bottom">订单完成</p>
+        <p class="step-name bottom">咨询完成</p>
       </div>
       <div class="step-item">
         <span class="step-fill" :class="{'stretch':status >= 4}"></span>
@@ -61,7 +61,16 @@
 
         <p class="status-tips" v-if="status == -2">专家超时未确认或拒绝此次咨询，订单关闭。</p>
         <p class="status-tips" v-if="status == -3">客户取消本次咨询，订单关闭。</p>
+
         <p class="status-tips" v-if="status ==1 && isCustomer">专家已同意接受您的咨询请求，马上完成支付即可开始咨询~</p>
+        <p class="status-tips" v-if="status ==1 && !isCustomer">您已同意接受此次的咨询，请等待客户支付咨询费用~</p>
+
+
+        <p class="status-tips" v-if="status ==2 && isCustomer">您已支付咨询费用，进入咨询室即可与专家进行交流。</p>
+        <p class="status-tips" v-if="status ==2 && !isCustomer">客户已支付咨询费用，进入咨询室即可与客户进行交流。</p>
+
+  <!--       <p class="status-tips" v-if="status ==2 && isCustomer">您已支付咨询费用，进入咨询室即可与专家进行交流。</p>
+        <p class="status-tips" v-if="status ==2 && !isCustomer">客户已支付咨询费用，进入咨询室即可与客户进行交流。</p> -->
 
       
         <div class="btn-area" v-if="status == -2">
@@ -117,7 +126,7 @@
         <div class="detail-msg-item" v-if="status >=-3 && !isCustomer">
           <div class="msg-content">
             <span class="iconfont icon-yonghu1"></span>
-            用户名称：客户名称
+            客户名称：客户名称
           </div>
         </div>
 
@@ -255,7 +264,7 @@ export default {
         counts:300,
         isCustomer:true,
         orderStatusPanelShow:false,
-        statusTable:['等待确认','等待支付','支付完成','完成咨询','已评价','完成结算'],
+        statusTable:['等待确认','等待支付','在线咨询','咨询完成','评价反馈','评价完成'],
         status:this.$route.params.status*1
     }
   },

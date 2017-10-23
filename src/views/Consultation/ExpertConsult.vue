@@ -45,7 +45,9 @@ export default {
   data () {
     return {
       currentIdentity:null,
-      statusTable:['等待确认','等待支付','支付完成','完成咨询','已评价'],
+      statusTable:['等待确认','等待支付','在线咨询','咨询完成','评价反馈','已评价'],
+
+
       orderList:[
         {
           status:0,

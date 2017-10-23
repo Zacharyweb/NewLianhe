@@ -21,8 +21,14 @@
         <div class="swiper-pagination" slot="pagination"></div>
       </swiper>
         <div class="expert-msg">
-          <h4 class="expert-name">专家姓名</h4>
+          <h4 class="expert-name">
+            专家姓名
+            <span class="expert-field">税务</span>
+          </h4>
+          <p class="expert-subfield">细分领域：个人所得税
+          </p>
           <p class="expert-tags">专家任职机构职位个人标签</p>
+          
         </div>
         <ul class="expert-dynamic common-panel">
           <li><span class="iconfont icon-pingfen1"></span>评分：10</li>
@@ -98,7 +104,17 @@
             <span class="hide-all-btn" @click="allIntroShow = false" >收起介绍</span>
           </p>
         </div>
-    
+      <div class="consult-process">
+        <h4>咨询流程</h4>
+        <p>1.发起咨询：提交问题和咨询节数（每节30分钟）。</p>
+        <p>2.等待确认：专家5分钟内确认能否提供此次咨询。</p>
+        <p>3.支付费用：按购买的节数通过支付宝或微信支付。</p>
+        <p>4.在线咨询：进入咨询室通过语音和文字咨询专家。</p>
+        <p>5.咨询完成：系统进行费用结算，并提供发票申请。</p>
+        <p>6.评价反馈：对咨询进行评价，与关系户分享评价。</p>
+        <p class="other-tips">咨询结束后，用户可随时查看本次咨询的详情。对本次咨询服务不满意的，可申请无忧退款。</p>
+      </div>
+
       </v-scroll>
       <div class="appoint-area position-bottom">
         <div class="appoint-cost">100元/节</div>
@@ -211,12 +227,36 @@ export default {
   background-color: #fff;
   border-bottom: 1px solid #e6e6e6;
   margin-bottom: 10px;
+  
 }
+
 .expert-msg .expert-name{
+  display: inline-block;
+  margin-left: -50px;
   font-size: 18px;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 4px;
+  position: relative;
 }
+.expert-msg .expert-name .expert-field{
+    white-space: nowrap;
+    border-radius: 4px;
+    font-size: 12px;
+    padding: 2px 5px;
+    background-color: #e9ae6a;
+    color: #fff;
+    position: absolute;
+    top: 0;
+    right: -10px;
+    transform: translateX(100%);
+}
+.expert-subfield{
+  margin-bottom: 4px;
+  font-size: 12px;
+  color: #999;
+}
+
+
 .open-time-panel.common-panel{
   padding-top: 8px;
 }
@@ -345,6 +385,29 @@ export default {
   font-size: 14px;
   color: #999;
 }
+
+.consult-process{
+  background-color: #fff;
+  border-top: 1px solid #e6e6e6;
+  border-bottom: 1px solid  #e6e6e6;
+  padding:20px 25px;
+}
+.consult-process h4{
+  font-size: 16px;
+  text-align: center;
+  padding-bottom: 10px;
+}
+.consult-process p{
+  font-size: 14px;
+  line-height: 1.5;
+  padding-top: 4px;
+}
+
+.consult-process .other-tips{
+  padding-top: 15px;
+  font-size: 13px;
+  color: #999;
+}
 .appoint-area{
   width: 100%;
   display: flex;
@@ -366,4 +429,7 @@ export default {
     background-color: #fff;
     color: #55cbc4;
 }
+
+
+
 </style>
