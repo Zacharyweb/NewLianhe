@@ -30,6 +30,11 @@
             <span class="tag-item" :class="{'active':experType == 1}" @click="chageExperType(1)">公开专家</span>
             <span class="tag-item" :class="{'active':experType == 2}" @click="chageExperType(2)">关系户专家</span>
           </p>
+          <div class="select-tips">
+            <span>注</span>
+            <p>公开专家—为所有用户服务</p>
+            <p>关系户专家—只为关系户服务</p>
+          </div>
       </div>
       <div class="tags-item">
           <p class="label">工作经验<i class="require-icon">*</i>：</p>
@@ -114,6 +119,26 @@ export default {
 }
 </script>
 <style scoped>
+ .select-tips{
+    font-size: 12px;
+    color: #999;
+    margin-top: 10px;
+    padding-left: 25px;
+    position: relative;
+  }
+  .select-tips span{
+    position: absolute;
+    top:0;
+    left:0;
+    color: #fff;
+    background-color: #55cbc4;
+    padding: 2px 4px;
+    border-radius: 2px;
+
+  }
+  .select-tips p{
+    padding-top: 5px;
+  }
   .base-form{
     margin-top: 60px;
     padding:15px;
