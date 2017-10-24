@@ -33,31 +33,10 @@ export default {
       ],
       items1: [
         {
-          values: ['06', '07', '08', '09', '10', '11'],
-        }, 
-        {
-          values: ['00', '05', '10', '15', '20', '25', '30', 
-                   '35', '40', '45', '50', '55'],
+          values: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
         }
       ],
-      items2: [
-        {
-          values: ['12','13', '14', '15', '16', '17'],
-        }, 
-        {
-          values: ['00', '05', '10', '15', '20', '25', '30', 
-                   '35', '40', '45', '50', '55'],
-        }
-      ],
-      items3: [
-        {
-          values: ['18', '19', '20', '21', '22', '23'],
-        }, 
-        {
-          values: ['00', '05', '10', '15', '20', '25', '30', 
-                   '35', '40', '45', '50', '55'],
-        }
-      ],
+     
       hour:'00',
       minute:'00',
     }
@@ -97,15 +76,10 @@ export default {
       this.minute = m;
     },
     checkType(type){
+      // type 1 :星期几选择器  其他 时分秒选择器
       switch(type){
         case 1:
           this.items = this.items1;
-          break;
-        case 2:
-          this.items = this.items2;
-          break;
-        case 3:
-          this.items = this.items3;
           break;
         default:
           this.items = this.items0;

@@ -40,27 +40,19 @@
       <div class="common-panel choose-open-time-panel">
           <div class="panel-title">
              <h4>营业时间<span class="require-icon">*</span></h4>
+             <span class="add-open-time" @click="addOpenTime" v-if="openTimeArr.length < 7">+ 增加时段</span>
           </div>
-          <div class="form-input">
-            <span class="label">上午：</span>
-            <span class="time-picker-input" :class="{'grey':!time1}" @click="showTimePicker(1,1)">{{time1 || '请选择'}}</span>
+          <div class="form-input" v-for="(item,index) in openTimeArr">
+            <span class="time-picker-input" :class="{'grey':!item.weekDay}" @click="showTimePicker(1,index,1)">{{item.weekDay || '请选择'}}</span>
+            <span class="time-picker-input" :class="{'grey':!item.timeStart}" @click="showTimePicker(0,index,2)">{{item.timeStart || '请选择'}}</span>
             <span class="devide-line">-</span>
-            <span class="time-picker-input" :class="{'grey':!time2}" @click="showTimePicker(1,2)">{{time2 || '请选择'}}</span>
+            <span class="time-picker-input" :class="{'grey':!item.timeEnd}" @click="showTimePicker(0,index,3)">{{item.timeEnd || '请选择'}}</span>
+            <span class="iconfont icon-3" @click="deleteOpenTime(index)" v-if="openTimeArr.length > 1"></span>
           </div>
-          <div class="form-input">
-            <span class="label">下午：</span>
-            <span class="time-picker-input" :class="{'grey':!time3}" @click="showTimePicker(2,3)">{{time3 || '请选择'}}</span>
-            <span class="devide-line">-</span>
-            <span class="time-picker-input" :class="{'grey':!time4}" @click="showTimePicker(2,4)">{{time4 || '请选择'}}</span>
-            
+          <div class="select-tips">
+            <span>注</span>
+            <p>不再营业时，请回到这里删除营业时间。</p>
           </div>
-          <div class="form-input">
-            <span class="label">晚上：</span>
-            <span class="time-picker-input" :class="{'grey':!time5}" @click="showTimePicker(3,5)">{{time5 || '请选择'}}</span>
-            <span class="devide-line">-</span>
-            <span class="time-picker-input" :class="{'grey':!time6}" @click="showTimePicker(3,6)">{{time6 || '请选择'}}</span>
-              
-           </div>
       </div>
       <!-- 咨询费用 -->
       <div class="common-panel">
@@ -112,51 +104,54 @@ export default {
       zfbAccount:'',
       personIntro:'',
 
+      currentEditIndex:0,
       currentEditNum:0,
-      time1:'',
-      time2:'',
-      time3:'',
-      time4:'',
-      time5:'',
-      time6:'',
+      
+      openTimeArr:[
+          {weekDay:'',timeStart:'',timeEnd:''},
+      ],
+      
+ 
 
       imgIntroList:[]
     }
   },
   methods:{
-    showTimePicker(type,num){
+    showTimePicker(type,index,num){
+      this.currentEditIndex = index;
       this.currentEditNum = num;
       this.timePickerType = type;
-      console.log(this.timePickerType);
       this.timePickerShow = true;
     },
     submitTime(h,m){
-      let result = h + ':' + m;
+      let obj = this.openTimeArr[this.currentEditIndex];
+      let result;
+      if(this.timePickerType == 1){
+        result = h;
+      }else{
+        result = h + ':' + m;
+      }
+
       switch(this.currentEditNum){
         case 1:
-          this.time1 = result;
+          obj.weekDay = result;
           break;
         case 2:
-          this.time2 = result;
+          obj.timeStart = result;
           break;
         case 3:
-          this.time3 = result;
-          break;
-        case 4:
-          this.time4 = result;
-          break;
-        case 5:
-          this.time5 = result;
-          break;
-        case 6:
-          this.time6 = result;
+          obj.timeEnd = result;
           break;
       }  
-      console.log(h,m)
+      this.openTimeArr.splice(this.currentEditIndex,1,obj);
+ 
     },
-
+    addOpenTime(){
+       this.openTimeArr.push({weekDay:'',timeStart:'',timeEnd:''});
+    },
     toCheck(){
       T.postCurrentStep(3);
+      
     },
     uploadImg(){
       let uploadBtn = this.$refs.uploadBtn;
@@ -169,6 +164,9 @@ export default {
     },
     deleteImg(index){
       this.imgIntroList.splice(index,1);
+    },
+    deleteOpenTime(index){
+      this.openTimeArr.splice(index,1);
     }
   },
   mounted(){
@@ -211,15 +209,45 @@ export default {
   .intro-form .form-input .label{
     font-size: 15px;
     width: 80px;
-
   }
   .intro-form .form-input input{
     width: 65%;
     margin: 0 10px;
 
   }
+  .select-tips{
+    font-size: 12px;
+    color: #999;
+    margin-top: 10px;
+    padding-left: 25px;
+    position: relative;
+  }
+  .select-tips span{
+    position: absolute;
+    top:0;
+    left:0;
+    color: #fff;
+    background-color: #55cbc4;
+    padding: 2px 4px;
+    border-radius: 2px;
+
+  }
+  .select-tips p{
+    padding-top: 5px;
+  }
+
+  .choose-open-time-panel{
+    position: relative;
+  }
   .choose-open-time-panel .form-input{
     
+  }
+  .choose-open-time-panel .add-open-time{
+     position: absolute;
+     top:10px;
+     right: 20px;
+     font-size: 14px;
+     color: #55cbc4;
   }
   .choose-open-time-panel .form-input .label{
     width: auto;

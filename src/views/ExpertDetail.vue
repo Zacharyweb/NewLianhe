@@ -43,16 +43,20 @@
           <div class="open-time-content">
              <ul class="open-time-items">
               <li>
-                <p>上午</p>
-                <p>08:00-11:00</p>
+                <span>周一</span>
+                <span>12:00-16:00</span>
               </li>
               <li>
-                <p>下午</p>
-                <p>14:00-17:00</p>
+                <span>周三</span>
+                <span>16:00-22:00</span>
               </li>
               <li>
-                <p>晚上</p>
-                <p>19:00-22:00</p> 
+                <span>周四</span>
+                <span>20:00-23:00</span>
+              </li>
+              <li>
+                <span>周日</span>
+                <span>10:00-20:00</span>
               </li>
              </ul>
           </div>
@@ -264,20 +268,40 @@ export default {
   padding-bottom: 2px;
 }
 .open-time-panel .open-time-content{
-  
+   margin-top: 5px;
 }
 .open-time-panel .open-time-items{
-  margin-top: 12px;
   display: flex;
+  flex-wrap: wrap;
 
 }
 .open-time-panel .open-time-items li{
-  flex: 1;
-  padding-left:15px;
+  box-sizing: border-box;
+  width: 50%;
+  font-size: 14px;
+  padding: 8px 15px;
+  margin:0;
+  position: relative;
+  text-align: center;
+  
+}
+.open-time-panel .open-time-items li::before{
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #1acac4;
+
+  box-shadow: 1px 1px 2px #888;
+  left:5px;
+  top:50%;
+  margin-top: -5px;
+  
 
 }
 .open-time-panel .open-time-items li+li{
-  border-left: 1px solid #e6e6e6;
+  /*border-top: 1px solid #e6e6e6;*/
 }
 
 
@@ -286,11 +310,12 @@ export default {
   justify-content: space-between;
 }
 .expert-dynamic li{
-  flex: 1;
-
+   flex: 1;
+   padding-left: 15px;
+   margin:0;
 }
 .expert-dynamic li+li{
-  padding-left: 15px;
+  
   border-left:  1px solid #e6e6e6;
 }
 .expert-dynamic li .iconfont{

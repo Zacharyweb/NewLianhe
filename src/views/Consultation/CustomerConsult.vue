@@ -21,7 +21,6 @@
               <span class="btn btn-green-outline" @click.stop="toChatRoom(item.orderNo)">咨询详情</span>
             </p>
             <p class="btn-area" v-if="item.status==4">
-              <span class="btn btn-green-outline" @click.stop="toCommentDetail(item.orderNo)">评价详情</span>
               <span class="btn btn-green-outline" @click.stop="toChatRoom(item.orderNo)">咨询详情</span>
             </p>
             <p class="btn-area" v-if="item.status==5">
@@ -43,7 +42,7 @@ export default {
   },
   data () {
     return {
-      statusTable:['等待确认','等待支付','在线咨询','咨询完成','评价反馈','评价完成'],
+      statusTable:['等待确认','等待支付','在线咨询','咨询完成','等待评价','评价完成'],
       orderList:[
         {
           status:0,

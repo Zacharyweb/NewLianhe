@@ -17,7 +17,7 @@
 
     </div>
 
-    <bottom-nav></bottom-nav>
+    <!-- <bottom-nav></bottom-nav> -->
   </div>
 </template>
 
@@ -83,14 +83,15 @@ export default {
     padding-left: 20px;
     border:none;
     background-color:#fff;
-    font-size:20px;
+    font-size:14px;
   }
   .signin-form .signin-form-item .iconfont{
     color:#888;
-    font-size:26px;
+    font-size:22px;
   }
   .signin-form .signin-form-item .get-code-btn,
   .signin-form .signin-form-item .has-get-code{
+    font-size:14px;
     position:absolute;
     right: 0;
     top:50%;
@@ -101,6 +102,7 @@ export default {
   }
   .signin-form .signin-form-item .get-code-btn{
     color:#55cbc4;
+
   }
   .signin-form .signin-form-item .has-get-code{
     color:#888;

@@ -53,14 +53,16 @@
                :on-end="countEnd" 
             />
         </div>
-        <p class="status-tips" v-if="status ==0">专家超过5分钟未确认，则订单自动关闭。</p>
-        <div class="btn-area" v-if="status ==0 && !isCustomer">
-          <span class="btn btn-green btn-small" @click="agreeOrder($route.params.orderNo)">同意</span>
-          <span class="btn btn-green-outline btn-small" @click="refuseOrder($route.params.orderNo)">拒绝</span>
-        </div>
+        
+        <p class="status-tips" v-if="status == -3 && isCustomer">您已取消本次咨询，订单关闭。</p>
+        <p class="status-tips" v-if="status == -3 && !isCustomer">客户已取消本次咨询，订单关闭。</p>
+       
 
-        <p class="status-tips" v-if="status == -2">专家超时未确认或拒绝此次咨询，订单关闭。</p>
-        <p class="status-tips" v-if="status == -3">客户取消本次咨询，订单关闭。</p>
+        <p class="status-tips" v-if="status == -2 && isCustomer">专家超时未确认或拒绝此次咨询，订单关闭。</p>
+        <p class="status-tips" v-if="status == -2 && !isCustomer">您超时未确认或拒绝此次咨询，订单关闭。</p>
+
+        <p class="status-tips" v-if="status == 0 && isCustomer">专家超过5分钟未确认，则订单自动关闭。</p>
+        <p class="status-tips" v-if="status == 0 && !isCustomer">若您超过5分钟未确认，则订单自动关闭。</p>
 
         <p class="status-tips" v-if="status ==1 && isCustomer">专家已同意接受您的咨询请求，马上完成支付即可开始咨询~</p>
         <p class="status-tips" v-if="status ==1 && !isCustomer">您已同意接受此次的咨询，请等待客户支付咨询费用~</p>
@@ -69,24 +71,36 @@
         <p class="status-tips" v-if="status ==2 && isCustomer">您已支付咨询费用，进入咨询室即可与专家进行交流。</p>
         <p class="status-tips" v-if="status ==2 && !isCustomer">客户已支付咨询费用，进入咨询室即可与客户进行交流。</p>
 
-  <!--       <p class="status-tips" v-if="status ==2 && isCustomer">您已支付咨询费用，进入咨询室即可与专家进行交流。</p>
-        <p class="status-tips" v-if="status ==2 && !isCustomer">客户已支付咨询费用，进入咨询室即可与客户进行交流。</p> -->
+        <p class="status-tips" v-if="status ==3 ">咨询完成，请等待系统结算。</p>
 
-      
+
+        <p class="status-tips" v-if="status ==4 && isCustomer">本次咨询已完成,快去对本次咨询做个评价分享吧~</p>
+        <p class="status-tips" v-if="status ==4 && !isCustomer">本次咨询已完成,请等待客户评价</p>
+
+        <!-- 专家拒绝 订单关闭 -->
         <div class="btn-area" v-if="status == -2">
           <span class="btn btn-green-outline btn-small" @click="toOrderList">返回订单列表</span>      
         </div>
 
+        <!-- 客户取消 订单关闭 -->
         <div class="btn-area" v-if="status == -3">
           <span class="btn btn-green-outline btn-small" @click="toOrderList">返回订单列表</span>
-          <span class="btn btn-green btn-small" @click="toAppointment(88)">重新发起咨询</span>      
+          <span v-if="isCustomer" class="btn btn-green btn-small" @click="toAppointment(88)">重新发起咨询</span>      
         </div>
 
+
+        <!-- 等待确认 -->
         <div class="btn-area" v-if="status ==0 && isCustomer">
           <span class="btn btn-green btn-small" @click="toOrderList">返回订单列表</span>
           <span class="btn btn-green-outline btn-small" @click="cancelConsult($route.params.orderNo)">取消咨询</span>
         </div>
 
+        <div class="btn-area" v-if="status == 0 && !isCustomer">
+            <span class="btn btn-green btn-small" @click="agreeOrder($route.params.orderNo)">同意</span>
+            <span class="btn btn-green-outline btn-small" @click="refuseOrder($route.params.orderNo)">拒绝</span>
+        </div>
+
+        <!-- 等待支付 -->
         <div class="btn-area" v-if="status ==1 && !isCustomer">
           <span class="btn btn-green-outline btn-small" @click="toOrderList">返回订单列表</span>
         </div>
@@ -96,27 +110,47 @@
           <span class="btn btn-green btn-small" @click="toPay($route.params.orderNo)">立即支付</span>
         </div>
 
+        <!-- 在线咨询 -->
         <div class="btn-area" v-if="status ==2">
-          <span class="btn btn-green-outline btn-small" @click="toChatRoom($route.params.orderNo)">进入咨询室</span>
+          <span class="btn btn-green-outline btn-small" @click="toOrderList">返回订单列表</span>
+          <span class="btn btn-green btn-small" @click="toChatRoom($route.params.orderNo)">进入咨询室</span>
         </div>
 
+       <!-- 咨询完成 -->
         <div class="btn-area" v-if="status ==3 && isCustomer">
-          <span class="btn btn-green-outline btn-small" @click="toComment($route.params.orderNo)">去评价</span>
+          <span class="btn btn-green-outline btn-small" @click="toChatRoom($route.params.orderNo)">咨询详情</span>
         </div>
 
         <div class="btn-area" v-if="status == 3 && !isCustomer">
           <span class="btn btn-green-outline btn-small" @click="toOrderList">返回订单列表</span>
         </div>
 
-        <div class="btn-area" v-if="status >= 4 && !isCustomer">
-          <span class="btn btn-green btn-small" @click="toCommentDetail($route.params.orderNo)">查看评价</span>
+        <!-- 评价反馈 -->
+        <div class="btn-area" v-if="status == 4 && isCustomer">
+          <span class="btn btn-green btn-small" @click="toComment($route.params.orderNo)">去评价</span>
           <span class="btn btn-green-outline btn-small" @click="toChatRoom($route.params.orderNo)">咨询详情</span>
         </div>
 
-   <div class="btn-area" v-if="status >= 4 && isCustomer">
-          <span class="btn btn-green-outline btn-small" @click="toAppointment(88)">再次咨询</span>
-          <span class="btn btn-green btn-small" @click="toChatRoom($route.params.orderNo)">咨询详情</span>
+
+        <div class="btn-area" v-if="status == 4 && !isCustomer">
+          <span class="btn btn-green-outline btn-small" @click="toChatRoom($route.params.orderNo)">咨询详情</span>
+          <span class="btn btn-green-outline btn-small" @click="toOrderList">返回订单列表</span>
         </div>
+
+        <!-- 评价完成 -->
+        <div class="btn-area" v-if="status == 5 && isCustomer">
+         
+          <span class="btn btn-green-outline btn-small" @click="toCommentDetail($route.params.orderNo)">查看评价</span>
+          <span class="btn btn-green-outline btn-small" @click="toChatRoom($route.params.orderNo)">咨询详情</span>
+     <!--       <span class="btn btn-green btn-small" @click="toAppointment(88)">再次咨询</span> -->
+        </div>
+
+
+        <div class="btn-area" v-if="status == 5 && !isCustomer">
+          <span class="btn btn-green-outline btn-small" @click="toCommentDetail($route.params.orderNo)">查看评价</span>
+          <span class="btn btn-green-outline btn-small" @click="toChatRoom($route.params.orderNo)">咨询详情</span>
+        </div>
+
       </div>
       <div class="center-block">
         <p class="order-msg-item">下单时间：<span>2017-7-20 13:30:20</span></p>
@@ -144,7 +178,12 @@
           </div>
         </div>
 
-        
+        <div class="detail-msg-item" v-if="status >=-3">
+          <div class="msg-content">
+            <span class="iconfont icon-jine"></span>
+            订单金额：￥300
+          </div>
+        </div>
 
         <div class="detail-msg-item" v-if="status >=-3">
           <h6 class="msg-title">
@@ -155,21 +194,16 @@
           </p>
         </div>
 
-        <div class="detail-msg-item" v-if="status >=-3">
-          <div class="msg-content">
-            <span class="iconfont icon-jine"></span>
-            订单金额：￥300
-          </div>
-        </div>
 
-        <div class="detail-msg-item" v-if="status >=4">
+
+        <div class="detail-msg-item" v-if="status >=5">
           <div class="msg-content">
             <span class="iconfont icon-pingfen2"></span>
             评价：10分
           </div>
         </div>
 
-        <div class="detail-msg-item" v-if="status >=4">
+        <div class="detail-msg-item" v-if="status >=5">
           <h6 class="msg-title">
             <span class="iconfont icon-pingjia1"></span>
             评价详情
@@ -183,7 +217,7 @@
           <p class="to-comment-detail" @click="toCommentDetail($route.params.orderNo)">查看评论详情<span class="iconfont icon-jiantou-1"></span></p>
         </div>
 
-        <div class="detail-msg-item" v-if="status >=5">
+        <div class="detail-msg-item" v-if="status >=4 && !isCustomer">
           <h6 class="msg-title">
             <span class="iconfont icon-closeaccount"></span>
              结算汇总

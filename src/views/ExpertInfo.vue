@@ -108,31 +108,19 @@
       <div class="common-panel choose-open-time-panel">
           <div class="panel-title">
              <h4>营业时间<span class="require-icon">*</span></h4>
+             <span class="add-open-time" @click="addOpenTime" v-if="openTimeArr.length < 7">+ 增加时段</span>
           </div>
-          <div class="form-input">
-            <span class="label">上午：</span>
-            <span class="time-picker-input" :class="{'grey':!time1}" @click="showTimePicker(1,1)">{{time1 || '请选择'}}</span>
+          <div class="form-input" v-for="(item,index) in openTimeArr">
+            <span class="time-picker-input" :class="{'grey':!item.weekDay}" @click="showTimePicker(1,index,1)">{{item.weekDay || '请选择'}}</span>
+            <span class="time-picker-input" :class="{'grey':!item.timeStart}" @click="showTimePicker(0,index,2)">{{item.timeStart || '请选择'}}</span>
             <span class="devide-line">-</span>
-            <span class="time-picker-input" :class="{'grey':!time2}" @click="showTimePicker(1,2)">{{time2 || '请选择'}}</span>
+            <span class="time-picker-input" :class="{'grey':!item.timeEnd}" @click="showTimePicker(0,index,3)">{{item.timeEnd || '请选择'}}</span>
+            <span class="iconfont icon-3" @click="deleteOpenTime(index)" v-if="openTimeArr.length > 1"></span>
           </div>
-          <div class="form-input">
-            <span class="label">下午：</span>
-            <span class="time-picker-input" :class="{'grey':!time3}" @click="showTimePicker(2,3)">{{time3 || '请选择'}}</span>
-            <span class="devide-line">-</span>
-            <span class="time-picker-input" :class="{'grey':!time4}" @click="showTimePicker(2,4)">{{time4 || '请选择'}}</span>
-            
-          </div>
-          <div class="form-input">
-            <span class="label">晚上：</span>
-            <span class="time-picker-input" :class="{'grey':!time5}" @click="showTimePicker(3,5)">{{time5 || '请选择'}}</span>
-            <span class="devide-line">-</span>
-            <span class="time-picker-input" :class="{'grey':!time6}" @click="showTimePicker(3,6)">{{time6 || '请选择'}}</span>
-           </div>
           <div class="select-tips">
             <span>注</span>
             <p>不再营业时，请回到这里删除营业时间。</p>
           </div>
-           
       </div>
       <!-- 咨询费用 -->
       <div class="common-panel">
@@ -204,13 +192,13 @@ export default {
 
       timePickerShow:false,
       timePickerType:0,
+
+      currentEditIndex:0,
       currentEditNum:0,
-      time1:'',
-      time2:'',
-      time3:'',
-      time4:'',
-      time5:'',
-      time6:'',
+      
+      openTimeArr:[
+          {weekDay:'',timeStart:'',timeEnd:''},
+      ],
 
       imgIntroList:[]
     }
@@ -237,35 +225,40 @@ export default {
     changeSubSkill(num){
       this.subSkill = num;
     },
-    showTimePicker(type,num){
+
+    showTimePicker(type,index,num){
+      this.currentEditIndex = index;
       this.currentEditNum = num;
       this.timePickerType = type;
       this.timePickerShow = true;
     },
     submitTime(h,m){
-      let result = h + ':' + m;
+      let obj = this.openTimeArr[this.currentEditIndex];
+      let result;
+      if(this.timePickerType == 1){
+        result = h;
+      }else{
+        result = h + ':' + m;
+      }
+
       switch(this.currentEditNum){
         case 1:
-          this.time1 = result;
+          obj.weekDay = result;
           break;
         case 2:
-          this.time2 = result;
+          obj.timeStart = result;
           break;
         case 3:
-          this.time3 = result;
-          break;
-        case 4:
-          this.time4 = result;
-          break;
-        case 5:
-          this.time5 = result;
-          break;
-        case 6:
-          this.time6 = result;
+          obj.timeEnd = result;
           break;
       }  
-      console.log(h,m)
+      this.openTimeArr.splice(this.currentEditIndex,1,obj);
+ 
     },
+    addOpenTime(){
+       this.openTimeArr.push({weekDay:'',timeStart:'',timeEnd:''});
+    },
+
     toSaveBase(){
       this.$router.go(-1);
     },
@@ -284,6 +277,9 @@ export default {
     },
     deleteImg(index){
       this.imgIntroList.splice(index,1);
+    },
+    deleteOpenTime(index){
+      this.openTimeArr.splice(index,1);
     }
 
   },
@@ -395,6 +391,16 @@ export default {
     border-color: #55cbc4;
   }
 
+ .choose-open-time-panel{
+    position: relative;
+  }
+  .choose-open-time-panel .add-open-time{
+     position: absolute;
+     top:10px;
+     right: 20px;
+     font-size: 14px;
+     color: #55cbc4;
+  }
   .choose-open-time-panel .form-input{
     font-size: 14px;
   }

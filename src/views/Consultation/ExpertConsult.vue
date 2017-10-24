@@ -21,14 +21,19 @@
             </p>
 
             <p class="btn-area" v-if="item.status == 3">
-              <span class="btn btn-green-outline" @click.stop="toComment(item.orderNo)">去评价</span>
+              
               <span class="btn btn-green-outline" @click.stop="toChatRoom(item.orderNo)">咨询详情</span>
             </p>
 
-            <p class="btn-area" v-if="item.status >= 4">
+            <p class="btn-area" v-if="item.status == 4">
+              <span class="btn btn-green-outline" @click.stop="toComment(item.orderNo)">去评价</span>
+              <span class="btn btn-green-outline" @click.stop="toChatRoom(item.orderNo)">咨询详情</span>
+            </p>
+            <p class="btn-area" v-if="item.status == 5">
               <span class="btn btn-green-outline" @click.stop="toCommentDetail(item.orderNo)">评价详情</span>
               <span class="btn btn-green-outline" @click.stop="toChatRoom(item.orderNo)">咨询详情</span>
             </p>
+
           </li>
       
     </ul>
@@ -45,7 +50,7 @@ export default {
   data () {
     return {
       currentIdentity:null,
-      statusTable:['等待确认','等待支付','在线咨询','咨询完成','评价反馈','已评价'],
+      statusTable:['等待确认','等待支付','在线咨询','咨询完成','等待评价','评价完成'],
 
 
       orderList:[
@@ -85,6 +90,14 @@ export default {
           status:4,
           orderNo:'20170712130024',
           expert:'专家05',
+          cost:150,
+          classNum:1,
+          problem:'预约专家时输入的问题详情，最多显示一行'
+        },
+        {
+          status:5,
+          orderNo:'20170712130024',
+          expert:'专家06',
           cost:150,
           classNum:1,
           problem:'预约专家时输入的问题详情，最多显示一行'

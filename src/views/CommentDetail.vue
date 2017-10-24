@@ -21,15 +21,17 @@
       <div class="comment-detail">
         <div class="comment-list">
           <div class="comment-item user-comment">
-            <span class="comment-time">2017-10:02 08:43</span>
-            <img class="user-avatar" src="../../static/timg.jpeg">
-            <p class="comment-content">我是评价内容~我是评价内容~我是评价内容~</p>
+            <div class="comment-item-top">
+                <img class="user-avatar" src="../../static/timg.jpeg">
+                <div class="user-msg">
+                  <p class="user-name">用户昵称</p>
+                  <p class="user-tags">用户工作单位职称等个人标签</p>
+                </div>
+            </div>
+            <p class="comment-content">我是评价内容~我是评价内容~我是评价内容~我是评价内容~我是评价内容~我是评价内容~我是评价内容~我是评价内容~</p>
+            <p class="comment-time">2017-10:02 08:43</p>
+            <p class="expert-reply">专家回复：感谢您的评价~</p>
           </div>
-        <!--   <div class="comment-item expert-reply">
-             <span class="comment-time">2017-10:02 08:43</span>
-             <p class="comment-content">谢谢您的评价~</p>
-             <img class="user-avatar" src="../../static/timg.jpeg">
-           </div> -->
         </div>
       </div>
     </div>
@@ -132,25 +134,12 @@ export default {
 }
 
 .comment-detail-wrap .comment-detail .comment-item{
-   padding-top: 30px;
    margin-top: 15px;
-   display: flex;
    position: relative;
 }
-.comment-detail-wrap .comment-detail .comment-time{
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: rgba(0,0,0,0.5);
-  padding: 2px 4px;
-  border-radius: 4px;
-  color: #fff;
-  font-size: 12px;
-
-}
-.comment-detail-wrap .comment-detail .expert-reply{
-  justify-content: flex-end;
+.comment-detail-wrap .comment-detail .comment-item .comment-item-top{
+  display: flex;
+  
 }
 .comment-detail-wrap .comment-detail .user-avatar{
    width: 48px;
@@ -160,40 +149,39 @@ export default {
 .comment-detail-wrap .comment-detail .user-comment .user-avatar{
   margin-right: 15px;
 }
-.comment-detail-wrap .comment-detail .expert-reply .user-avatar{
-  margin-left: 15px;
+.comment-detail-wrap .comment-detail .user-comment .user-msg{
+  padding-top: 5px;
 }
-.comment-detail-wrap .comment-detail .comment-content{
-  position: relative;
-  line-height: 1.5;
-  background: #B4EEB4;
-  padding: 10px;
-  border-radius: 8px;
+.comment-detail-wrap .comment-detail .user-comment .user-name{
   font-size: 16px;
+  color: #333;
+  margin-bottom: 2px;
+}
+.comment-detail-wrap .comment-detail .user-comment .user-tags{
+  font-size: 14px;
+  color: #999;
 }
 .comment-detail-wrap .comment-detail .user-comment .comment-content{
-  flex: 1;
+  font-size: 14px;
+  line-height: 1.5;
+  padding:10px 0px;
 }
-.comment-detail-wrap .comment-detail  .comment-content::before{
-  position: absolute;
-  content: '';
-  width: 0;
-  height: 0;
-  border-width: 6px 12px;
-  border-style: solid;
-  border-color: #B4EEB4;
-  top: 12px;
-  border-top-color: transparent;
-  border-bottom-color: transparent;
+.comment-detail-wrap .comment-detail .comment-time{
+  color: #999;
+  font-size: 12px;
 }
-.comment-detail-wrap .comment-detail  .user-comment .comment-content::before{
-  border-left-color: transparent;
-  left: -23px;
+
+.comment-detail-wrap .comment-detail .expert-reply{
+  margin-top: 10px;
+  font-size: 13px;
+  color: #FF6347;
 }
-.comment-detail-wrap .comment-detail  .expert-reply .comment-content::before{
-  border-right-color: transparent;
-  right: -23px;
-}
+
+
+
+
+
+
 
 .reply-panel{
   position: fixed;
