@@ -1,5 +1,6 @@
 <template>
-  <div class="order-detail">
+  <v-scroll :on-refresh="onRefresh" :bottom="0" :top="0">
+    <div class="order-detail">
     <div class="step-line">
       <div class="step-item">
         <span class="step-fill" :class="{'stretch':status >= -1}"></span>
@@ -281,17 +282,20 @@
           </ul>
         </div>
      </div>
-  </div>
+    </div>
+  </v-scroll>
 </template>
 
 <script>
 
 import T from '../tool/tool'
 import CountTimer  from '../components/CountTimer.vue'
+import Scroll  from '../components/Scroll.vue'
 export default {
   name: 'OrderDetail',
   components:{
-    'count-timer':CountTimer
+    'count-timer':CountTimer,
+    'v-scroll':Scroll
   },
   data () {
     return {
@@ -303,6 +307,11 @@ export default {
     }
   },
   methods:{
+    onRefresh(done){
+      setTimeout(()=>{
+        done();
+      },1000)
+    },
     toAppointment(id){
       this.$router.push({
         path:'/appoint',

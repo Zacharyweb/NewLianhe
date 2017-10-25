@@ -29,7 +29,9 @@
       </div>
     </div>
     <!-- 步骤表单 -->
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 

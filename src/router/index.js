@@ -66,6 +66,9 @@ export default new Router({
     {
       path: '/identity',
       name: 'ChooseIdentity',
+      meta:{
+        title:'选择身份'
+      },
       component: ChooseIdentity
     },
     // 首页
@@ -113,8 +116,9 @@ export default new Router({
     {
       path: '/consult',
       component: Consultation,
+    
       children:[
-        { path: '/',name: 'CustomerConsult',component: CustomerConsult},
+        { path: '/',name: 'CustomerConsult',component: CustomerConsult,},
         { path: 'expert',name: 'ExpertConsult',component: ExpertConsult},
       ]
     },
@@ -123,6 +127,9 @@ export default new Router({
     {
       path: '/order/detail/:orderNo/:status/:flag',
       name: 'OrderDetail',
+      meta: {
+        keepAlive: true
+      },
       component: OrderDetail
     },
 
