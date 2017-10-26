@@ -233,6 +233,7 @@ export default {
     min-height: 46px;    
  }
  .input-panel .back-text{
+    word-break: break-all;
     padding: 13px;
     font-size: 14px;
     line-height:1.5;
