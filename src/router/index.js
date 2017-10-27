@@ -56,6 +56,14 @@ import ExpertInfo from '@/views/ExpertInfo'
 Vue.use(Router)
 
 export default new Router({
+  // mode: 'history',
+  // scrollBehavior (to, from, savedPosition) {
+  //   if (savedPosition) {
+  //     return savedPosition
+  //   } else {
+  //     return { x: 0, y: 0 }
+  //   }
+  // },
   routes: [
     // 测试页
     {
@@ -128,7 +136,8 @@ export default new Router({
       path: '/order/detail/:orderNo/:status/:flag',
       name: 'OrderDetail',
       meta: {
-        keepAlive: true
+        // keepAlive: true,
+        // keepScroll: true,
       },
       component: OrderDetail
     },
@@ -192,5 +201,6 @@ export default new Router({
       name: 'ExpertInfo',
       component: ExpertInfo
     }  
-  ]
+  ],
+
 })

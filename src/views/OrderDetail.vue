@@ -1,5 +1,4 @@
 <template>
-  <v-scroll :on-refresh="onRefresh" :bottom="0" :top="0">
     <div class="order-detail">
     <div class="step-line">
       <div class="step-item">
@@ -191,12 +190,9 @@
             <span class="iconfont icon-wenti"></span>
             问题描述
           </h6>
-          <p class="problem-detail">在预约专家时，填写的相关话题内容。显示全部在预约专家时，填写的相关话题内容。
+          <p class="problem-detail">在预约专家时，填写的问题。显示全部内容。在预约专家时，填写的问题。显示全部内容。在预约专家时，填写的问题。显示全部内容。
           </p>
         </div>
-
-
-
         <div class="detail-msg-item" v-if="status >=5">
           <div class="msg-content">
             <span class="iconfont icon-pingfen2"></span>
@@ -283,7 +279,6 @@
         </div>
      </div>
     </div>
-  </v-scroll>
 </template>
 
 <script>
@@ -303,7 +298,7 @@ export default {
         isCustomer:true,
         orderStatusPanelShow:false,
         statusTable:['等待确认','等待支付','在线咨询','咨询完成','评价反馈','评价完成'],
-        status:this.$route.params.status*1
+        status:-4
     }
   },
   methods:{
@@ -388,9 +383,16 @@ export default {
         this.status = -2;
     }
   },
+  activated: function () {
+ 
+    this.status = this.$route.params.status*1;
+    if(this.$route.params.flag == 1){
+       this.isCustomer =false;
+    }
+  },
   mounted(){
-     console.log(this.$route.params);
      document.title = '订单详情';
+     this.status = this.$route.params.status*1;
      if(this.$route.params.flag == 1){
         this.isCustomer =false;
      }

@@ -25,6 +25,25 @@ var store = new Vuex.Store({
 
 
 
+let indexScrollTop = 0;
+
+
+
+// 页面回退滚动到之前位置 或者 启用router的history模式下的scrollBehavior
+// router.beforeEach((to, from, next) => {
+//   console.log(to);
+//   console.log(from);
+//   if (from.path.indexOf('/order/detail') != -1) {
+//       indexScrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+//   }
+//   if (to.path.indexOf('/order/detail') != -1) {
+//       window.scrollTo(0, 100);
+//   }
+//   next();
+// });
+
+
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

@@ -7,10 +7,10 @@
     </div>
     <header-nav v-if="$store.state.identity == 0" :title="'咨询订单'" :has-return-icon="false"/></header-nav>
     <v-scroll :on-refresh="onRefresh" :bottom="60" :top="listTop">
-      <div class="consult-panel" >
-        <keep-alive>
+      <div class="consult-panel" ref="consultPanel" >
+        <!-- <keep-alive> -->
            <router-view></router-view>
-        </keep-alive>
+        <!-- </keep-alive> -->
       </div>
     </v-scroll>
     <bottom-nav :nav-index="1"></bottom-nav>
