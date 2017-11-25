@@ -18,8 +18,8 @@ import SignIn from '@/views/SignIn'
 
 //咨询页
 import Consultation from '@/views/Consultation'
-import ExpertConsult from '@/views/Consultation/ExpertConsult' 
-import CustomerConsult from '@/views/Consultation/CustomerConsult' 
+import ExpertConsult from '@/views/Consultation/ExpertConsult'
+import CustomerConsult from '@/views/Consultation/CustomerConsult'
 
 //订单详情页
 import OrderDetail from '@/views/OrderDetail'
@@ -55,7 +55,7 @@ import ExpertInfo from '@/views/ExpertInfo'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   // mode: 'history',
   // scrollBehavior (to, from, savedPosition) {
   //   if (savedPosition) {
@@ -74,8 +74,8 @@ export default new Router({
     {
       path: '/identity',
       name: 'ChooseIdentity',
-      meta:{
-        title:'选择身份'
+      meta: {
+        title: '选择身份'
       },
       component: ChooseIdentity
     },
@@ -110,7 +110,10 @@ export default new Router({
     //发起咨询
     {
       path: '/appoint',
-      name:'MakeAppoint',
+      name: 'MakeAppoint',
+      meta: {
+        requiresAuth: true
+      },
       component: MakeAppoint,
     },
     // 注册
@@ -124,10 +127,19 @@ export default new Router({
     {
       path: '/consult',
       component: Consultation,
-    
-      children:[
-        { path: '/',name: 'CustomerConsult',component: CustomerConsult,},
-        { path: 'expert',name: 'ExpertConsult',component: ExpertConsult},
+      meta: {
+        requiresAuth: true
+      },
+      children: [{
+          path: '/',
+          name: 'CustomerConsult',
+          component: CustomerConsult,
+        },
+        {
+          path: 'expert',
+          name: 'ExpertConsult',
+          component: ExpertConsult
+        },
       ]
     },
 
@@ -136,8 +148,7 @@ export default new Router({
       path: '/order/detail/:orderNo/:status/:flag',
       name: 'OrderDetail',
       meta: {
-        // keepAlive: true,
-        // keepScroll: true,
+        requiresAuth: true
       },
       component: OrderDetail
     },
@@ -146,6 +157,9 @@ export default new Router({
     {
       path: '/chat/:id',
       name: 'ChatRoom',
+      meta: {
+        requiresAuth: true
+      },
       component: ChatRoom
     },
 
@@ -154,6 +168,9 @@ export default new Router({
     {
       path: '/comment/:id',
       name: 'Comment',
+      meta: {
+        requiresAuth: true
+      },
       component: Comment
     },
 
@@ -176,6 +193,9 @@ export default new Router({
     {
       path: '/relation',
       name: 'Relation',
+      meta: {
+        requiresAuth: true
+      },
       component: Relation
     },
 
@@ -183,24 +203,64 @@ export default new Router({
     {
       path: '/myinfo',
       name: 'MyInfo',
+      meta: {
+        requiresAuth: true
+      },
       component: MyInfo
     },
     //成为专家
     {
       path: '/upgrade',
       component: Upgrade,
-      children:[
-        { path: '/',name: 'UpgradeStep1',component: UpgradeStep1},
-        { path: 'step2',name: 'UpgradeStep2',component: UpgradeStep2},
-        { path: 'step3',name: 'UpgradeStep3',component: UpgradeStep3}
+      meta: {
+        requiresAuth: true
+      },
+      children: [{
+          path: '/',
+          name: 'UpgradeStep1',
+          component: UpgradeStep1
+        },
+        {
+          path: 'step2',
+          name: 'UpgradeStep2',
+          component: UpgradeStep2
+        },
+        {
+          path: 'step3',
+          name: 'UpgradeStep3',
+          component: UpgradeStep3
+        }
       ]
     },
     // 专家资料
     {
       path: '/einfo',
       name: 'ExpertInfo',
+      meta: {
+        requiresAuth: true
+      },
       component: ExpertInfo
-    }  
-  ],
-
-})
+    }
+  ]
+});
+router.beforeEach((to, from, next) => {
+  if (!router.app.$store) {
+    next();
+    return;
+  }
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!router.app.$store.state.accessToken) {
+      next({
+        path: '/sign',
+        query: {
+          redirect: to.fullPath
+        }
+      })
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
+});
+export default router;

@@ -12,36 +12,33 @@
 </template>
 
 <script>
-import T from '../../tool/tool'
+import T from "../../tool/tool";
 export default {
-  name: 'Check',
-  components:{
- 
-  },
-  data () {
+  name: "Check",
+  components: {},
+  data() {
     return {
-       checkStatus:0
+      checkStatus: 0
+    };
+  },
+  methods: {
+    toHome() {
+      T.postCurrentStep({ num: 4 });
+      setTimeout(() => {
+        this.$router.push("/expert/1");
+      }, 500);
     }
   },
-  methods:{
-    toHome(){
-      T.postCurrentStep(4);
-      setTimeout(()=>{
-        this.$router.push('/expert/1');
-      },500)
-      
-    }
-  },
-  mounted(){
-     T.postCurrentStep(3);
+  mounted() {
+    T.postCurrentStep({ num: 3 });
   }
-}
+};
 </script>
 <style scoped>
- .check-page{
-    margin-top: 80px;
- }
- .check-page .checking-tips{
+.check-page {
+  margin-top: 80px;
+}
+.check-page .checking-tips {
   box-sizing: border-box;
   width: 90%;
   margin-left: 5%;
@@ -51,10 +48,8 @@ export default {
   line-height: 1.5;
   color: #666;
   border-radius: 4px;
- }
- .btn-wrapper{
-    padding:30px 5%;
-  }
-
-
+}
+.btn-wrapper {
+  padding: 30px 5%;
+}
 </style>

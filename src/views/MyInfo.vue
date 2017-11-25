@@ -23,30 +23,19 @@
       <div class="tags-item">
           <p class="label">工作经验：</p>
           <p class="tags-wrap">
-            <span class="tag-item" :class="{'active':exper == 1}" @click="changeExperience(1)">3年以下</span>
-            <span class="tag-item" :class="{'active':exper == 2}" @click="changeExperience(2)">3-5年</span>
-            <span class="tag-item" :class="{'active':exper == 3}" @click="changeExperience(3)">5-10年</span>
-            <span class="tag-item" :class="{'active':exper == 4}" @click="changeExperience(4)">10年以上</span>
+            <span v-for="(item,i) in this.$store.state.exper" v-bind:key="i" class="tag-item" :class="{'active':exper == i+1}" @click="changeExperience(i+1)">{{item}}</span>
           </p>
       </div>
       <div class="tags-item">
           <p class="label">领域：</p>
           <p class="tags-wrap">
-            <span class="tag-item" :class="{'active':skill == 1}" @click="changeSkill(1)">财务</span>
-            <span class="tag-item" :class="{'active':skill == 2}" @click="changeSkill(2)">税务</span>
-            <span class="tag-item" :class="{'active':skill == 3}" @click="changeSkill(3)">工商</span>
-            <span class="tag-item" :class="{'active':skill == 4}" @click="changeSkill(4)">房产</span>
-            <span class="tag-item" :class="{'active':skill == 5}" @click="changeSkill(5)">教育</span>
-            <span class="tag-item" :class="{'active':skill == 6}" @click="changeSkill(6)">海关</span>
+            <span v-for="item in skills" v-bind:key="item.id" class="tag-item" :class="{'active':skill == item.id}" @click="changeSkill(item.id)">{{item.name}}</span>
           </p>
       </div>
       <div class="tags-item">
           <p class="label">细分领域：</p>
           <p class="tags-wrap">
-            <span class="tag-item" :class="{'active':subSkill == 1}" @click="changeSubSkill(1)">财务1</span>
-            <span class="tag-item" :class="{'active':subSkill == 2}" @click="changeSubSkill(2)">财务2</span>
-            <span class="tag-item" :class="{'active':subSkill == 3}" @click="changeSubSkill(3)">财务3</span>
-            <span class="tag-item" :class="{'active':subSkill == 4}" @click="changeSubSkill(4)">财务4</span>
+            <span v-for="item in subSkills" v-bind:key="item.id" class="tag-item" :class="{'active':subSkill == item.id}" @click="changeSubSkill(item.id)">{{item.name}}</span>
           </p>
       </div>
     </div>
@@ -57,101 +46,120 @@
 </template>
 
 <script>
-import T from '../tool/tool'
+import T from "../tool/tool";
+import api from "../ajax/index";
 export default {
-  name: 'SignIn',
-  components:{
- 
-  },
-  data () {
+  name: "SignIn",
+  components: {},
+  data() {
     return {
-      name:'',
-      tel:'',
-      company: '',
-      position:'',
-      exper: 0,
+      name: "",
+      tel: "",
+      company: "",
+      position: "",
+      exper: 1,
       skill: 0,
       subSkill: 0,
-    }
+      skills: [],
+      subSkills: []
+    };
   },
-  methods:{
-    changeExperience(num){
+  methods: {
+    changeExperience(num) {
       this.exper = num;
     },
-    changeSkill(num){
+    changeSkill(num) {
       this.skill = num;
+      var subSkills = this.skills.find(s => s.id == num);
+      subSkills && (this.subSkills = subSkills.childrenExpertClasses);
+      this.subSkills.length && this.changeSubSkill(this.subSkills[0].id);
     },
-    changeSubSkill(num){
+    changeSubSkill(num) {
       this.subSkill = num;
     },
-    toSave(){
-      this.$router.go(-1);
+    toSave() {
+      api
+        .UpdateNonExpert({
+          expertFirstClassId: this.skill,
+          expertClassId: this.subSkill,
+          phone: this.tel,
+          name: this.name,
+          organization: this.company,
+          post: this.position,
+          workYears: this.exper,
+          id: this.$store.state.user.id
+        })
+        .then(res => {
+          T.showToast({ text: "恭喜，资料修改成功" });
+          this.$router.go(-1);
+        });
     }
   },
-  mounted(){
-
+  mounted() {
+    api.GetAllExpertClasses().then(res => {
+      this.skills = res.data.result;
+      this.changeSkill(this.skills[0].id);
+    });
   }
-}
+};
 </script>
 <style scoped>
-  .base-form{
-    padding-top: 20px;
-    margin-top: 15px;
-    padding-bottom: 0;
-  }
-  .base-form .panel-title{
-    padding-bottom:15px;
-  }
-  .base-form .panel-title h4{
-    font-size: 16px;
-  }
-  .base-form .base-form-item{
-    display:flex;
-    align-items:center;
-    height:36px;
-    padding:10px 5px;
-    font-size:14px;
-    position:relative;
-    border-bottom: 1px solid #e6e6e6;
-  }
-  .base-form .base-form-item input{
-    flex:1;
-    padding-left: 20px;
-    border:none;
-    font-size:14px;
-  }
-  .tags-item{
-    padding: 10px 5px;
-
-  }
-  .tags-item+.tags-item{
-    border-top: 1px solid #e6e6e6;
-
-  }
-  .tags-item .label{
-    font-size: 14px;
-    margin-bottom: 10px;
-  }
-  .tags-item .tags-wrap{
-    display: flex;
-    flex-wrap: wrap;
-  }
-  .tags-item .tags-wrap .tag-item{
-    padding: 5px 6px;
-    text-align: center;
-    /*line-height: 24px;*/
-    font-size: 12px;
-    border: 1px solid #ccc;
-    color: #ccc;
-    border-radius: 4px;
-    margin-right: 5px;
-    margin-top: 8px;
-  }
-  .tags-item .tags-wrap .tag-item.active{
-    color: #55cbc4;
-    border-color: #55cbc4;
-  }
-  .btn-wrapper{
-    padding:15px;
-  }
+.base-form {
+  padding-top: 20px;
+  margin-top: 15px;
+  padding-bottom: 0;
+}
+.base-form .panel-title {
+  padding-bottom: 15px;
+}
+.base-form .panel-title h4 {
+  font-size: 16px;
+}
+.base-form .base-form-item {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  padding: 10px 5px;
+  font-size: 14px;
+  position: relative;
+  border-bottom: 1px solid #e6e6e6;
+}
+.base-form .base-form-item input {
+  flex: 1;
+  padding-left: 20px;
+  border: none;
+  font-size: 14px;
+}
+.tags-item {
+  padding: 10px 5px;
+}
+.tags-item + .tags-item {
+  border-top: 1px solid #e6e6e6;
+}
+.tags-item .label {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+.tags-item .tags-wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+.tags-item .tags-wrap .tag-item {
+  padding: 5px 6px;
+  text-align: center;
+  /*line-height: 24px;*/
+  font-size: 12px;
+  border: 1px solid #ccc;
+  color: #ccc;
+  border-radius: 4px;
+  margin-right: 5px;
+  margin-top: 8px;
+}
+.tags-item .tags-wrap .tag-item.active {
+  color: #55cbc4;
+  border-color: #55cbc4;
+}
+.btn-wrapper {
+  padding: 15px;
+}
 </style>

@@ -3,25 +3,33 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import Vuex from 'vuex'
 import PubSub from 'pubsub-js'
+import store from './tool/store'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 
 Vue.prototype.$PubSub = PubSub;
 Vue.config.productionTip = false
 
-Vue.use(Vuex)
 Vue.use(VueAwesomeSwiper)
-var store = new Vuex.Store({
-  state: {
-    identity: 99 // 存储当前用户身份 0：普通用户 1：专家用户 99:身份未确认
-  },
-  mutations: {
-    change_identity(state,identity){
-      state.identity = identity;
-    }
-  }
-})
+// var store = new Vuex.Store({
+//   state: {
+//     identity: 99, // 存储当前用户身份 0：普通用户 1：专家用户 99:身份未确认
+//     accessToken: '', //当前用户授权token信息
+//     user: {} //当前用户信息
+//   },
+//   mutations: {
+//     change_identity(state, identity) {
+//       state.identity = identity;
+//     },
+//     change_auth(state, token) {
+//       state.accessToken = token
+//       localStorage.setItem("token", token.accessToken);
+//     },
+//     change_user(state, user) {
+//       state.user = user
+//     }
+//   }
+// })
 
 
 
@@ -50,10 +58,10 @@ new Vue({
   router,
   store,
   template: '<App/>',
-  components: { App },
-  mounted(){
-    // let identity = localStorage.getItem('USER_IDENTITY') || 99;
-    let identity = sessionStorage.getItem('USER_IDENTITY') || 99;
-    this.$store.commit('change_identity',identity);
+  components: {
+    App
+  },
+  mounted() {
+    store.dispatch("initTokenFromLocal");
   }
 })
