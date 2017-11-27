@@ -157,7 +157,7 @@ class Tool {
     }
     obj = {
       ...obj,
-      timeout: 1000,
+      timeout: 30000,
       baseURL: config.ip,
     }
     return obj

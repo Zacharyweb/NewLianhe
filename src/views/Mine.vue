@@ -5,7 +5,7 @@
       <img class="mine-avatar" src="../../static/timg.jpeg">
       <div class="mine-text-msg">
         <p class="mine-base-msg">
-          <span class="mine-nickname">朱两边
+          <span class="mine-nickname">{{this.$store.state.user.name}}
               <i class="mine-identity" v-if="$store.state.identity == 0">普通用户</i>
               <i class="mine-identity" v-if="$store.state.identity == 1">专家用户</i>
           </span>
@@ -14,8 +14,7 @@
       
         <p class="mine-status" v-if="$store.state.identity == 1">
           <span class="status-text">当前状态：</span>
-          <span class="status-item" v-if="myStatus == 1">营业中</span>
-          <span class="status-item" v-if="myStatus == 0">休息中</span>
+          <span class="status-item">{{$store.state.user.onlineStatus | onlinestatus}}</span>
         </p>
       </div> 
     </div>
@@ -69,7 +68,7 @@ export default {
   },
    data () {
     return {
-      myStatus:1
+      
     }
   },
   methods:{

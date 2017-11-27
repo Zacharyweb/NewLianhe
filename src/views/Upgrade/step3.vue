@@ -25,7 +25,7 @@ export default {
     toHome() {
       T.postCurrentStep({ num: 4 });
       setTimeout(() => {
-        this.$router.push("/expert/1");
+        this.$router.push("/expert/" + this.$store.state.user.id);
       }, 500);
     }
   },

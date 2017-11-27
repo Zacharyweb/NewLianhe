@@ -29,12 +29,10 @@ class Api {
     });
   };
 
-  GetExpertDetail = (accountId) => {
+  GetExpertDetail = (data) => {
     return T.get({
       url: "services/app/Expert/GetExpertDetail",
-      data: {
-        accountId: accountId
-      }
+      data: data
     });
   };
 
@@ -51,15 +49,15 @@ class Api {
   }
 
   UpdateNonExpert = (data) => {
-    return T.put({
-      url: "services/app/Expert/UpdateNonExpert",
+    return T.post({
+      url: "services/app/Expert/CreateNonExpert",
       data: data
     })
   };
 
   UpdateExpert = (data) => {
-    return T.put({
-      url: "services/app/Expert/UpdateExpert",
+    return T.post({
+      url: "services/app/Expert/CreateExpert",
       data: data
     })
   };

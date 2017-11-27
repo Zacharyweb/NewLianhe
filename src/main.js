@@ -11,31 +11,8 @@ Vue.prototype.$PubSub = PubSub;
 Vue.config.productionTip = false
 
 Vue.use(VueAwesomeSwiper)
-// var store = new Vuex.Store({
-//   state: {
-//     identity: 99, // 存储当前用户身份 0：普通用户 1：专家用户 99:身份未确认
-//     accessToken: '', //当前用户授权token信息
-//     user: {} //当前用户信息
-//   },
-//   mutations: {
-//     change_identity(state, identity) {
-//       state.identity = identity;
-//     },
-//     change_auth(state, token) {
-//       state.accessToken = token
-//       localStorage.setItem("token", token.accessToken);
-//     },
-//     change_user(state, user) {
-//       state.user = user
-//     }
-//   }
-// })
-
-
 
 let indexScrollTop = 0;
-
-
 
 // 页面回退滚动到之前位置 或者 启用router的history模式下的scrollBehavior
 // router.beforeEach((to, from, next) => {
@@ -49,9 +26,42 @@ let indexScrollTop = 0;
 //   }
 //   next();
 // });
-
-
-
+Vue.filter('onlinestatus', function (value) {
+  switch (value) {
+    case 1:
+      return "休息中"
+      break;
+    case 2:
+      return "营业中";
+    default:
+      return "未知"
+      break;
+  }
+})
+Vue.filter('weekday', function (value) {
+  switch (value) {
+    case 1:
+      return "周一"
+      break;
+    case 2:
+      return "周二";
+    case 3:
+      return "周三"
+      break;
+    case 4:
+      return "周四";
+    case 5:
+      return "周五"
+      break;
+    case 6:
+      return "周六";
+    case 6:
+      return "周天";
+    default:
+      return "未知"
+      break;
+  }
+})
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
