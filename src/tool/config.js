@@ -6,8 +6,8 @@ const config = {
     //ip:'https://api.huiyuanjinfu.com',
     //activityIp:'https://act.huiyuanjinfu.com',
     //ip:'http://192.168.1.115:8083',
-    // ip:'http://localhost:57809/api/',
-    ip:'http://api.advisors-ally.com/api/',
+    ip:'http://localhost:57809/api/',
+    // ip:'http://api.advisors-ally.com/api/',
     // ip:'http://localhost:8080',
     activityIp:'http://192.168.1.198:3001',
 

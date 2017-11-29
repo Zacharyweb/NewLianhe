@@ -48,6 +48,15 @@ class Api {
     })
   }
 
+  GetExpertPrice = (id) => {
+    return T.get({
+      url: "services/app/Expert/GetExpertPrice",
+      data: {
+        expertId: id
+      }
+    })
+  }
+
   UpdateNonExpert = (data) => {
     return T.post({
       url: "services/app/Expert/CreateNonExpert",

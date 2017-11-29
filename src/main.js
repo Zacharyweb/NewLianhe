@@ -26,6 +26,8 @@ let indexScrollTop = 0;
 //   }
 //   next();
 // });
+
+// global filters
 Vue.filter('onlinestatus', function (value) {
   switch (value) {
     case 1:
@@ -57,6 +59,28 @@ Vue.filter('weekday', function (value) {
       return "周六";
     case 6:
       return "周天";
+    default:
+      return "未知"
+      break;
+  }
+})
+Vue.filter('orderstatus', function (value) {
+  switch (value) {
+    case 1:
+      return "待确认"
+      break;
+    case 2:
+      return "待支付";
+    case 3:
+      return "待咨询"
+      break;
+    case 4:
+      return "咨询完成";
+    case 5:
+      return "已评价"
+      break;
+    case 6:
+      return "已取消";
     default:
       return "未知"
       break;
