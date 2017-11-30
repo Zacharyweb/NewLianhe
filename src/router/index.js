@@ -145,7 +145,7 @@ const router = new Router({
 
     // 订单详情
     {
-      path: '/order/detail/:orderNo/:status/:flag',
+      path: '/order/detail/:orderId',
       name: 'OrderDetail',
       meta: {
         requiresAuth: true

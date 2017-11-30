@@ -1,19 +1,18 @@
 <template>
   <!-- 客户咨询 -->
   <ul class="consult-list">
-          <li v-for="(item,index) in orderList" class="consult-item" @click="toOrderDetail(item.orderNo,item.status,1)">
+          <li v-for="(item,index) in orderList" class="consult-item" @click="toOrderDetail(item.id)" v-bind:key="index">
             <span class="item-status">
-              {{statusTable[item.status]}}
+              {{item.status | orderstatus}}
             </span>
             <p class="item-order-num">{{item.orderNo}}</p>
-            <p class="item-name">{{item.customer}}</p>
-            <p class="item-cost"> ¥{{item.cost}} / {{item.classNum}}节</p>
-            <p class="item-detail text-ellipsis">{{item.problem}}</p>
-            <p class="btn-area" v-if="item.status==0">
+            <p class="item-name">{{item.expertName}}</p>
+            <p class="item-cost"> ¥{{item.amount}} / {{item.quantity}}节</p>
+            <p class="item-detail text-ellipsis">{{item.questionRemark}}</p>
+            <p class="btn-area" v-if="item.status==1">
               <span class="btn btn-green-outline" @click.stop="agreeConsult(item.orderNo)">同意</span>
               <span class="btn btn-green-outline" @click.stop="refuseConsult(item.orderNo)">拒绝</span>
             </p>
-      
             <p class="btn-area" v-if="item.status==2">
               <span class="btn btn-green-outline" @click.stop="toChatRoom(item.orderNo)">进入咨询室</span>
             </p>
@@ -33,114 +32,63 @@
 </template>
 
 <script>
-
-import T from '../../tool/tool'
+import T from "../../tool/tool";
+import api from "../../ajax/index";
 export default {
-  name: 'CustomerConsult',
-  components:{
-
-  },
-  data () {
+  name: "CustomerConsult",
+  components: {},
+  data() {
     return {
-      statusTable:['等待确认','等待支付','在线咨询','咨询完成','等待评价','评价完成'],
-      orderList:[
-        {
-          status:0,
-          orderNo:'20170712130020',
-          customer:'客户01',
-          cost:300,
-          classNum:2,
-          problem:'预约专家时输入的问题详情，最多显示一行'
-        },
-        {
-          status:1,
-          orderNo:'20170712130021',
-          customer:'客户02',
-          cost:300,
-          classNum:2,
-          problem:'预约专家时输入的问题详情，最多显示一行'
-        },
-        {
-          status:2,
-          orderNo:'20170712130022',
-          customer:'客户03',
-          cost:450,
-          classNum:3,
-          problem:'预约专家时输入的问题详情，最多显示一行'
-        },
-        {
-          status:3,
-          orderNo:'20170712130023',
-          customer:'客户04',
-          cost:300,
-          classNum:2,
-          problem:'预约专家时输入的问题详情，最多显示一行'
-        },
-        {
-          status:4,
-          orderNo:'20170712130024',
-          customer:'客户05',
-          cost:150,
-          classNum:1,
-          problem:'预约专家时输入的问题详情，最多显示一行'
-        },
-        {
-          status:5,
-          orderNo:'20170712130025',
-          customer:'客户06',
-          cost:300,
-          classNum:2,
-          problem:'预约专家时输入的问题详情，最多显示一行'
-        }
-      ]
-    }
+      orderList: []
+    };
   },
-  methods:{
-    toOrderDetail(orderNo,status,flag){
-       this.$router.push('/order/detail/'+orderNo+'/'+status+'/'+flag);
+  methods: {
+    toOrderDetail(id) {
+      this.$router.push("/order/detail/" + id);
     },
 
-    toChatRoom(id){
-       this.$router.push({
-         path:'/chat'+'/'+id,
-      })
-    },
-    toComment(id){
-       this.$router.push('/comment/'+id);
-    },
-    toCommentDetail(id){
-      this.$router.push('/comment/detail/'+id);
-    },
-
-    agreeConsult(id){
-      T.Confirm({
-        text:'确定接受此次咨询?',
-        confirm:function(){
-           console.log("确定接受")
-        },
-        cancel:function(){
-        
-        }
+    toChatRoom(id) {
+      this.$router.push({
+        path: "/chat" + "/" + id
       });
     },
-    refuseConsult(){
+    toComment(id) {
+      this.$router.push("/comment/" + id);
+    },
+    toCommentDetail(id) {
+      this.$router.push("/comment/detail/" + id);
+    },
+
+    agreeConsult(id) {
       T.Confirm({
-        text:'确定拒绝此次咨询?',
-        confirm:function(){
-           console.log("确定拒绝")
+        text: "确定接受此次咨询?",
+        confirm: function() {
+          console.log("确定接受");
         },
-        cancel:function(){
-        
-        }
+        cancel: function() {}
+      });
+    },
+    refuseConsult() {
+      T.Confirm({
+        text: "确定拒绝此次咨询?",
+        confirm: function() {
+          console.log("确定拒绝");
+        },
+        cancel: function() {}
       });
     }
   },
-  mounted(){
+  mounted() {
     T.postConsultTab(0);
-    document.title = '咨询列表';
+    document.title = "咨询列表";
+    api
+      .GetLoggedIndExpertOrders({ serverExpertId: this.$store.state.user.id })
+      .then(res => {
+        this.orderList = res.data.result;
+      });
   }
-}
+};
 </script>
 <style scoped>
- 
+
 </style>

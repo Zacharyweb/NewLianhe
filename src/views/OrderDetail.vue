@@ -282,134 +282,128 @@
 </template>
 
 <script>
-
-import T from '../tool/tool'
-import CountTimer  from '../components/CountTimer.vue'
-import Scroll  from '../components/Scroll.vue'
+import T from "../tool/tool";
+import CountTimer from "../components/CountTimer.vue";
+import Scroll from "../components/Scroll.vue";
+import api from "../ajax/index";
 export default {
-  name: 'OrderDetail',
-  components:{
-    'count-timer':CountTimer,
-    'v-scroll':Scroll
+  name: "OrderDetail",
+  components: {
+    "count-timer": CountTimer,
+    "v-scroll": Scroll
   },
-  data () {
+  data() {
     return {
-        counts:300,
-        isCustomer:true,
-        orderStatusPanelShow:false,
-        statusTable:['等待确认','等待支付','在线咨询','咨询完成','评价反馈','评价完成'],
-        status:-4
-    }
+      counts: 300,
+      isCustomer: true,
+      orderStatusPanelShow: false,
+      statusTable: ["等待确认", "等待支付", "在线咨询", "咨询完成", "评价反馈", "评价完成"],
+      status: -4
+    };
   },
-  methods:{
-    onRefresh(done){
-      setTimeout(()=>{
+  methods: {
+    onRefresh(done) {
+      setTimeout(() => {
         done();
-      },1000)
+      }, 1000);
     },
-    toAppointment(id){
+    toAppointment(id) {
       this.$router.push({
-        path:'/appoint',
-        query:{
-          expertId:id,
+        path: "/appoint",
+        query: {
+          expertId: id
         }
-      })
+      });
     },
-    toConsultHome(){
-      this.$router.push('/chat/56');
+    toConsultHome() {
+      this.$router.push("/chat/56");
     },
 
-    toOrderList(){
-      if(this.$route.params.flag == 1) {
-        this.$router.push('/consult');
-      }else{
-        this.$router.push('/consult/expert');
+    toOrderList() {
+      if (this.$route.params.flag == 1) {
+        this.$router.push("/consult");
+      } else {
+        this.$router.push("/consult/expert");
       }
     },
-    cancelConsult(id){
+    cancelConsult(id) {
       let that = this;
       T.Confirm({
-        text:'确定取消订单'+id +'?',
-        confirm:function(){
+        text: "确定取消订单" + id + "?",
+        confirm: function() {
           that.status = -3;
         },
-        cancel:function(){
-
-        }
+        cancel: function() {}
       });
     },
 
-    agreeOrder(){
+    agreeOrder() {
       T.Confirm({
-        text:'确定接受此次订单咨询?',
-        confirm:function(){
-          
-        },
-        cancel:function(){
-        
-        }
+        text: "确定接受此次订单咨询?",
+        confirm: function() {},
+        cancel: function() {}
       });
     },
-    refuseOrder(){
+    refuseOrder() {
       let that = this;
       T.Confirm({
-        text:'确定拒绝此订单咨询?',
-        confirm:function(){
-           that.status = -2;
+        text: "确定拒绝此订单咨询?",
+        confirm: function() {
+          that.status = -2;
         },
-        cancel:function(){
-        
-        }
+        cancel: function() {}
       });
     },
 
-    toPay(id){
-      console.log('去支付~');
+    toPay(id) {
+      console.log("去支付~");
     },
-    toChatRoom(id){
+    toChatRoom(id) {
       this.$router.push({
-         path:'/chat'+'/'+id,
-      })
+        path: "/chat" + "/" + id
+      });
     },
 
-    toComment(id){
-      this.$router.push('/comment/'+id);
+    toComment(id) {
+      this.$router.push("/comment/" + id);
     },
 
-    toCommentDetail(id){
-       this.$router.push('/comment/detail/'+id);
+    toCommentDetail(id) {
+      this.$router.push("/comment/detail/" + id);
     },
-    countEnd(){
-        this.status = -2;
+    countEnd() {
+      this.status = -2;
     }
   },
-  activated: function () {
- 
-    this.status = this.$route.params.status*1;
-    if(this.$route.params.flag == 1){
-       this.isCustomer =false;
+  activated: function() {
+    this.status = this.$route.params.status * 1;
+    if (this.$route.params.flag == 1) {
+      this.isCustomer = false;
     }
   },
-  mounted(){
-     document.title = '订单详情';
-     this.status = this.$route.params.status*1;
-     if(this.$route.params.flag == 1){
-        this.isCustomer =false;
-     }
+  mounted() {
+    document.title = "订单详情";
+    this.status = this.$route.params.status * 1;
+    if (this.$route.params.flag == 1) {
+      this.isCustomer = false;
+    }
+    api.GetExpertOrderDetail(this.$router.params.orderId).then(res => {
+      console.log(res);
+    });
   }
-}
+};
 </script>
 <style scoped>
-.order-detail{
+.order-detail {
   padding-top: 50px;
 }
-.top-block{
+.top-block {
   background-color: #fff;
-  padding:  20px;
+  padding: 20px;
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
 }
-.top-block .block-title{
+.top-block .block-title {
   height: 36px;
   display: flex;
   align-items: center;
@@ -418,13 +412,12 @@ export default {
   color: #333;
   line-height: 38px;
 }
-.top-block .block-title .iconfont{
-
+.top-block .block-title .iconfont {
   font-size: 24px;
   margin-left: 10px;
   color: #55cbc4;
 }
-.top-block .leave-time{
+.top-block .leave-time {
   font-size: 14px;
   display: flex;
   justify-content: center;
@@ -433,31 +426,30 @@ export default {
   margin-bottom: 5px;
   margin-top: 5px;
 }
-.top-block .leave-time .count-timer{
-  font-size: 22px; 
-  color:#f4992e;
+.top-block .leave-time .count-timer {
+  font-size: 22px;
+  color: #f4992e;
 }
-.top-block .status-tips{
+.top-block .status-tips {
   text-align: center;
   font-size: 12px;
   color: #aaa;
 }
-.top-block .btn-area{
-   display: flex;
-   margin-top: 15px;
-   padding:0 20px;
-   justify-content: center;
+.top-block .btn-area {
+  display: flex;
+  margin-top: 15px;
+  padding: 0 20px;
+  justify-content: center;
 }
-.top-block .btn-area .btn{
+.top-block .btn-area .btn {
   height: 30px;
   width: 40%;
 }
-.top-block .btn-area .btn+.btn{
+.top-block .btn-area .btn + .btn {
   margin-left: 20px;
 }
 
-
-.center-block{
+.center-block {
   margin-top: 10px;
   padding: 0 20px;
   background-color: #fff;
@@ -465,145 +457,144 @@ export default {
   border-bottom: 1px solid #eee;
   font-size: 14px;
 }
-.center-block .order-msg-item{
+.center-block .order-msg-item {
   line-height: 50px;
   padding: 0 5px;
 }
-.center-block .order-msg-item+.order-msg-item{
+.center-block .order-msg-item + .order-msg-item {
   border-top: 1px solid #eee;
 }
-.bottom-block{
+.bottom-block {
   margin-top: 10px;
 }
-.bottom-block .detail-msg-item{
+.bottom-block .detail-msg-item {
   background-color: #fff;
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
   padding: 15px 20px;
   margin-bottom: 10px;
 }
-.bottom-block .detail-msg-item .msg-content{
+.bottom-block .detail-msg-item .msg-content {
   font-size: 14px;
   line-height: 30px;
 }
-.bottom-block .detail-msg-item .msg-content .iconfont{
+.bottom-block .detail-msg-item .msg-content .iconfont {
   font-size: 18px;
   margin-right: 10px;
 }
 
-
-.bottom-block .detail-msg-item .msg-title{
+.bottom-block .detail-msg-item .msg-title {
   font-size: 14px;
   line-height: 30px;
   border-bottom: 1px solid #eee;
   padding-bottom: 10px;
 }
 
-.bottom-block .detail-msg-item .msg-title .iconfont{
+.bottom-block .detail-msg-item .msg-title .iconfont {
   font-size: 18px;
   margin-right: 10px;
 }
 
-.bottom-block .detail-msg-item .problem-detail{
+.bottom-block .detail-msg-item .problem-detail {
   padding-top: 15px;
   font-size: 14px;
   line-height: 1.5;
   text-indent: 2em;
 }
-.bottom-block .detail-msg-item .cost-list .list-item{
+.bottom-block .detail-msg-item .cost-list .list-item {
   font-size: 14px;
   display: flex;
   line-height: 48px;
   justify-content: space-between;
   padding: 0 10px;
 }
-.bottom-block .detail-msg-item .cost-list .list-item+.list-item{
+.bottom-block .detail-msg-item .cost-list .list-item + .list-item {
   border-top: 1px solid #eee;
 }
-.bottom-block .detail-msg-item .cost-list .list-item .add-text{
+.bottom-block .detail-msg-item .cost-list .list-item .add-text {
   color: #55cbc4;
 }
-.bottom-block .detail-msg-item .cost-list .list-item .reduce-text{
-  color: #E64340;
+.bottom-block .detail-msg-item .cost-list .list-item .reduce-text {
+  color: #e64340;
 }
-.bottom-block .detail-msg-item .show-order-status{
+.bottom-block .detail-msg-item .show-order-status {
   margin-top: 10px;
 }
 
-.bottom-block .detail-msg-item .comment-detail{
-   padding-top: 15px;
-   display: flex;
-   font-size: 14px;
+.bottom-block .detail-msg-item .comment-detail {
+  padding-top: 15px;
+  display: flex;
+  font-size: 14px;
 }
-.bottom-block .detail-msg-item .comment-detail .user-avatar{
-   width: 60px;
-   height: 60px;
-   border-radius: 50%;
-   margin-right: 15px;
+.bottom-block .detail-msg-item .comment-detail .user-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-right: 15px;
 }
-.bottom-block .detail-msg-item .comment-detail .comment-content{
-   flex: 1;
-   line-height: 1.5;
-   width: 0;
-   -webkit-line-clamp:3;
+.bottom-block .detail-msg-item .comment-detail .comment-content {
+  flex: 1;
+  line-height: 1.5;
+  width: 0;
+  -webkit-line-clamp: 3;
 }
-.bottom-block .detail-msg-item .to-comment-detail{
+.bottom-block .detail-msg-item .to-comment-detail {
   font-size: 14px;
   margin-top: 15px;
   padding-right: 5px;
   text-align: right;
   color: #55cbc4;
 }
-.order-status-panel-mask{
+.order-status-panel-mask {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.6);
+  background-color: rgba(0, 0, 0, 0.6);
   z-index: 10;
 }
-.order-status-panel{
+.order-status-panel {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
   background-color: #fff;
 }
-.order-status-panel{
+.order-status-panel {
   font-size: 15px;
   transition: all 0.3s;
   transform: translateY(100%);
   z-index: 11;
 }
-.order-status-panel.show{
+.order-status-panel.show {
   transform: translateY(0);
 }
-.order-status-panel h6{
+.order-status-panel h6 {
   font-size: 18px;
   line-height: 50px;
   background-color: #55cbc4;
   color: #fff;
   text-align: center;
 }
-.order-status-panel .status-list-wrap{
+.order-status-panel .status-list-wrap {
   margin-left: 30px;
   padding: 5px 0;
 }
-.order-status-panel .status-list{
+.order-status-panel .status-list {
   min-height: 200px;
 }
-.order-status-panel .status-item{
-   line-height: 48px;
-   padding-left: 20px;
-   padding-right: 40px;
-   display: flex;
-   justify-content: space-between;
-   position: relative;
+.order-status-panel .status-item {
+  line-height: 48px;
+  padding-left: 20px;
+  padding-right: 40px;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
 }
-.order-status-panel .status-item::before{
+.order-status-panel .status-item::before {
   position: absolute;
-  content: '';
+  content: "";
   width: 10px;
   height: 10px;
   border-radius: 50%;
@@ -612,71 +603,67 @@ export default {
   top: 50%;
   margin-top: -5px;
   box-shadow: 1px 1px 2px #666;
-
 }
-.order-status-panel .status-item .status-name{
+.order-status-panel .status-item .status-name {
   color: #666;
 }
-.order-status-panel .status-item .status-time{
+.order-status-panel .status-item .status-time {
   color: #999;
 }
 
+.step-line {
+  display: flex;
+  height: 50px;
+}
+.step-line .step-item {
+  flex: 1;
+  background-color: #ddd;
+  height: 2px;
+  position: relative;
+}
+.step-line .step-item .step-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 2px;
+  background-color: #55cbc4;
+  width: 0;
+  transition: all 0.3s;
+}
+.step-line .step-item .step-fill.stretch {
+  width: 100%;
+}
+.step-line .step-item .circle-icon {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background-color: #ccc;
+  top: 50%;
+  right: 0;
+  transform: translate(50%, -50%);
+  z-index: 10;
+}
+.step-line .step-item .step-name {
+  font-size: 14px;
+  white-space: nowrap;
+  color: #666;
+  position: absolute;
+  right: 0;
+  transform: translateX(50%);
+}
+.step-line .step-item .step-name.top {
+  bottom: 15px;
+}
+.step-line .step-item .step-name.bottom {
+  top: 15px;
+}
+.step-line .step-item .circle-icon.current {
+  background-color: #f4992e;
+}
 
-
-  .step-line{
-    display: flex;
-    height: 50px;
-  }
-  .step-line .step-item{
-    flex: 1;
-    background-color: #ddd;
-    height: 2px;
-    position: relative;
-  }
-  .step-line .step-item .step-fill{
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 2px;
-    background-color: #55cbc4;
-    width: 0;
-    transition: all 0.3s;
-  }
-  .step-line .step-item .step-fill.stretch{
-    width: 100%;
-  }
-  .step-line .step-item .circle-icon{
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    border: 2px solid #fff;
-    background-color: #ccc;
-    top: 50%;
-    right: 0;
-    transform: translate(50%,-50%);
-    z-index: 10;
-  } 
-  .step-line .step-item .step-name{
-    font-size: 14px;
-    white-space: nowrap;
-    color: #666;
-    position: absolute;
-    right: 0;
-    transform: translateX(50%);
-  }
-  .step-line .step-item .step-name.top{
-    bottom: 15px;
-  }
-  .step-line .step-item .step-name.bottom{
-    top: 15px;  
-  }
-  .step-line .step-item .circle-icon.current{
-     background-color: #f4992e;
-  } 
-
-  .step-line .step-item .circle-icon.prev{
-   background-color: #55cbc4;
-  } 
-
+.step-line .step-item .circle-icon.prev {
+  background-color: #55cbc4;
+}
 </style>

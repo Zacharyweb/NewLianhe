@@ -57,6 +57,22 @@ class Api {
     })
   }
 
+  GetLoggedIndExpertOrders = (data) => {
+    return T.get({
+      url: "services/app/ExpertOrder/GetLoggedIndExpertOrders",
+      data: data
+    })
+  }
+
+  GetExpertOrderDetail = (id) => {
+    return T.get({
+      url: "services/app/ExpertOrder/GetExpertOrderDetail",
+      data: {
+        orderId: id
+      }
+    })
+  }
+
   UpdateNonExpert = (data) => {
     return T.post({
       url: "services/app/Expert/CreateNonExpert",
