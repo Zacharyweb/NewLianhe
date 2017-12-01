@@ -60,11 +60,20 @@ export default {
         T.showToast({ text: "您未同意服务条款" });
         return;
       }
-      T.showToast({ text: "提交成功，请等待专家确认~" });
-      let orderNo = "88888888888";
-      setTimeout(() => {
-        this.$router.push("/order/detail/" + orderNo + "/0/0");
-      }, 1000);
+      api
+        .CreateOrder({
+          serverExpertId: this.$route.query.expertId,
+          questionRemark: this.problem,
+          quantity: this.classNum,
+          totalDuration: this.classNum * 30
+        })
+        .then(res => {
+          T.showToast({ text: "提交成功，请等待专家确认~" });
+
+          setTimeout(() => {
+            this.$router.push("/order/detail/" + res.data.result);
+          }, 1000);
+        });
     },
     toggleClause() {
       this.agreecClause = !this.agreecClause;

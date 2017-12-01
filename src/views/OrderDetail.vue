@@ -7,29 +7,29 @@
         <p class="step-name bottom">发起咨询</p>
       </div>
       <div class="step-item">
-        <span class="step-fill" :class="{'stretch':status >= 0}"></span>
-        <span class="circle-icon" :class="{'current':status == 0,'prev':status > 0}"></span>
-        <p class="step-name top">等待确认</p>
-      </div>
-      <div class="step-item">
         <span class="step-fill" :class="{'stretch':status >= 1}"></span>
         <span class="circle-icon" :class="{'current':status == 1,'prev':status > 1}"></span>
-        <p class="step-name bottom">支付费用</p>
+        <p class="step-name top">等待确认</p>
       </div>
       <div class="step-item">
         <span class="step-fill" :class="{'stretch':status >= 2}"></span>
         <span class="circle-icon" :class="{'current':status == 2,'prev':status > 2}"></span>
+        <p class="step-name bottom">支付费用</p>
+      </div>
+      <div class="step-item">
+        <span class="step-fill" :class="{'stretch':status >= 3}"></span>
+        <span class="circle-icon" :class="{'current':status == 3,'prev':status > 3}"></span>
         <p class="step-name top">在线咨询</p>
       </div>
   
       <div class="step-item">
-        <span class="step-fill" :class="{'stretch':status >= 3}"></span>
-        <span class="circle-icon" :class="{'current':status == 3,'prev':status > 3}"></span>
+        <span class="step-fill" :class="{'stretch':status >= 4}"></span>
+        <span class="circle-icon" :class="{'current':status == 4,'prev':status > 4}"></span>
         <p class="step-name bottom">咨询完成</p>
       </div>
       <div class="step-item">
-        <span class="step-fill" :class="{'stretch':status >= 4}"></span>
-        <span class="circle-icon" :class="{'current':status == 4,'prev':status > 4}"></span>
+        <span class="step-fill" :class="{'stretch':status >= 5}"></span>
+        <span class="circle-icon" :class="{'current':status == 5,'prev':status > 5}"></span>
         <p class="step-name top">评价反馈</p>
       </div>
 
@@ -39,7 +39,7 @@
     </div>
       <div class="top-block">
         <p class="block-title">
-          {{statusTable[status] || '订单关闭'}}
+          {{status | orderstatus}}
           <span class="iconfont icon-youjiantou" 
                 @click="()=>{this.orderStatusPanelShow = true}"
           ></span>
@@ -90,47 +90,37 @@
 
 
         <!-- 等待确认 -->
-        <div class="btn-area" v-if="status ==0 && isCustomer">
+        <div class="btn-area" v-if="status ==1 && isCustomer">
           <span class="btn btn-green btn-small" @click="toOrderList">返回订单列表</span>
           <span class="btn btn-green-outline btn-small" @click="cancelConsult($route.params.orderNo)">取消咨询</span>
         </div>
 
-        <div class="btn-area" v-if="status == 0 && !isCustomer">
+        <div class="btn-area" v-if="status == 1 && !isCustomer">
             <span class="btn btn-green btn-small" @click="agreeOrder($route.params.orderNo)">同意</span>
             <span class="btn btn-green-outline btn-small" @click="refuseOrder($route.params.orderNo)">拒绝</span>
         </div>
 
         <!-- 等待支付 -->
-        <div class="btn-area" v-if="status ==1 && !isCustomer">
+        <div class="btn-area" v-if="status ==2 && !isCustomer">
           <span class="btn btn-green-outline btn-small" @click="toOrderList">返回订单列表</span>
         </div>
 
-        <div class="btn-area" v-if="status ==1 && isCustomer">
+        <div class="btn-area" v-if="status ==2 && isCustomer">
           <span class="btn btn-green-outline btn-small" @click="cancelConsult($route.params.orderNo)">取消咨询</span>
           <span class="btn btn-green btn-small" @click="toPay($route.params.orderNo)">立即支付</span>
         </div>
 
         <!-- 在线咨询 -->
-        <div class="btn-area" v-if="status ==2">
+        <div class="btn-area" v-if="status ==3">
           <span class="btn btn-green-outline btn-small" @click="toOrderList">返回订单列表</span>
           <span class="btn btn-green btn-small" @click="toChatRoom($route.params.orderNo)">进入咨询室</span>
         </div>
 
        <!-- 咨询完成 -->
-        <div class="btn-area" v-if="status ==3 && isCustomer">
-          <span class="btn btn-green-outline btn-small" @click="toChatRoom($route.params.orderNo)">咨询详情</span>
-        </div>
-
-        <div class="btn-area" v-if="status == 3 && !isCustomer">
-          <span class="btn btn-green-outline btn-small" @click="toOrderList">返回订单列表</span>
-        </div>
-
-        <!-- 评价反馈 -->
-        <div class="btn-area" v-if="status == 4 && isCustomer">
+        <div class="btn-area" v-if="status ==4 && isCustomer">
           <span class="btn btn-green btn-small" @click="toComment($route.params.orderNo)">去评价</span>
           <span class="btn btn-green-outline btn-small" @click="toChatRoom($route.params.orderNo)">咨询详情</span>
         </div>
-
 
         <div class="btn-area" v-if="status == 4 && !isCustomer">
           <span class="btn btn-green-outline btn-small" @click="toChatRoom($route.params.orderNo)">咨询详情</span>
@@ -375,20 +365,15 @@ export default {
       this.status = -2;
     }
   },
-  activated: function() {
-    this.status = this.$route.params.status * 1;
-    if (this.$route.params.flag == 1) {
-      this.isCustomer = false;
-    }
-  },
   mounted() {
     document.title = "订单详情";
     this.status = this.$route.params.status * 1;
     if (this.$route.params.flag == 1) {
       this.isCustomer = false;
     }
-    api.GetExpertOrderDetail(this.$router.params.orderId).then(res => {
-      console.log(res);
+    api.GetExpertOrderDetail(this.$route.params.orderId).then(res => {
+      let order = res.data.result;
+      this.status = order.status;
     });
   }
 };

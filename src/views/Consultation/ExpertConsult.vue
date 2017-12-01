@@ -1,7 +1,7 @@
 <template>
     <!-- 专家咨询 -->
     <ul class="consult-list">
-          <li class="consult-item" v-for="(item,index) in orderList" @click="toOrderDetail(item.orderNo,item.status,0)" v-bind:key="index">
+          <li class="consult-item" v-for="(item,index) in orderList" @click="toOrderDetail(item.id,0)" v-bind:key="index">
             <span class="item-status">{{item.status | orderstatus}}</span>
             <p class="item-order-num">{{item.orderNo}}</p>
             <p class="item-name">{{item.serverExpertName}}</p>
@@ -51,8 +51,8 @@ export default {
     };
   },
   methods: {
-    toOrderDetail(orderNo, status, flag) {
-      this.$router.push("/order/detail/" + orderNo + "/" + status + "/" + flag);
+    toOrderDetail(orderNo) {
+      this.$router.push("/order/detail/" + orderNo);
     },
 
     cancelConsult(id) {

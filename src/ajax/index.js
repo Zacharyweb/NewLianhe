@@ -93,6 +93,13 @@ class Api {
       data: data
     })
   }
+
+  CreateOrder = (data) => {
+    return T.post({
+      url: "services/app/ExpertOrder/CreateOrder",
+      data: data
+    })
+  }
 }
 
 export default new Api()
