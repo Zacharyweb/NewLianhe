@@ -80,7 +80,7 @@ export default {
             .then(() => {
               this.$router.push("/upgrade/step3");
               this.$store.dispatch("getLoginInfo");
-              T.showToast({ title: "恭喜您成为专家" });
+              T.showToast({ text: "恭喜您成为专家" });
             });
         }
       }

@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import T from "../tool/tool";
 import HeaderNav from "../components/HeaderNav.vue";
 import BottomNav from "../components/BottomNav.vue";
 import { mapActions } from "vuex";
@@ -61,6 +62,7 @@ export default {
       this.$store
         .dispatch("login", { phone: tel, phoneCode: code })
         .then(user => {
+          T.showToast({ text: "登录成功" });
           var url = this.$route.query.redirect || "/";
           this.$router.push(url);
         });

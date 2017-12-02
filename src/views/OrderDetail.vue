@@ -143,35 +143,35 @@
 
       </div>
       <div class="center-block">
-        <p class="order-msg-item">下单时间：<span>2017-7-20 13:30:20</span></p>
-        <p class="order-msg-item">订单编号：<span>{{$route.params.orderNo}}</span></p>
+        <p class="order-msg-item">下单时间：<span>{{order.creationTime | datetime('yyyy-MM-dd HH:mm:ss')}}</span></p>
+        <p class="order-msg-item">订单编号：<span>{{order.orderNo}}</span></p>
       </div>
       <div class="bottom-block">
         <div class="detail-msg-item" v-if="status >=-3 && !isCustomer">
           <div class="msg-content">
             <span class="iconfont icon-yonghu1"></span>
-            客户名称：客户名称
+            客户名称：{{order.expertName}}
           </div>
         </div>
 
         <div class="detail-msg-item" v-if="status >=-3 && isCustomer">
           <div class="msg-content">
             <span class="iconfont icon-zhuanjiaku"></span>
-            专家名称：专家名称
+            专家名称：{{order.serverExpertName}}
           </div>
         </div>
 
         <div class="detail-msg-item" v-if="status >=-3 ">
           <div class="msg-content">
             <span class="iconfont icon-shiduan"></span>
-            咨询时段：2节/30分钟
+            咨询时段：{{order.quantity}}节/{{order.totalDuration}}分钟
           </div>
         </div>
 
         <div class="detail-msg-item" v-if="status >=-3">
           <div class="msg-content">
             <span class="iconfont icon-jine"></span>
-            订单金额：￥300
+            订单金额：￥{{order.amount}}
           </div>
         </div>
 
@@ -180,29 +180,30 @@
             <span class="iconfont icon-wenti"></span>
             问题描述
           </h6>
-          <p class="problem-detail">在预约专家时，填写的问题。显示全部内容。在预约专家时，填写的问题。显示全部内容。在预约专家时，填写的问题。显示全部内容。
+          <p class="problem-detail">
+            {{order.questionRemark}}
           </p>
         </div>
-        <div class="detail-msg-item" v-if="status >=5">
-          <div class="msg-content">
-            <span class="iconfont icon-pingfen2"></span>
-            评价：10分
+        <template v-for="(item,index) in order.expertComments">
+          <div class="detail-msg-item" :key="item.id">
+            <div class="msg-content">
+              <span class="iconfont icon-pingfen2"></span>
+              评价：{{item.score}}分
+            </div>
           </div>
-        </div>
-
-        <div class="detail-msg-item" v-if="status >=5">
-          <h6 class="msg-title">
-            <span class="iconfont icon-pingjia1"></span>
-            评价详情
-          </h6>
-          <div class="comment-detail">
-            <img class="user-avatar" src="../../static/timg.jpeg">
-            <p class="comment-content text-ellipsis2"> 我是评价详情我是评价详情我是评价详情我是评价详情我是评价详情我是评价详情我是评价详情我是评价详情
-            我是评价详情我是评价详情我是评价详情我是评价详情我是评价详情我是评价详情我是评价详情我是评价详情
-            </p>
+          <div class="detail-msg-item" :key="item.id">
+            <h6 class="msg-title">
+              <span class="iconfont icon-pingjia1"></span>
+              评价详情
+            </h6>
+            <div class="comment-detail">
+              <img class="user-avatar" :src="item.avatar">
+              <p class="comment-content text-ellipsis2"> {{item.content}}
+              </p>
+            </div>
+            <p class="to-comment-detail" @click="toCommentDetail(item.id)">查看评论详情<span class="iconfont icon-jiantou-1"></span></p>
           </div>
-          <p class="to-comment-detail" @click="toCommentDetail($route.params.orderNo)">查看评论详情<span class="iconfont icon-jiantou-1"></span></p>
-        </div>
+        </template>
 
         <div class="detail-msg-item" v-if="status >=4 && !isCustomer">
           <h6 class="msg-title">
@@ -237,11 +238,11 @@
         <h6>订单状态变更</h6>
         <div class="status-list-wrap">
           <ul class="status-list">
-            <li class="status-item" v-if="status >=-3">
-              <span class="status-name">下单</span>
-              <span class="status-time">2017-07-30 13:30:20</span>
+            <li v-for="(item,index) in order.expertOrderLogs" class="status-item" v-bind:key="index">
+              <span class="status-name">{{item.title}}</span>
+              <span class="status-time">{{item.creationTime | datetime('yyyy-MM-dd HH:mm:ss')}}</span>
             </li>
-            <li class="status-item" v-if="status == -2 || status == -3">
+            <!-- <li class="status-item" v-if="status == -2 || status == -3">
               <span class="status-name">订单关闭</span>
               <span class="status-time">2017-07-30 13:30:20</span>
             </li>
@@ -264,7 +265,7 @@
             <li class="status-item" v-if="status >=5">
               <span class="status-name">完成结算</span>
               <span class="status-time">2017-07-30 13:30:20</span>
-            </li>
+            </li> -->
           </ul>
         </div>
      </div>
@@ -287,8 +288,8 @@ export default {
       counts: 300,
       isCustomer: true,
       orderStatusPanelShow: false,
-      statusTable: ["等待确认", "等待支付", "在线咨询", "咨询完成", "评价反馈", "评价完成"],
-      status: -4
+      status: -4,
+      order: {}
     };
   },
   methods: {
@@ -367,13 +368,11 @@ export default {
   },
   mounted() {
     document.title = "订单详情";
-    this.status = this.$route.params.status * 1;
-    if (this.$route.params.flag == 1) {
-      this.isCustomer = false;
-    }
     api.GetExpertOrderDetail(this.$route.params.orderId).then(res => {
       let order = res.data.result;
       this.status = order.status;
+      this.order = order;
+      this.isCustomer = order.expertId === this.$store.state.user.id;
     });
   }
 };

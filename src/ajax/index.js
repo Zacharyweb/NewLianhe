@@ -73,6 +73,13 @@ class Api {
     })
   }
 
+  GetExperts = (data) => {
+    return T.get({
+      url: "services/app/Expert/GetExperts",
+      data: data
+    })
+  }
+
   UpdateNonExpert = (data) => {
     return T.post({
       url: "services/app/Expert/CreateNonExpert",
@@ -90,6 +97,13 @@ class Api {
   Register = (data) => {
     return T.post({
       url: "/TokenAuth/Register",
+      data: data
+    })
+  }
+
+  RegisterOrAuthenticate = (data) => {
+    return T.post({
+      url: "/TokenAuth/RegisterOrAuthenticate",
       data: data
     })
   }

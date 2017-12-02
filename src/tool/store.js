@@ -58,12 +58,19 @@ var store = new Vuex.Store({
       commit,
       state
     }, data) {
-      return api.Register(data).then((res) => {
+      return api.RegisterOrAuthenticate(data).then((res) => {
         var token = res.data.result.accessToken;
         commit("change_auth", token);
         localStorage.setItem("token", token);
         return dispatch("getLoginInfo");
       })
+    },
+    logout({
+      commit
+    }) {
+      localStorage.removeItem("token");
+      commit("change_user", {});
+      commit("change_identity", 0);
     }
   }
 })

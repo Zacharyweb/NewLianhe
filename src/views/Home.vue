@@ -15,7 +15,7 @@
                  <div class="expert-info">
                    <p class="expert-msg text-ellipsis">
                      <b class="expert-name">{{e.name}}</b>
-                     <span :class="{'status-online':e.onlineStatus == 2, 'status-outline':e.onlineStatus == 1}">{{e.onlineStatus == 1 ? "休息中":"营业中"}}</span>
+                     <span :class="{'status-online':e.onlineStatus == 2, 'status-outline':e.onlineStatus == 1}">{{e.onlineStatus | onlinestatus}}</span>
                    </p>
                    <p class="expert-tags text-ellipsis">
                     {{e.post}}
@@ -59,17 +59,12 @@ export default {
       arr: [],
       experts: [],
       tabBarArr: [
-        // {name:'法务',icon:{'icon-zanfuwutubiao06-copy':true},color:'#7ed321',type:1},
-        // {name:'财务',icon:{'icon-caiwu1':true},color:'#f5a623',type:2},
-        // {name:'工商',icon:{'icon-gongshang1':true},color:'#f56423',type:3},
         {
           name: "税务",
           icon: { "icon-shuiwu": true },
           color: "#f5be3f",
           type: 4
         },
-        // {name:'海关',icon:{'icon-haiguan':true},color:'#51a1ff',type:5},
-        // {name:'教育',icon:{'icon-shuben':true},color:'#f56423',type:6},
         {
           name: "更多分类",
           icon: { "icon-gengduo": true },

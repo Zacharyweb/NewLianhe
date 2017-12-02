@@ -90,6 +90,7 @@ export default {
           id: this.$store.state.user.id
         })
         .then(res => {
+          this.$store.dispatch("getLoginInfo");
           T.showToast({ text: "恭喜，资料修改成功" });
           this.$router.go(-1);
         });

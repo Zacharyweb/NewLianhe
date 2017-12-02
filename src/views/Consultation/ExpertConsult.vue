@@ -51,8 +51,8 @@ export default {
     };
   },
   methods: {
-    toOrderDetail(orderNo) {
-      this.$router.push("/order/detail/" + orderNo);
+    toOrderDetail(id) {
+      this.$router.push("/order/detail/" + id);
     },
 
     cancelConsult(id) {

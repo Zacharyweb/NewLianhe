@@ -15,7 +15,7 @@
       <div class="panel-content">
         <p class="appoint-cost-tips">咨询以节为收费单元，每节30分钟。在第一次使用时，建议先选择一节，以后再按需购买，咨询费按实际使用节数结算，未使用的节数原路返回。</p>
         <div class="appint-class-input">
-           <span class="iconfont icon-jianshao1" @click="()=>{ this.classNum--}"></span>
+           <span class="iconfont icon-jianshao1" @click="()=>{ this.classNum>1 && this.classNum--}"></span>
            <input type="text" v-model="classNum">
            <span class="iconfont icon-zengjia1" @click="()=>{ this.classNum++}"></span>
         </div>

@@ -5,7 +5,7 @@
       <img class="mine-avatar" src="../../static/timg.jpeg">
       <div class="mine-text-msg">
         <p class="mine-base-msg">
-          <span class="mine-nickname">{{this.$store.state.user.name}}
+          <span @click="login" class="mine-nickname">{{this.$store.state.user.name || "请登录"}}
               <i class="mine-identity" v-if="$store.state.identity == 0">普通用户</i>
               <i class="mine-identity" v-if="$store.state.identity == 1">专家用户</i>
           </span>
@@ -51,130 +51,140 @@
         </li>
       </ul>  
     </div>
+    <div v-if="$store.state.user.id" class="btn-wrapper"><p class="btn btn-red btn-small" @click="logout">退出</p></div>
     </v-scroll>
     <bottom-nav :nav-index="2"></bottom-nav>
   </div>
 </template>
 
 <script>
-import BottomNav from '../components/BottomNav.vue'
-import Scroll  from '../components/Scroll.vue'
-import T from '../tool/tool'
+import BottomNav from "../components/BottomNav.vue";
+import Scroll from "../components/Scroll.vue";
+import T from "../tool/tool";
 export default {
-  name: 'Mine',
-  components:{
-    'bottom-nav': BottomNav,
-    'v-scroll': Scroll
+  name: "Mine",
+  components: {
+    "bottom-nav": BottomNav,
+    "v-scroll": Scroll
   },
-   data () {
-    return {
-      
-    }
+  data() {
+    return {};
   },
-  methods:{
-    onRefresh(done){
-      setTimeout(()=>{
+  methods: {
+    onRefresh(done) {
+      setTimeout(() => {
         done();
-      },1000)
+      }, 1000);
     },
-    becomeExpert(){
-      this.$router.push('/upgrade')
+    becomeExpert() {
+      this.$router.push("/upgrade");
+    },
+    logout() {
+      let that = this;
+      T.Confirm({
+        text: "确定退出登录?",
+        confirm: () => {
+          that.$store.dispatch("logout");
+          that.$router.replace("/sign");
+        }
+      });
+    },
+    login() {
+      if (this.$store.state.user.id) return;
+      this.$router.push("/sign");
     }
   },
-  mounted(){
-   
-  }
-}
+  mounted() {}
+};
 </script>
 <style scoped>
-  .mine-msg{
-    margin-top: 20px;
-    display: flex;
-    align-items: center;
-    background-color: #fff;
-    padding: 15px 20px;
-    border-top: 1px solid #e6e6e6;
-    border-bottom: 1px solid #e6e6e6;
-  }
-  .mine-msg .mine-avatar{
-    width: 66px;
-    height: 66px;
-    border-radius: 50%;
-    margin-right: 20px;
-  }
-  .mine-msg .mine-text-msg{
-    flex: 1;
-    width: 0;
-  }
-  .mine-msg .mine-base-msg{
-    display: flex;
-    margin-bottom: 10px;
-    
-  }
-  
-  .mine-msg .mine-base-msg .mine-nickname{
-    position: relative;
-    font-size: 16px;
-   /* margin-right: 15px;*/
-    font-weight: bold;
-  }
-  .mine-msg .mine-base-msg .mine-tel{
-    font-size: 14px;
-    color: #666;
-  }
-  .mine-msg .mine-base-msg .mine-identity{
-    white-space: nowrap;
-    border-radius: 4px;
-    font-size: 12px;
-    padding:4px 5px;
-    background-color: #e9ae6a;
-    color: #fff;
-    position: absolute;
-    top:0;
-    right: -10px;
-    transform: translateX(100%);
-  }
-  .mine-msg .mine-status{
-      padding-top: 5px;
-      display: flex;
-      align-items: center;
-      color: #666;
-      font-size: 15px;
+.mine-msg {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  padding: 15px 20px;
+  border-top: 1px solid #e6e6e6;
+  border-bottom: 1px solid #e6e6e6;
+}
+.mine-msg .mine-avatar {
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+.mine-msg .mine-text-msg {
+  flex: 1;
+  width: 0;
+}
+.mine-msg .mine-base-msg {
+  display: flex;
+  margin-bottom: 10px;
+}
 
-  }
-  .mine-msg .mine-status .status-text{
-      margin-right: 5px;
-  }
-  .mine-msg .mine-status .status-item{
-    
-  }
-  .router-bar{
-    border-bottom: 1px solid #e6e6e6;
-    padding: 0 20px;
-    background-color: #fff;
-  }
-  .router-bar .router-bar-item{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 60px;
-    padding:0 10px;
-
-  }
-  .router-bar .router-bar-item+.router-bar-item{
-    border-top: 1px solid #e6e6e6;
-  
-  }
-  .router-bar .router-bar-item .item-left{
-    display: flex;
-    align-items: center;
-    font-size: 15px;
-  }
-  .router-bar .router-bar-item .item-left .iconfont{
-    color: #55cbc4;
-    font-size: 20px;
-    margin-right: 10px;
-
-  }
-  
+.mine-msg .mine-base-msg .mine-nickname {
+  position: relative;
+  font-size: 16px;
+  /* margin-right: 15px;*/
+  font-weight: bold;
+}
+.mine-msg .mine-base-msg .mine-tel {
+  font-size: 14px;
+  color: #666;
+}
+.mine-msg .mine-base-msg .mine-identity {
+  white-space: nowrap;
+  border-radius: 4px;
+  font-size: 12px;
+  padding: 4px 5px;
+  background-color: #e9ae6a;
+  color: #fff;
+  position: absolute;
+  top: 0;
+  right: -10px;
+  transform: translateX(100%);
+}
+.mine-msg .mine-status {
+  padding-top: 5px;
+  display: flex;
+  align-items: center;
+  color: #666;
+  font-size: 15px;
+}
+.mine-msg .mine-status .status-text {
+  margin-right: 5px;
+}
+.mine-msg .mine-status .status-item {
+}
+.router-bar {
+  border-bottom: 1px solid #e6e6e6;
+  padding: 0 20px;
+  background-color: #fff;
+}
+.router-bar .router-bar-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  padding: 0 10px;
+}
+.router-bar .router-bar-item + .router-bar-item {
+  border-top: 1px solid #e6e6e6;
+}
+.router-bar .router-bar-item .item-left {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+}
+.router-bar .router-bar-item .item-left .iconfont {
+  color: #55cbc4;
+  font-size: 20px;
+  margin-right: 10px;
+}
+.btn-wrapper {
+  padding: 20px;
+}
+.btn-small {
+  width: auto;
+}
 </style>
