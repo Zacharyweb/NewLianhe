@@ -85,7 +85,7 @@
         <!-- 客户取消 订单关闭 -->
         <div class="btn-area" v-if="status == -1">
           <span class="btn btn-green-outline btn-small" @click="toOrderList">返回订单列表</span>
-          <span v-if="isCustomer" class="btn btn-green btn-small" @click="toAppointment(order.serverExpertId)">重新发起咨询</span>      
+          <span v-if="isCustomer" class="btn btn-green btn-small" @click="toAppointment(order)">重新发起咨询</span>      
         </div>
 
 
@@ -274,7 +274,8 @@ export default {
         done();
       }, 1000);
     },
-    toAppointment(id) {
+    toAppointment(order) {
+      let id = this.isCustomer ? order.expertId : order.serverExpertId;
       this.$router.push({
         path: "/appoint",
         query: {
