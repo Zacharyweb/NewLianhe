@@ -2,8 +2,8 @@
     <div class="order-detail">
     <div class="step-line">
       <div class="step-item">
-        <span class="step-fill" :class="{'stretch':status >= -1}"></span>
-        <span class="circle-icon" :class="{'current':status == -1,'prev':status > -1}"></span>
+        <span class="step-fill" :class="{'stretch':status >= 1}"></span>
+        <span class="circle-icon" :class="{'current':status == 1,'prev':status > 1}"></span>
         <p class="step-name bottom">发起咨询</p>
       </div>
       <div class="step-item">
@@ -54,8 +54,8 @@
             />
         </div>
         
-        <p class="status-tips" v-if="status == -3 && isCustomer">您已取消本次咨询，订单关闭。</p>
-        <p class="status-tips" v-if="status == -3 && !isCustomer">客户已取消本次咨询，订单关闭。</p>
+        <p class="status-tips" v-if="status == -1 && isCustomer">您已取消本次咨询，订单关闭。</p>
+        <p class="status-tips" v-if="status == -1 && !isCustomer">客户已取消本次咨询，订单关闭。</p>
        
 
         <p class="status-tips" v-if="status == -2 && isCustomer">专家超时未确认或拒绝此次咨询，订单关闭。</p>
@@ -83,21 +83,21 @@
         </div>
 
         <!-- 客户取消 订单关闭 -->
-        <div class="btn-area" v-if="status == -3">
+        <div class="btn-area" v-if="status == -1">
           <span class="btn btn-green-outline btn-small" @click="toOrderList">返回订单列表</span>
-          <span v-if="isCustomer" class="btn btn-green btn-small" @click="toAppointment(88)">重新发起咨询</span>      
+          <span v-if="isCustomer" class="btn btn-green btn-small" @click="toAppointment(order.serverExpertId)">重新发起咨询</span>      
         </div>
 
 
         <!-- 等待确认 -->
         <div class="btn-area" v-if="status ==1 && isCustomer">
           <span class="btn btn-green btn-small" @click="toOrderList">返回订单列表</span>
-          <span class="btn btn-green-outline btn-small" @click="cancelConsult($route.params.orderNo)">取消咨询</span>
+          <span class="btn btn-green-outline btn-small" @click="cancelConsult(order)">取消咨询</span>
         </div>
 
         <div class="btn-area" v-if="status == 1 && !isCustomer">
-            <span class="btn btn-green btn-small" @click="agreeOrder($route.params.orderNo)">同意</span>
-            <span class="btn btn-green-outline btn-small" @click="refuseOrder($route.params.orderNo)">拒绝</span>
+            <span class="btn btn-green btn-small" @click="agreeOrder(order)">同意</span>
+            <span class="btn btn-green-outline btn-small" @click="refuseOrder(order)">拒绝</span>
         </div>
 
         <!-- 等待支付 -->
@@ -106,39 +106,39 @@
         </div>
 
         <div class="btn-area" v-if="status ==2 && isCustomer">
-          <span class="btn btn-green-outline btn-small" @click="cancelConsult($route.params.orderNo)">取消咨询</span>
-          <span class="btn btn-green btn-small" @click="toPay($route.params.orderNo)">立即支付</span>
+          <span class="btn btn-green-outline btn-small" @click="cancelConsult(order)">取消咨询</span>
+          <span class="btn btn-green btn-small" @click="toPay(order.id)">立即支付</span>
         </div>
 
         <!-- 在线咨询 -->
         <div class="btn-area" v-if="status ==3">
           <span class="btn btn-green-outline btn-small" @click="toOrderList">返回订单列表</span>
-          <span class="btn btn-green btn-small" @click="toChatRoom($route.params.orderNo)">进入咨询室</span>
+          <span class="btn btn-green btn-small" @click="toChatRoom(order.id)">进入咨询室</span>
         </div>
 
        <!-- 咨询完成 -->
         <div class="btn-area" v-if="status ==4 && isCustomer">
-          <span class="btn btn-green btn-small" @click="toComment($route.params.orderNo)">去评价</span>
-          <span class="btn btn-green-outline btn-small" @click="toChatRoom($route.params.orderNo)">咨询详情</span>
+          <span class="btn btn-green btn-small" @click="toComment(order.id)">去评价</span>
+          <span class="btn btn-green-outline btn-small" @click="toChatRoom(order.id)">咨询详情</span>
         </div>
 
         <div class="btn-area" v-if="status == 4 && !isCustomer">
-          <span class="btn btn-green-outline btn-small" @click="toChatRoom($route.params.orderNo)">咨询详情</span>
+          <span class="btn btn-green-outline btn-small" @click="toChatRoom(order.id)">咨询详情</span>
           <span class="btn btn-green-outline btn-small" @click="toOrderList">返回订单列表</span>
         </div>
 
         <!-- 评价完成 -->
         <div class="btn-area" v-if="status == 5 && isCustomer">
          
-          <span class="btn btn-green-outline btn-small" @click="toCommentDetail($route.params.orderNo)">查看评价</span>
-          <span class="btn btn-green-outline btn-small" @click="toChatRoom($route.params.orderNo)">咨询详情</span>
+          <span class="btn btn-green-outline btn-small" @click="toCommentDetail(order.id)">查看评价</span>
+          <span class="btn btn-green-outline btn-small" @click="toChatRoom(order.id)">咨询详情</span>
      <!--       <span class="btn btn-green btn-small" @click="toAppointment(88)">再次咨询</span> -->
         </div>
 
 
         <div class="btn-area" v-if="status == 5 && !isCustomer">
-          <span class="btn btn-green-outline btn-small" @click="toCommentDetail($route.params.orderNo)">查看评价</span>
-          <span class="btn btn-green-outline btn-small" @click="toChatRoom($route.params.orderNo)">咨询详情</span>
+          <span class="btn btn-green-outline btn-small" @click="toCommentDetail(order.id)">查看评价</span>
+          <span class="btn btn-green-outline btn-small" @click="toChatRoom(order.id)">咨询详情</span>
         </div>
 
       </div>
@@ -147,35 +147,35 @@
         <p class="order-msg-item">订单编号：<span>{{order.orderNo}}</span></p>
       </div>
       <div class="bottom-block">
-        <div class="detail-msg-item" v-if="status >=-3 && !isCustomer">
+        <div class="detail-msg-item" v-if="status >=-2 && !isCustomer">
           <div class="msg-content">
             <span class="iconfont icon-yonghu1"></span>
             客户名称：{{order.expertName}}
           </div>
         </div>
 
-        <div class="detail-msg-item" v-if="status >=-3 && isCustomer">
+        <div class="detail-msg-item" v-if="status >=-2 && isCustomer">
           <div class="msg-content">
             <span class="iconfont icon-zhuanjiaku"></span>
             专家名称：{{order.serverExpertName}}
           </div>
         </div>
 
-        <div class="detail-msg-item" v-if="status >=-3 ">
+        <div class="detail-msg-item" v-if="status >=-2">
           <div class="msg-content">
             <span class="iconfont icon-shiduan"></span>
             咨询时段：{{order.quantity}}节/{{order.totalDuration}}分钟
           </div>
         </div>
 
-        <div class="detail-msg-item" v-if="status >=-3">
+        <div class="detail-msg-item" v-if="status >=-2">
           <div class="msg-content">
             <span class="iconfont icon-jine"></span>
             订单金额：￥{{order.amount}}
           </div>
         </div>
 
-        <div class="detail-msg-item" v-if="status >=-3">
+        <div class="detail-msg-item" v-if="status >=-2">
           <h6 class="msg-title">
             <span class="iconfont icon-wenti"></span>
             问题描述
@@ -242,30 +242,6 @@
               <span class="status-name">{{item.title}}</span>
               <span class="status-time">{{item.creationTime | datetime('yyyy-MM-dd HH:mm:ss')}}</span>
             </li>
-            <!-- <li class="status-item" v-if="status == -2 || status == -3">
-              <span class="status-name">订单关闭</span>
-              <span class="status-time">2017-07-30 13:30:20</span>
-            </li>
-            <li class="status-item" v-if="status >=1">
-              <span class="status-name">专家确认</span>
-              <span class="status-time">2017-07-30 13:30:20</span>
-            </li>
-            <li class="status-item" v-if="status >=2">
-              <span class="status-name">支付</span>
-              <span class="status-time">2017-07-30 13:30:20</span>
-            </li>
-            <li class="status-item" v-if="status >=3">
-              <span class="status-name">完成咨询</span>
-              <span class="status-time">2017-07-30 13:30:20</span>
-            </li>
-            <li class="status-item" v-if="status >=4">
-              <span class="status-name">完成评价</span>
-              <span class="status-time">2017-07-30 13:30:20</span>
-            </li>
-            <li class="status-item" v-if="status >=5">
-              <span class="status-name">完成结算</span>
-              <span class="status-time">2017-07-30 13:30:20</span>
-            </li> -->
           </ul>
         </div>
      </div>
@@ -311,38 +287,44 @@ export default {
     },
 
     toOrderList() {
-      if (this.$route.params.flag == 1) {
+      if (!this.isCustomer) {
         this.$router.push("/consult");
       } else {
         this.$router.push("/consult/expert");
       }
     },
-    cancelConsult(id) {
+    cancelConsult(order) {
       let that = this;
       T.Confirm({
-        text: "确定取消订单" + id + "?",
+        text: "确定取消订单" + order.orderNo + "?",
         confirm: function() {
-          that.status = -3;
-        },
-        cancel: function() {}
+          api.CancelOrder(order.id).then(res => {
+            that.status = res.data.result.status;
+          });
+        }
       });
     },
 
-    agreeOrder() {
+    agreeOrder(order) {
+      let that = this;
       T.Confirm({
         text: "确定接受此次订单咨询?",
-        confirm: function() {},
-        cancel: function() {}
+        confirm: function() {
+          api.AcceptOrder(order.id).then(res => {
+            that.status = res.data.result.status;
+          });
+        }
       });
     },
-    refuseOrder() {
+    refuseOrder(order) {
       let that = this;
       T.Confirm({
         text: "确定拒绝此订单咨询?",
         confirm: function() {
-          that.status = -2;
-        },
-        cancel: function() {}
+          api.RefuseOrder(order.id).then(res => {
+            that.status = res.data.result.status;
+          });
+        }
       });
     },
 

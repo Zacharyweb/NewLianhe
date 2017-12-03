@@ -8,6 +8,7 @@ class Api {
       config.headers['Authorization'] = "Bearer " + localStorage.getItem("token");
       return config;
     });
+    //错误友好提示
     Axios.interceptors.response.use(function (res) {
       return res;
     }, function (err) {
@@ -112,6 +113,33 @@ class Api {
     return T.post({
       url: "services/app/ExpertOrder/CreateOrder",
       data: data
+    })
+  }
+
+  CancelOrder = (orderId) => {
+    return T.post({
+      url: "services/app/ExpertOrder/CancelOrder",
+      data: {
+        id: orderId
+      }
+    })
+  }
+
+  RefuseOrder = (orderId) => {
+    return T.post({
+      url: "services/app/ExpertOrder/RefuseOrder",
+      data: {
+        id: orderId
+      }
+    })
+  }
+
+  AcceptOrder = (orderId) => {
+    return T.post({
+      url: "services/app/ExpertOrder/AcceptOrder",
+      data: {
+        id: orderId
+      }
     })
   }
 }

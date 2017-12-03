@@ -10,21 +10,18 @@
             <p class="item-cost"> ¥{{item.amount}} / {{item.quantity}}节</p>
             <p class="item-detail text-ellipsis">{{item.questionRemark}}</p>
             <p class="btn-area" v-if="item.status==1">
-              <span class="btn btn-green-outline" @click.stop="agreeConsult(item.orderNo)">同意</span>
-              <span class="btn btn-green-outline" @click.stop="refuseConsult(item.orderNo)">拒绝</span>
-            </p>
-            <p class="btn-area" v-if="item.status==2">
-              <span class="btn btn-green-outline" @click.stop="toChatRoom(item.orderNo)">进入咨询室</span>
+              <span class="btn btn-green-outline" @click.stop="agreeConsult(item)">同意</span>
+              <span class="btn btn-green-outline" @click.stop="refuseConsult(item)">拒绝</span>
             </p>
             <p class="btn-area" v-if="item.status==3">
-              <span class="btn btn-green-outline" @click.stop="toChatRoom(item.orderNo)">咨询详情</span>
+              <span class="btn btn-green-outline" @click.stop="toChatRoom(item.id)">进入咨询室</span>
             </p>
             <p class="btn-area" v-if="item.status==4">
-              <span class="btn btn-green-outline" @click.stop="toChatRoom(item.orderNo)">咨询详情</span>
+              <span class="btn btn-green-outline" @click.stop="toChatRoom(item.id)">咨询详情</span>
             </p>
             <p class="btn-area" v-if="item.status==5">
-              <span class="btn btn-green-outline" @click.stop="toCommentDetail(item.orderNo)">评价详情</span>
-              <span class="btn btn-green-outline" @click.stop="toChatRoom(item.orderNo)">咨询详情</span>
+              <span class="btn btn-green-outline" @click.stop="toCommentDetail(item.id)">评价详情</span>
+              <span class="btn btn-green-outline" @click.stop="toChatRoom(item.id)">咨询详情</span>
             </p>
           </li>
      
@@ -59,22 +56,25 @@ export default {
       this.$router.push("/comment/detail/" + id);
     },
 
-    agreeConsult(id) {
+    agreeConsult(order) {
       T.Confirm({
         text: "确定接受此次咨询?",
         confirm: function() {
-          console.log("确定接受");
+          api.AcceptOrder(order.id).then(res => {
+            order.status = res.data.result.status;
+          });
         },
         cancel: function() {}
       });
     },
-    refuseConsult() {
+    refuseConsult(order) {
       T.Confirm({
         text: "确定拒绝此次咨询?",
         confirm: function() {
-          console.log("确定拒绝");
-        },
-        cancel: function() {}
+          api.RefuseOrder(order.id).then(res => {
+            order.status = res.data.result.status;
+          });
+        }
       });
     }
   },

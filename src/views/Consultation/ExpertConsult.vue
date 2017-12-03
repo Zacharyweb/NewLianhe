@@ -8,12 +8,12 @@
             <p class="item-cost"> ¥{{item.amount}} / {{item.quantity}}节</p>
             <p class="item-detail text-ellipsis">{{item.questionRemark}}</p>
             <p class="btn-area" v-if="item.status == 1">
-              <span class="btn btn-green-outline" @click.stop="cancelConsult(item.orderNo)">取消咨询</span>
+              <span class="btn btn-green-outline" @click.stop="cancelConsult(item)">取消咨询</span>
             </p>
 
             <p class="btn-area" v-if="item.status == 2">
               <span class="btn btn-green-outline" @click.stop="toPay(item.orderNo)">立即支付</span>
-              <span class="btn btn-green-outline" @click.stop="cancelConsult(item.orderNo)">取消咨询</span>
+              <span class="btn btn-green-outline" @click.stop="cancelConsult(item)">取消咨询</span>
             </p>
 
             <p class="btn-area" v-if="item.status == 3">
@@ -55,11 +55,14 @@ export default {
       this.$router.push("/order/detail/" + id);
     },
 
-    cancelConsult(id) {
+    cancelConsult(order) {
       T.Confirm({
-        text: "确定取消订单" + id + "?",
-        confirm: function() {},
-        cancel: function() {}
+        text: "确定取消订单" + order.orderNo + "?",
+        confirm: function() {
+          api.CancelOrder(order.id).then(res => {
+            order.status = res.data.result.status;
+          });
+        }
       });
     },
     toPay(id) {

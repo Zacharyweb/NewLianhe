@@ -66,6 +66,12 @@ export default {
           type: 4
         },
         {
+          name: "法务",
+          icon: { "icon-zanfuwutubiao06-copy": true },
+          color: "#7ed321",
+          type: 1
+        },
+        {
           name: "更多分类",
           icon: { "icon-gengduo": true },
           color: "#e6e6e6",
