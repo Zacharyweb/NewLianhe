@@ -275,7 +275,7 @@ export default {
       }, 1000);
     },
     toAppointment(order) {
-      let id = this.isCustomer ? order.expertId : order.serverExpertId;
+      let id = order.serverExpertId;
       this.$router.push({
         path: "/appoint",
         query: {
