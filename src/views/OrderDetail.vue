@@ -107,7 +107,7 @@
 
         <div class="btn-area" v-if="status ==2 && isCustomer">
           <span class="btn btn-green-outline btn-small" @click="cancelConsult(order)">取消咨询</span>
-          <span class="btn btn-green btn-small" @click="toPay(order.id)">立即支付</span>
+          <span class="btn btn-green btn-small" @click="toPay(order)">立即支付</span>
         </div>
 
         <!-- 在线咨询 -->
@@ -329,8 +329,11 @@ export default {
       });
     },
 
-    toPay(id) {
-      console.log("去支付~");
+    toPay(order) {
+      api.PayOrder(order.id).then(res => {
+        T.showToast("支付成功~");
+        this.status = res.data.result.status;
+      });
     },
     toChatRoom(id) {
       this.$router.push({

@@ -12,12 +12,12 @@
             </p>
 
             <p class="btn-area" v-if="item.status == 2">
-              <span class="btn btn-green-outline" @click.stop="toPay(item.orderNo)">立即支付</span>
+              <span class="btn btn-green-outline" @click.stop="toPay(item)">立即支付</span>
               <span class="btn btn-green-outline" @click.stop="cancelConsult(item)">取消咨询</span>
             </p>
 
             <p class="btn-area" v-if="item.status == 3">
-              <span class="btn btn-green-outline" @click.stop="toChatRoom(item.orderNo)">进入咨询室</span>
+              <span class="btn btn-green-outline" @click.stop="toChatRoom(item.id)">进入咨询室</span>
             </p>
 
             <!-- <p class="btn-area" v-if="item.status == 4">
@@ -26,12 +26,12 @@
             </p> -->
 
             <p class="btn-area" v-if="item.status == 4">
-              <span class="btn btn-green-outline" @click.stop="toComment(item.orderNo)">去评价</span>
-              <span class="btn btn-green-outline" @click.stop="toChatRoom(item.orderNo)">咨询详情</span>
+              <span class="btn btn-green-outline" @click.stop="toComment(item.id)">去评价</span>
+              <span class="btn btn-green-outline" @click.stop="toChatRoom(item.id)">咨询详情</span>
             </p>
             <p class="btn-area" v-if="item.status == 5">
-              <span class="btn btn-green-outline" @click.stop="toCommentDetail(item.orderNo)">评价详情</span>
-              <span class="btn btn-green-outline" @click.stop="toChatRoom(item.orderNo)">咨询详情</span>
+              <span class="btn btn-green-outline" @click.stop="toCommentDetail(item.id)">评价详情</span>
+              <span class="btn btn-green-outline" @click.stop="toChatRoom(item.id)">咨询详情</span>
             </p>
 
           </li>
@@ -65,8 +65,11 @@ export default {
         }
       });
     },
-    toPay(id) {
-      console.log("去支付~");
+    toPay(order) {
+      api.PayOrder(order.id).then(res => {
+        T.showToast("支付成功~");
+        order.status = res.data.result.status;
+      });
     },
 
     toChatRoom(id) {

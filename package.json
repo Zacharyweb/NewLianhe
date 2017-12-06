@@ -10,8 +10,10 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@aspnet/signalr-client": "^1.0.0-alpha2-final",
     "axios": "^0.16.2",
     "pubsub-js": "^1.5.7",
+    "signalr-client": "0.0.17",
     "vue": "^2.4.2",
     "vue-3d-picker": "^2.1.0",
     "vue-awesome-swiper": "^2.6.4",

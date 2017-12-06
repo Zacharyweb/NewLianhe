@@ -142,6 +142,31 @@ class Api {
       }
     })
   }
+
+  PayOrder = (orderId) => {
+    return T.post({
+      url: "services/app/ExpertOrder/PayOrder",
+      data: {
+        id: orderId
+      }
+    })
+  }
+
+  GetExpertOrderChats = (orderId) => {
+    return T.get({
+      url: "services/app/ExpertChatService/GetExpertOrderChats",
+      data: {
+        orderId: orderId
+      }
+    })
+  }
+
+  CreateExpertChat = (data) => {
+    return T.post({
+      url: "services/app/ExpertChatService/CreateExpertChat",
+      data: data
+    })
+  }
 }
 
 export default new Api()
