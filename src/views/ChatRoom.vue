@@ -11,52 +11,54 @@
       <div class="end-chat-btn" v-if="!countShow" @click="endChat">结束对话</div>
     <v-scroll :on-refresh="onRefresh"  :bottom="vScrollBottom" :top="50">
       <div class="chat-msg-wrap" @touchstart="checkInputPanelHeight">
-        <!-- 左侧消息 -->
-        <div class="msg-item left-msg">
-          <span class="msg-time">2017-7-20 19:20:20</span>
-          <img class="user-avatar" src="../../static/timg.jpeg" >
-          <div class="chat-content">我是文字内容~</div>
-        </div>  
-        <!-- 右侧消息 -->
-        <div class="msg-item right-msg">
-          <span class="msg-time">2017-7-20 19:20:20</span>
-          <div class="chat-content">我是文字内容~</div>
-          <img class="user-avatar" src="../../static/timg.jpeg" >
-        </div> 
-        <!-- 左侧语音 -->
-        <div class="msg-item left-msg">
-          <span class="msg-time">2017-7-20 19:20:20</span>
-          <img class="user-avatar" src="../../static/timg.jpeg" >
-          <div class="chat-content voice-content" @click="playAudio(1)"> 
-             <voice-wave :id="1" :play="audioPlay" :play-id="audioPlayId"></voice-wave>
-             <span class="voice-time">6"</span>
+        <template v-for="(chat,index) in order.expertOrderCharts">
+          <!-- 左侧消息 -->
+          <div v-if="!isMineChat(chat)" :key="index" class="msg-item left-msg">
+            <!-- <span class="msg-time">{{chat.creationTime}}</span> -->
+            <img class="user-avatar" src="../../static/timg.jpeg" >
+            <div class="chat-content">{{chat.content}}</div>
           </div>
-        </div> 
-        <!-- 右侧语音 -->
-        <div class="msg-item right-msg">
-          <span class="msg-time">2017-7-20 19:20:20</span>
-          <div class="chat-content voice-content" @click="playAudio(2)"> 
-             <span class="voice-time">6"</span>
-             <voice-wave :id="2" :play="audioPlay" :play-id="audioPlayId"></voice-wave>
-          </div>
-          <img class="user-avatar" src="../../static/timg.jpeg">
-        </div> 
-        <!-- 左侧图片 -->
-        <div class="msg-item left-msg">
-          <span class="msg-time">2017-7-20 19:20:20</span>
-          <img class="user-avatar" src="../../static/timg.jpeg" >
-          <div class="chat-content">
-            <img src="../../static/timg.jpeg"  @click="showImgDetail">
-          </div>
-        </div>
-        <!-- 右侧图片 -->
-        <div class="msg-item right-msg">
-          <span class="msg-time">2017-7-20 19:20:20</span>
-          <div class="chat-content">
-            <img src="../../static/timg.jpeg"  @click="showImgDetail">
-          </div>
-          <img class="user-avatar" src="../../static/timg.jpeg" >
-        </div>        
+          <!-- 右侧消息 -->
+          <div v-else :key="index" class="msg-item right-msg">
+            <!-- <span class="msg-time">2017-7-20 19:20:20</span> -->
+            <div class="chat-content">{{chat.content}}</div>
+            <img class="user-avatar" src="../../static/timg.jpeg" >
+          </div> 
+          <!-- 左侧语音 -->
+          <!-- <div class="msg-item left-msg">
+            <span class="msg-time">2017-7-20 19:20:20</span>
+            <img class="user-avatar" src="../../static/timg.jpeg" >
+            <div class="chat-content voice-content" @click="playAudio(1)"> 
+              <voice-wave :id="1" :play="audioPlay" :play-id="audioPlayId"></voice-wave>
+              <span class="voice-time">6"</span>
+            </div>
+          </div>  -->
+          <!-- 右侧语音 -->
+          <!-- <div class="msg-item right-msg">
+            <span class="msg-time">2017-7-20 19:20:20</span>
+            <div class="chat-content voice-content" @click="playAudio(2)"> 
+              <span class="voice-time">6"</span>
+              <voice-wave :id="2" :play="audioPlay" :play-id="audioPlayId"></voice-wave>
+            </div>
+            <img class="user-avatar" src="../../static/timg.jpeg">
+          </div>  -->
+          <!-- 左侧图片 -->
+          <!-- <div class="msg-item left-msg">
+            <span class="msg-time">2017-7-20 19:20:20</span>
+            <img class="user-avatar" src="../../static/timg.jpeg" >
+            <div class="chat-content">
+              <img src="../../static/timg.jpeg"  @click="showImgDetail">
+            </div>
+          </div> -->
+          <!-- 右侧图片 -->
+          <!-- <div class="msg-item right-msg">
+            <span class="msg-time">2017-7-20 19:20:20</span>
+            <div class="chat-content">
+              <img src="../../static/timg.jpeg"  @click="showImgDetail">
+            </div>
+            <img class="user-avatar" src="../../static/timg.jpeg" >
+          </div>         -->
+        </template>
       </div>
     </v-scroll>
     <div class="input-panel" ref="inputPanel">
@@ -98,6 +100,7 @@ import Scroll from "../components/Scroll.vue";
 import HeaderNav from "../components/HeaderNav.vue";
 import CountTimer from "../components/CountTimer.vue";
 import VoiceWave from "../components/VoiceWave.vue";
+import config from "../tool/config";
 import T from "../tool/tool";
 import api from "../ajax/index";
 import R from "../tool/signalr/signalr-clientES5-1.0.0-alpha2-final";
@@ -130,6 +133,9 @@ export default {
         done();
       }, 1000);
     },
+    isMineChat(chat) {
+      return chat.senderExpert.id === this.$store.state.user.id;
+    },
     showImgDetail() {
       this.imgDetailShow = true;
       this.imgDetailScaleOut = false;
@@ -153,20 +159,33 @@ export default {
       this.vScrollBottom = this.$refs.inputPanel.offsetHeight;
     },
     toSendMsg() {
-      if (!this.voiceInputShow) {
-        this.inputMsg = "";
-        this.vScrollBottom = 70;
-      }
-      api
-        .CreateExpertChat({
-          expertOrderId: this.order.id,
-          expertId: this.order.expertId,
-          experReceiverId: this.order.experReceiverId,
-          content: this.inputMsg
-        })
-        .then(res => {
-          console.log(res);
-        });
+      let userId = this.$store.state.user.id;
+      this.connection.invoke("sendToGroup", this.order.id, {
+        expertOrderId: this.order.id,
+        expertId: userId,
+        experReceiverId:
+          userId === this.order.expertId
+            ? this.order.serverExpertId
+            : this.order.expertId,
+        content: this.inputMsg
+      });
+      // api
+      //   .CreateExpertChat({
+      //     expertOrderId: this.order.id,
+      //     expertId: userId,
+      //     experReceiverId:
+      //       userId === this.order.expertId
+      //         ? this.order.serverExpertId
+      //         : this.order.expertId,
+      //     content: this.inputMsg
+      //   })
+      //   .then(res => {
+      //     this.connection.invoke("sendToGroup", this.order.id, this.inputMsg);
+      //     this.inputMsg = "";
+      //     this.vScrollBottom = 70;
+
+      //     console.log(res);
+      //   });
     },
     playAudio(id) {
       if (id == this.audioPlayId) {
@@ -208,13 +227,21 @@ export default {
     document.title = "咨询室";
     api.GetExpertOrderChats(this.$route.params.id).then(res => {
       this.order = res.data.result;
+      console.log(this.order);
     });
-
-    this.connection = new signalR.HubConnection("http://localhost:57809/chat");
+    var that = this;
+    this.connection = new signalR.HubConnection(config.chatip);
     this.connection.on("send", data => {
       console.log(data);
     });
-    this.connection.start().then(() => this.connection.invoke("send", "Hello"));
+    this.connection.on("sendToGroup", data => {
+      that.order.expertOrderCharts.push(data);
+      that.inputMsg = "";
+      that.vScrollBottom = 70;
+    });
+    this.connection
+      .start()
+      .then(() => this.connection.invoke("joinGroup", this.$route.params.id));
   },
   destroyed() {
     this.connection.stop();
