@@ -230,7 +230,10 @@ export default {
       console.log(this.order);
     });
     var that = this;
-    this.connection = new signalR.HubConnection(config.chatip);
+    var transportType = signalR.TransportType.LongPolling;
+    this.connection = new signalR.HubConnection(config.chatip, {
+      transport: transportType
+    });
     this.connection.on("send", data => {
       console.log(data);
     });
