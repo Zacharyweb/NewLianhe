@@ -103,7 +103,7 @@ import VoiceWave from "../components/VoiceWave.vue";
 import config from "../tool/config";
 import T from "../tool/tool";
 import api from "../ajax/index";
-import R from "../tool/signalr/signalr-clientES5-1.0.0-alpha2-final";
+import chat from "../tool/signalr/index";
 export default {
   name: "ChatRoom",
   components: {
@@ -122,7 +122,7 @@ export default {
       voiceInputShow: false,
       voiceInputTipsShow: false,
       counts: 130,
-      countShow: true,
+      countShow: false,
       audioPlayId: -1,
       order: {}
     };
@@ -160,7 +160,7 @@ export default {
     },
     toSendMsg() {
       let userId = this.$store.state.user.id;
-      this.connection.invoke("sendToGroup", this.order.id, {
+      chat.send(this.order.id, {
         expertOrderId: this.order.id,
         expertId: userId,
         experReceiverId:
@@ -227,27 +227,19 @@ export default {
     document.title = "咨询室";
     api.GetExpertOrderChats(this.$route.params.id).then(res => {
       this.order = res.data.result;
+      this.counts = this.order.totalDuration * 60;
+      this.countShow = true;
       console.log(this.order);
     });
     var that = this;
-    var transportType = signalR.TransportType.ServerSentEvents;
-    this.connection = new signalR.HubConnection(config.chatip, {
-      transport: transportType
-    });
-    this.connection.on("send", data => {
-      console.log(data);
-    });
-    this.connection.on("sendToGroup", data => {
+    chat.start(this.$store.state.accessToken, this.$route.params.id, data => {
       that.order.expertOrderCharts.push(data);
       that.inputMsg = "";
       that.vScrollBottom = 70;
     });
-    this.connection
-      .start()
-      .then(() => this.connection.invoke("joinGroup", this.$route.params.id));
   },
   destroyed() {
-    this.connection.stop();
+    chat.stop();
   }
 };
 </script>
