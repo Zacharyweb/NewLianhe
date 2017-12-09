@@ -230,7 +230,7 @@ export default {
       console.log(this.order);
     });
     var that = this;
-    var transportType = signalR.TransportType.LongPolling;
+    var transportType = signalR.TransportType.ServerSentEvents;
     this.connection = new signalR.HubConnection(config.chatip, {
       transport: transportType
     });
