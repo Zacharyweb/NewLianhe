@@ -97,10 +97,25 @@ export default {
     }
   },
   mounted() {
-    api.GetAllExpertClasses().then(res => {
-      this.skills = res.data.result;
-      this.changeSkill(this.skills[0].id);
-    });
+    api
+      .GetAllExpertClasses()
+      .then(res => {
+        this.skills = res.data.result;
+        this.changeSkill(this.skills[0].id);
+      })
+      .then(() => {
+        return api.GetNonExpert();
+      })
+      .then(res => {
+        let info = res.data.result;
+        this.skill = info.expertFirstClassId;
+        this.subSkill = info.expertClassId;
+        this.tel = info.phone;
+        this.name = info.name;
+        this.company = info.organization;
+        this.position = info.post;
+        this.exper = info.workYears;
+      });
   }
 };
 </script>

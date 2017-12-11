@@ -304,10 +304,34 @@ export default {
     }
   },
   mounted() {
-    api.GetAllExpertClasses().then(res => {
-      this.skills = res.data.result;
-      this.changeSkill(this.skills[0].id);
-    });
+    api
+      .GetAllExpertClasses()
+      .then(res => {
+        this.skills = res.data.result;
+        this.changeSkill(this.skills[0].id);
+      })
+      .then(() => {
+        return api.GetExpert();
+      })
+      .then(res => {
+        let info = res.data.result;
+
+        this.name = info.name,
+        this.phone = info.phone,
+        this.organization = info.organization,
+        this.post = info.post,
+        this.experType = info.experType,
+        this.workYears = info.workYears,
+        this.expertFirstClassId = info.expertFirstClassId,
+        this.expertClassId = info.expertClassId,
+
+        this.speciality = info.speciality;
+        this.price = info.price;
+        this.weixinAccount = info.weixinAccount;
+        this.alipayAccount = info.alipayAccount;
+        this.introduction = info.introduction;
+        this.expertWorkSettings = info.expertWorkSettings;
+      });
   }
 };
 </script>

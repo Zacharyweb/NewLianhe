@@ -167,6 +167,32 @@ class Api {
       data: data
     })
   }
+
+  CreateExpertFriend = (data) => {
+    return T.post({
+      url: "services/app/Expert/CreateExpertFriend",
+      data: data
+    })
+  }
+
+  GetExpertFriends = () => {
+    return T.get({
+      url: "services/app/Expert/GetExpertFriends"
+    })
+  }
+
+  GetNonExpert = () => {
+    return T.get({
+      url: "services/app/Expert/GetNonExpert"
+    })
+  }
+
+  GetExpert = () => {
+    return T.get({
+      url: "services/app/Expert/GetExpert"
+    })
+  }
+  
 }
 
 export default new Api()
