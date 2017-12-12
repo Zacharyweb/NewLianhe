@@ -27,8 +27,8 @@
       <div class="tags-item">
           <p class="label">专家分类<i class="require-icon">*</i>：</p>
           <p class="tags-wrap">
-            <span class="tag-item" :class="{'active':experType == 1}" @click="chageExperType(1)">公开专家</span>
-            <span class="tag-item" :class="{'active':experType == 2}" @click="chageExperType(2)">关系户专家</span>
+            <span class="tag-item" :class="{'active':expertType == 1}" @click="chageExperType(1)">公开专家</span>
+            <span class="tag-item" :class="{'active':expertType == 2}" @click="chageExperType(2)">关系户专家</span>
           </p>
           <div class="select-tips">
             <span>注</span>
@@ -100,10 +100,10 @@
              <span class="add-open-time" @click="addOpenTime" v-if="expertWorkSettings.length < 7">+ 增加时段</span>
           </div>
           <div class="form-input" v-for="(item,index) in expertWorkSettings" v-bind:key="index">
-            <span class="time-picker-input" :class="{'grey':!item.week}" @click="showTimePicker(1,index,1)">{{item.week || '请选择'}}</span>
-            <span class="time-picker-input" :class="{'grey':!item.startTime}" @click="showTimePicker(0,index,2)">{{item.startTime || '请选择'}}</span>
+            <span class="time-picker-input" :class="{'grey':!item.week}" @click="showTimePicker(1,index,1)">{{item.week | weekday('请选择')}}</span>
+            <span class="time-picker-input" :class="{'grey':!item.startTime}" @click="showTimePicker(0,index,2)">{{item.startTime | datetime("HH:mm") || "请选择"}}</span>
             <span class="devide-line">-</span>
-            <span class="time-picker-input" :class="{'grey':!item.endTime}" @click="showTimePicker(0,index,3)">{{item.endTime || '请选择'}}</span>
+            <span class="time-picker-input" :class="{'grey':!item.endTime}" @click="showTimePicker(0,index,3)">{{item.endTime | datetime("HH:mm") || "请选择"}}</span>
             <span class="iconfont icon-3" @click="deleteOpenTime(index)" v-if="expertWorkSettings.length > 1"></span>
           </div>
           <div class="select-tips">
@@ -170,7 +170,7 @@ export default {
       organization: "",
       post: "",
       workStatus: 1,
-      experType: 1,
+      expertType: 1,
       workYears: 1,
       expertFirstClassId: 0,
       expertClassId: 0,
@@ -189,7 +189,7 @@ export default {
       currentEditIndex: 0,
       currentEditNum: 0,
 
-      expertWorkSettings: [{ weekDay: "", timeStart: "", timeEnd: "" }],
+      expertWorkSettings: [{ week: "", startTime: "", endTime: "" }],
       expertPhotos: []
     };
   },
@@ -204,7 +204,7 @@ export default {
       document.body.scrollTop = 0;
     },
     chageExperType(num) {
-      this.experType = num;
+      this.expertType = num;
     },
     changeExperience(num) {
       this.workYears = num;
@@ -254,6 +254,7 @@ export default {
     toSaveBase() {
       api
         .UpdateNonExpert({
+          expertType:this.expertType,
           expertFirstClassId: this.expertFirstClassId,
           expertClassId: this.expertClassId,
           phone: this.phone,
@@ -266,7 +267,7 @@ export default {
         .then(res => {
           this.$router.go(-1);
           this.$store.dispatch("getLoginInfo");
-          T.showToast({ title: "修改成功" });
+          T.showToast({ text: "修改成功" });
         });
     },
 
@@ -283,7 +284,7 @@ export default {
         .then(() => {
           this.$router.go(-1);
           this.$store.dispatch("getLoginInfo");
-          T.showToast({ title: "修改成功" });
+          T.showToast({ text: "修改成功" });
         });
     },
 
@@ -320,7 +321,7 @@ export default {
         this.phone = info.phone,
         this.organization = info.organization,
         this.post = info.post,
-        this.experType = info.experType,
+        this.expertType = info.expertType || 1,
         this.workYears = info.workYears,
         this.expertFirstClassId = info.expertFirstClassId,
         this.expertClassId = info.expertClassId,

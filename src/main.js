@@ -37,11 +37,11 @@ Vue.filter('onlinestatus', function (value) {
     case 2:
       return "营业中";
     default:
-      return "未知"
+      return null;
       break;
   }
 })
-Vue.filter('weekday', function (value) {
+Vue.filter('weekday', function (value, emptyText) {
   switch (value) {
     case 1:
       return "周一"
@@ -61,7 +61,7 @@ Vue.filter('weekday', function (value) {
     case 6:
       return "周天";
     default:
-      return "未知"
+      return value || emptyText;
       break;
   }
 })
@@ -91,6 +91,7 @@ Vue.filter('orderstatus', function (value) {
 })
 Vue.filter("datetime", function (date, fmt) {
   if (!date) return null;
+
   date = new Date(date);
   var o = {
     "M+": date.getMonth() + 1, //月份   
