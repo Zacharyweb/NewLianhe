@@ -1,15 +1,10 @@
-/*
- * Copyright 杭州异人异想网络科技有限公司  异人异想手机网贷理财wap版软件 All Rights Reserved
- * @version 1.0
- */
+
 const config = {
-  //ip:'https://api.huiyuanjinfu.com',
-  //activityIp:'https://act.huiyuanjinfu.com',
-  //ip:'http://192.168.1.115:8083',
-  ip: 'http://localhost:57809/api/',
-  chatip: 'http://localhost:57809/chat',
-  // ip:'http://api.advisors-ally.com/api/',
-  // chatip: 'http://api.advisors-ally.com/chat',
+
+  // ip: 'http://localhost:57809/api/',
+  // chatip: 'http://localhost:57809/chat',
+  ip:'http://api.advisors-ally.com/api/',
+  chatip: 'http://api.advisors-ally.com/chat',
   // ip:'http://localhost:8080',
   activityIp: 'http://192.168.1.198:3001',
 
