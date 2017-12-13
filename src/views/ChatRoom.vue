@@ -7,10 +7,11 @@
                    :counts="counts"  
                    :on-end="countEnd" 
                    :on-change="countChange"
+                  
       />
       <div class="end-chat-btn" v-if="!countShow" @click="endChat">结束对话</div>
-    <v-scroll :on-refresh="onRefresh"  :bottom="vScrollBottom" :top="50">
-      <div class="chat-msg-wrap" @touchstart="checkInputPanelHeight">
+    <v-scroll ref="chatContentWrapper" :on-refresh="onRefresh"  :bottom="vScrollBottom" :top="50">
+      <div class="chat-msg-wrap"  @touchstart="checkInputPanelHeight">
         <template v-for="(chat,index) in order.expertOrderCharts">
           <!-- 左侧消息 -->
           <div v-if="!isMineChat(chat)" :key="index" class="msg-item left-msg">
@@ -133,6 +134,9 @@ export default {
         done();
       }, 1000);
     },
+    scrollToBottom(){
+      this.$refs.chatContentWrapper.toBottom();
+    },
     isMineChat(chat) {
       return chat.senderExpert.id === this.$store.state.user.id;
     },
@@ -169,6 +173,9 @@ export default {
             : this.order.expertId,
         content: this.inputMsg
       });
+
+      
+
       // api
       //   .CreateExpertChat({
       //     expertOrderId: this.order.id,
@@ -229,6 +236,7 @@ export default {
       this.order = res.data.result;
       this.counts = this.order.totalDuration * 60;
       this.countShow = true;
+      this.scrollToBottom();
       console.log(this.order);
     });
     var that = this;
@@ -240,6 +248,16 @@ export default {
   },
   destroyed() {
     chat.stop();
+  },
+  watch:{
+    order:{
+      handler(){
+        this.$nextTick(()=>{
+          this.scrollToBottom();
+        })
+      },
+      deep:true
+    }
   }
 };
 </script>

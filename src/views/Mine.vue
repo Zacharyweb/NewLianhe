@@ -51,7 +51,7 @@
         </li>
       </ul>  
     </div>
-    <div v-if="$store.state.user.id" class="btn-wrapper"><p class="btn btn-red btn-small" @click="logout">退出</p></div>
+    <div v-if="$store.state.user.id" class="btn-wrapper"><p class="btn-logout" @click="logout">退出当前账号</p></div>
     </v-scroll>
     <bottom-nav :nav-index="2"></bottom-nav>
   </div>
@@ -182,9 +182,19 @@ export default {
   margin-right: 10px;
 }
 .btn-wrapper {
-  padding: 20px;
+  margin-top: 20px;
 }
-.btn-small {
-  width: auto;
+
+.btn-logout{
+  background-color: #fff;
+  color: #E64340;
+  height: 34px;
+  border:1px solid #e6e6e6;
+  border-left: none;
+  border-right: none;
+  font-size: 16px;
+  line-height: 1;
+  text-align: center;
+  padding-top: 17px;
 }
 </style>

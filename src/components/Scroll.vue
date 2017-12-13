@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="yo-scroll" :style="{'bottom': bottom + 'px','top' : top + 'px'}"
+  <div class="yo-scroll" ref="yoScroll" :style="{'bottom': bottom + 'px','top' : top + 'px'}"
        :class="{'down':(state===0),'up':(state==1),refresh:(state===2),touch:touching}"
        @touchstart="touchStart($event)"
        @touchmove="touchMove($event)"
@@ -158,6 +158,12 @@
         if(arr.length == 0){
           this.isNoData = true;
         }
+      },
+      toBottom(shim){
+        let shims = shim || 0;
+
+        var yoScroll = this.$refs.yoScroll;
+        yoScroll.scrollTop = yoScroll.scrollHeight + shims*1;
       }
     },
     mounted() {

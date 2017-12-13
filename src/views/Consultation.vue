@@ -141,7 +141,7 @@ export default {
   #consultPage .consult-list .consult-item .item-cost{
     font-size: 13px;
     color: #55cbc4;
-    margin-bottom: 4px;
+    margin-bottom: 8px;
   } 
   #consultPage .consult-list .consult-item .item-detail{
     font-size: 14px;

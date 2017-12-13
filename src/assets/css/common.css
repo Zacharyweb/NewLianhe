@@ -88,12 +88,13 @@
   font-size: 16px;
   position: relative;
   padding-bottom: 20px;
+  line-height: 20px;
 }
 .expert-block h4:before{
   content: '';
   position: absolute;
-  width: 8px;
-  height: 19px;
+  width: 4px;
+  height: 20px;
   background-color:#55cbc4;
   top:0;
   left: -20px;

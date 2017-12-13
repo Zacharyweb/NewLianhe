@@ -66,7 +66,7 @@ export default {
       position: absolute;
       left:0;
       bottom:0;
-      height:5px;
+      height:2px;
       width: 100%;
       display: none;
       -webkit-animation: line-scale 0.2s;
