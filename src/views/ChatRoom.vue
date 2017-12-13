@@ -381,6 +381,7 @@ export default {
   padding: 10px;
   border-radius: 8px;
   max-width: 240px;
+  word-break: break-all;
 }
 .chat-msg-wrap .msg-item .chat-content::before {
   position: absolute;
