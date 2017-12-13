@@ -192,7 +192,32 @@ class Api {
       url: "services/app/Expert/GetExpert"
     })
   }
-  
+
+  CompleteOrder = (orderId) => {
+    return T.post({
+      url: "services/app/ExpertOrder/CompleteOrder",
+      data: {
+        id: orderId
+      }
+    })
+  }
+
+  CommentOrder = (data) => {
+    return T.post({
+      url: "services/app/ExpertOrder/CommentOrder",
+      data: data
+    })
+  }
+
+  GetExpertOrderComment = (orderId) => {
+    return T.get({
+      url: "services/app/ExpertOrder/GetExpertOrderComment",
+      data: {
+        orderId: orderId
+      }
+    })
+  }
+
 }
 
 export default new Api()

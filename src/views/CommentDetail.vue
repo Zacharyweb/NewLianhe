@@ -7,8 +7,8 @@
             用户评分
           </h6>
           <div class="comment-starts">
-             <span class="iconfont" v-for="(item,index) in scoreArr" 
-                  :class="{'icon-pingfen':score < item ,'icon-pingfen-':score >= item}"
+             <span class="iconfont" v-for="(item,index) in scoreArr" :key="index" 
+                  :class="{'icon-pingfen':comment.score < item ,'icon-pingfen-':comment.score >= item}"
              >
              </span>
           </div>
@@ -24,13 +24,13 @@
             <div class="comment-item-top">
                 <img class="user-avatar" src="../../static/timg.jpeg">
                 <div class="user-msg">
-                  <p class="user-name">用户昵称</p>
-                  <p class="user-tags">用户工作单位职称等个人标签</p>
+                  <p class="user-name">{{comment.name}}</p>
+                  <p class="user-tags">{{comment.post}}</p>
                 </div>
             </div>
-            <p class="comment-content">我是评价内容~我是评价内容~我是评价内容~我是评价内容~我是评价内容~我是评价内容~我是评价内容~我是评价内容~</p>
-            <p class="comment-time">2017-10:02 08:43</p>
-            <p class="expert-reply">专家回复：感谢您的评价~</p>
+            <p class="comment-content">{{comment.content}}</p>
+            <p class="comment-time">{{comment.creationTime | datetime("yyyy-MM-dd HH:mm:ss")}}</p>
+            <p v-if="comment.expertCommentReplies.length" class="expert-reply">专家回复：{{comment.expertCommentReplies[0].content}}</p>
           </div>
         </div>
       </div>
@@ -54,50 +54,55 @@
 </template>
 
 <script>
-
-import T from '../tool/tool'
-import Scroll  from '../components/Scroll.vue'
+import T from "../tool/tool";
+import Scroll from "../components/Scroll.vue";
+import api from "../ajax/index";
 export default {
-  name: 'ConsultDetail',
-  components:{
-     'v-scroll': Scroll,
+  name: "ConsultDetail",
+  components: {
+    "v-scroll": Scroll
   },
-  data () {
+  data() {
     return {
-        scoreArr:[2,4,6,8,10],
-        score:4,
-        replyContent:'',
-        replyPanelShow:false
-    }
+      scoreArr: [2, 4, 6, 8, 10],
+      score: 4,
+      replyContent: "",
+      replyPanelShow: false,
+      comment: {}
+    };
   },
-  methods:{
-    onRefresh(done){
-      setTimeout(()=>{
+  methods: {
+    onRefresh(done) {
+      setTimeout(() => {
         done();
-      },1000)
+      }, 1000);
     },
-    showReplyPanel(){
+    showReplyPanel() {
       this.$refs.replyInput.focus();
       this.replyPanelShow = true;
     },
-    hideReplyPanel(){
-      this.replyPanelShow = false
+    hideReplyPanel() {
+      this.replyPanelShow = false;
     },
-    sendReply(){
+    sendReply() {
       this.replyContent = "";
       this.hideReplyPanel();
     }
   },
-  mounted(){
-     console.log(this.$route.params)
+  mounted() {
+    console.log(this.$route.params);
+    api.GetExpertOrderComment(this.$route.params.id).then(res => {
+      this.comment = res.data.result;
+      console.log(res.data.result);
+    });
   }
-}
+};
 </script>
 <style scoped>
-.comment-detail-wrap{
+.comment-detail-wrap {
   margin-top: 20px;
 }
-.comment-detail-wrap .detail-msg-item{
+.comment-detail-wrap .detail-msg-item {
   background-color: #fff;
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
@@ -105,85 +110,78 @@ export default {
   margin-bottom: 10px;
 }
 
-.comment-starts{
-   display: flex;
-   align-items: center;
-   padding-top: 15px;
- }
- .comment-starts .iconfont{
-   line-height: 30px;
-   font-size: 28px;
-   margin-right: 5px;
- }
- .comment-starts .iconfont.icon-pingfen{
-   font-size: 26px;
-   color: #FF8C00;
- }
- .comment-starts .iconfont.icon-pingfen-{
-   color: #FFC125;
- }
-.comment-detail-wrap .detail-msg-item .msg-title{
+.comment-starts {
+  display: flex;
+  align-items: center;
+  padding-top: 15px;
+}
+.comment-starts .iconfont {
+  line-height: 30px;
+  font-size: 28px;
+  margin-right: 5px;
+}
+.comment-starts .iconfont.icon-pingfen {
+  font-size: 26px;
+  color: #ff8c00;
+}
+.comment-starts .iconfont.icon-pingfen- {
+  color: #ffc125;
+}
+.comment-detail-wrap .detail-msg-item .msg-title {
   font-size: 17px;
   line-height: 30px;
   border-bottom: 1px solid #eee;
   padding-bottom: 10px;
 }
-.comment-detail-wrap .detail-msg-item .msg-title .iconfont{
+.comment-detail-wrap .detail-msg-item .msg-title .iconfont {
   font-size: 18px;
   margin-right: 10px;
 }
 
-.comment-detail-wrap .comment-detail .comment-item{
-   margin-top: 15px;
-   position: relative;
+.comment-detail-wrap .comment-detail .comment-item {
+  margin-top: 15px;
+  position: relative;
 }
-.comment-detail-wrap .comment-detail .comment-item .comment-item-top{
+.comment-detail-wrap .comment-detail .comment-item .comment-item-top {
   display: flex;
-  
 }
-.comment-detail-wrap .comment-detail .user-avatar{
-   width: 48px;
-   height: 48px;
-   border-radius: 50%;
+.comment-detail-wrap .comment-detail .user-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
 }
-.comment-detail-wrap .comment-detail .user-comment .user-avatar{
+.comment-detail-wrap .comment-detail .user-comment .user-avatar {
   margin-right: 15px;
 }
-.comment-detail-wrap .comment-detail .user-comment .user-msg{
+.comment-detail-wrap .comment-detail .user-comment .user-msg {
   padding-top: 5px;
 }
-.comment-detail-wrap .comment-detail .user-comment .user-name{
+.comment-detail-wrap .comment-detail .user-comment .user-name {
   font-size: 16px;
   color: #333;
   margin-bottom: 2px;
 }
-.comment-detail-wrap .comment-detail .user-comment .user-tags{
+.comment-detail-wrap .comment-detail .user-comment .user-tags {
   font-size: 14px;
   color: #999;
 }
-.comment-detail-wrap .comment-detail .user-comment .comment-content{
+.comment-detail-wrap .comment-detail .user-comment .comment-content {
   font-size: 14px;
   line-height: 1.5;
-  padding:10px 0px;
+  padding: 10px 0px;
 }
-.comment-detail-wrap .comment-detail .comment-time{
+.comment-detail-wrap .comment-detail .comment-time {
   color: #999;
   font-size: 12px;
 }
 
-.comment-detail-wrap .comment-detail .expert-reply{
+.comment-detail-wrap .comment-detail .expert-reply {
   margin-top: 10px;
   font-size: 13px;
-  color: #FF6347;
+  color: #ff6347;
 }
 
-
-
-
-
-
-
-.reply-panel{
+.reply-panel {
   position: fixed;
   top: 0;
   left: 0;
@@ -194,10 +192,10 @@ export default {
   transform: translateY(100%);
   transition: all 0.3s;
 }
-.reply-panel.show{
+.reply-panel.show {
   transform: translateY(0);
 }
-.reply-panel .reply-panel-top{
+.reply-panel .reply-panel-top {
   height: 48px;
   padding: 0 20px;
   padding-right: 10px;
@@ -208,25 +206,23 @@ export default {
   align-items: center;
 }
 
-.reply-panel .reply-panel-top .panel-title{
+.reply-panel .reply-panel-top .panel-title {
   font-size: 18px;
 }
-.reply-panel .reply-panel-top .send-btn{
+.reply-panel .reply-panel-top .send-btn {
   padding: 4px 10px;
   font-size: 15px;
   border: 1px solid #fff;
   border-radius: 4px;
 }
-.reply-panel-body{
+.reply-panel-body {
   padding: 15px;
 }
-.reply-panel-body textarea{
+.reply-panel-body textarea {
   width: 100%;
   height: 400px;
   font-size: 14px;
   line-height: 1.5;
   border: none;
 }
-
-
 </style>

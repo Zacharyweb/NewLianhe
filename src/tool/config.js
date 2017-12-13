@@ -1,10 +1,10 @@
 
 const config = {
 
-  // ip: 'http://localhost:57809/api/',
-  // chatip: 'http://localhost:57809/chat',
-  ip:'http://api.advisors-ally.com/api/',
-  chatip: 'http://api.advisors-ally.com/chat',
+  ip: 'http://localhost:57809/api/',
+  chatip: 'http://localhost:57809/chat',
+  // ip:'http://api.advisors-ally.com/api/',
+  // chatip: 'http://api.advisors-ally.com/chat',
   // ip:'http://localhost:8080',
   activityIp: 'http://192.168.1.198:3001',
 

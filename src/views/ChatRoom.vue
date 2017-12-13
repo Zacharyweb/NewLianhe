@@ -1,7 +1,7 @@
 <template>
   <div class="chat-room">
     <header-nav :title="'咨询室'"/>
-      <count-timer v-if="countShow"
+      <count-timer v-if="!chatOver && countShow"
                    class="count-timer" 
                    ref="countTimer" 
                    :counts="counts"  
@@ -9,7 +9,7 @@
                    :on-change="countChange"
                   
       />
-      <div class="end-chat-btn" v-if="!countShow" @click="endChat">结束对话</div>
+      <div class="end-chat-btn" v-if="!chatOver && !countShow" @click="endChat">结束对话</div>
     <v-scroll ref="chatContentWrapper" :on-refresh="onRefresh"  :bottom="vScrollBottom" :top="50">
       <div class="chat-msg-wrap"  @touchstart="checkInputPanelHeight">
         <template v-for="(chat,index) in order.expertOrderCharts">
@@ -125,6 +125,7 @@ export default {
       counts: 130,
       countShow: false,
       audioPlayId: -1,
+      chatOver: true,
       order: {}
     };
   },
@@ -134,7 +135,7 @@ export default {
         done();
       }, 1000);
     },
-    scrollToBottom(){
+    scrollToBottom() {
       this.$refs.chatContentWrapper.toBottom();
     },
     isMineChat(chat) {
@@ -173,26 +174,6 @@ export default {
             : this.order.expertId,
         content: this.inputMsg
       });
-
-      
-
-      // api
-      //   .CreateExpertChat({
-      //     expertOrderId: this.order.id,
-      //     expertId: userId,
-      //     experReceiverId:
-      //       userId === this.order.expertId
-      //         ? this.order.serverExpertId
-      //         : this.order.expertId,
-      //     content: this.inputMsg
-      //   })
-      //   .then(res => {
-      //     this.connection.invoke("sendToGroup", this.order.id, this.inputMsg);
-      //     this.inputMsg = "";
-      //     this.vScrollBottom = 70;
-
-      //     console.log(res);
-      //   });
     },
     playAudio(id) {
       if (id == this.audioPlayId) {
@@ -223,11 +204,13 @@ export default {
       this.countShow = false;
     },
     endChat() {
-      this.$router.push("/order/detail/20170712130023/3/0");
+      api.CompleteOrder(this.$route.params.id).then(res => {
+        this.$router.push("/order/detail/" + this.$route.params.id);
+      });
     },
     textAreaFocus() {
       let inputPanel = this.$refs.inputPanel;
-      this.$nextTick(()=>{
+      this.$nextTick(() => {
         inputPanel.scrollIntoView(false);
       });
     }
@@ -236,6 +219,7 @@ export default {
     document.title = "咨询室";
     api.GetExpertOrderChats(this.$route.params.id).then(res => {
       this.order = res.data.result;
+      this.chatOver = this.order.status > 3;
       this.counts = this.order.totalDuration * 60;
       this.countShow = true;
       this.scrollToBottom();
@@ -251,14 +235,14 @@ export default {
   destroyed() {
     chat.stop();
   },
-  watch:{
-    order:{
-      handler(){
-        this.$nextTick(()=>{
+  watch: {
+    order: {
+      handler() {
+        this.$nextTick(() => {
           this.scrollToBottom();
-        })
+        });
       },
-      deep:true
+      deep: true
     }
   }
 };
