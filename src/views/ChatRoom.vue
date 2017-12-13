@@ -227,7 +227,9 @@ export default {
     },
     textAreaFocus() {
       let inputPanel = this.$refs.inputPanel;
-      inputPanel.scrollIntoView(false);
+      this.$nextTick(()=>{
+        inputPanel.scrollIntoView(false);
+      });
     }
   },
   mounted() {
