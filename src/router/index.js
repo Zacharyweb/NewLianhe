@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import T from '@/tool/tool.js'
 
 //测试页
 import Demo from '@/views/Demo'

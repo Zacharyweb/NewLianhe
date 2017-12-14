@@ -62,10 +62,10 @@
                  </div>
                </div>
                 <p class="comment-content text-ellipsis2">{{item.content}}</p>
-
                <!--  <p class="comment-time">{{item.time}}</p> -->
                 <p class="to-comment-detail" @click="toCommentDetail(item.id)">查看评论详情<span class="iconfont icon-jiantou-1"></span></p>
             </li>
+            <li class="no-comment-tips" v-if="detail.expertComments.length == 0">暂无相关评价</li>
           </ul>
         </div>
 
@@ -330,6 +330,11 @@ export default {
 }
 
 .user-comment .comment-list {
+}
+.user-comment .comment-list .no-comment-tips{
+  padding-top:15px;
+  font-size: 14px;
+  color: #999;
 }
 .user-comment .comment-item {
   padding: 10px 0px;
