@@ -17,17 +17,17 @@
              </li>
           </ul>
         </div>
-        <!-- <div class="common-panel">
+        <div class="common-panel">
           <ul class="not-resign-list relation-list">
              <li class="relation-item" v-for="(item,index) in notResignUser" :key="index">
-                <img class="user-avatar" :src="item.avatarImg">
+                <img class="user-avatar" src="../../static/timg.jpeg">
                 <div class="user-msg">
-                  <p class="user-remark">备注：{{item.name}}（{{item.mobile}}）</p>
+                  <p class="user-remark">{{item.name}}（{{item.phone}}）</p>
                   <p class="user-status">未注册</p>
                 </div>
              </li>
           </ul>
-        </div> -->
+        </div>
         <!--  <p class="add-relation-tips">添加关系人，当对方注册“联合咨询”时，将向对方推荐您的资料。</p> -->
         <!-- 普通用户 -->
         <p class="add-relation-tips" v-if="$store.state.identity == 0">       
@@ -43,11 +43,11 @@
         <h5>联系人信息</h5>
         <p class="input-wrap">
           <span class="label">姓名：</span>
-          <input type="text" v-model="newName" placeholder="请输入姓名">
+          <input type="text" v-model="newName" maxlength="20" placeholder="请输入姓名">
         </p>
         <p class="input-wrap">
           <span class="label">手机：</span>
-          <input type="number" v-model="newMobile" placeholder="请输入手机">
+          <input type="number" v-model="newMobile" maxlength="11" placeholder="请输入手机">
         </p>
         <p class="btns-wrap">
           <span class="btn btn-green btn-small" @click="submitModal">确定</span>
@@ -94,15 +94,18 @@ export default {
         })
         .then(res => {
           this.showModal = false;
-          this.hasResignUser.push(res.data.result);
+          res.data.result.anonymous
+            ? this.notResignUser.push(res.data.result)
+            : this.hasResignUser.push(res.data.result);
           T.showToast({ text: "添加联系人成功~" });
-          this.newMobile = this.newName = '';
+          this.newMobile = this.newName = "";
         });
     }
   },
   mounted() {
     api.GetExpertFriends().then(res => {
-      this.hasResignUser = res.data.result;
+      this.hasResignUser = res.data.result.filter(f => !f.anonymous);
+      this.notResignUser = res.data.result.filter(f => f.anonymous);
     });
   }
 };
