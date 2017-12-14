@@ -1,6 +1,6 @@
 <template>
   <div class="expert-detail-page">
-      <v-scroll :on-refresh="onRefresh"  :bottom="48" :top="0" >
+      <v-scroll :on-refresh="onRefresh"  :bottom="48" :top="0" v-if="!isAjaxing">
       <!-- swiper -->
       <swiper :options="swiperOption">
         <swiper-slide v-for="(img,i) in detail.expertPhotos" v-bind:key="i">
@@ -8,7 +8,13 @@
             <img :src="img"/>
           </div>
         </swiper-slide>
-        <div class="swiper-pagination" slot="pagination"></div>
+        <swiper-slide v-if="detail.expertPhotos.length == 0">
+          <div class="slide_item">
+            <img src="../../static/zhanweitu_banner@2x.png">
+            <p class="no-pic-intro-tips">暂无图片介绍</p>
+          </div>
+        </swiper-slide>
+        <div v-show="detail.expertPhotos.length > 0" class="swiper-pagination" slot="pagination"></div>
       </swiper>
         <div class="expert-msg">
           <h4 class="expert-name">
@@ -56,10 +62,10 @@
                  </div>
                </div>
                 <p class="comment-content text-ellipsis2">{{item.content}}</p>
-
                <!--  <p class="comment-time">{{item.time}}</p> -->
                 <p class="to-comment-detail" @click="toCommentDetail(item.id)">查看评论详情<span class="iconfont icon-jiantou-1"></span></p>
             </li>
+            <li class="no-comment-tips" v-if="detail.expertComments.length == 0">暂无相关评价</li>
           </ul>
         </div>
 
@@ -78,11 +84,12 @@
           <div class="panel-title">
              <h4><span class="iconfont icon-icon3"></span>专家介绍</h4>
           </div>
-          <p class="intro-content" :class="{'text-ellipsis2':!allIntroShow}">{{detail.introduction}}</p>
-          <p class="to-see-all" v-show="!allIntroShow">
+          <!-- <p class="intro-content">{{detail.introduction}}</p> -->
+          <p class="intro-content" :class="{'text-ellipsis2':!allIntroShow && detail.introduction.length > 200}">{{detail.introduction}}</p>
+          <p class="to-see-all" v-show="!allIntroShow && detail.introduction.length > 200">
             <span class="to-see-all-btn" @click="allIntroShow = true">展开查看全部</span>
           </p>
-          <p class="hide-all" v-show="allIntroShow">
+          <p class="hide-all" v-show="allIntroShow && detail.introduction.length > 200">
             <span class="hide-all-btn" @click="allIntroShow = false" >收起介绍</span>
           </p>
         </div>
@@ -128,7 +135,8 @@ export default {
       // allstrengthShow: false,
       allIntroShow: false,
       allArticleShow: false,
-      arr: [1, 2, 3]
+      arr: [1, 2, 3],
+      isAjaxing:true
     };
   },
   methods: {
@@ -166,8 +174,11 @@ export default {
   mounted() {
     document.title = "专家详情";
     T.checkFirstPageData(this.arr);
+    T.showLoading();
     api.GetExpertDetail({ id: this.$route.params.expertId }).then(res => {
       this.detail = res.data.result;
+      this.isAjaxing = false;
+      T.hideLoading();
     });
   }
 };
@@ -180,9 +191,18 @@ export default {
 .slide_item {
   height: 200px;
   text-align: center;
+  position: relative;
 }
 .slide_item img {
   height: 100%;
+}
+.no-pic-intro-tips{
+  position: absolute;
+  top:50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  font-size: 22px;
+  color: #fff;
 }
 .expert-msg {
   padding: 15px 10px;
@@ -287,7 +307,9 @@ export default {
 }
 .expert-strength .strength-item .strength-content {
 }
-
+.expert-intro.common-panel{
+  padding-bottom: 15px;
+}
 .expert-intro .intro-content {
   padding-top: 15px;
   color: #666;
@@ -308,6 +330,11 @@ export default {
 }
 
 .user-comment .comment-list {
+}
+.user-comment .comment-list .no-comment-tips{
+  padding-top:15px;
+  font-size: 14px;
+  color: #999;
 }
 .user-comment .comment-item {
   padding: 10px 0px;

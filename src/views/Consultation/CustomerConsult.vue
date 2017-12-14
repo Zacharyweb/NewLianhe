@@ -1,6 +1,6 @@
 <template>
   <!-- 客户咨询 -->
-  <ul class="consult-list">
+  <ul class="consult-list" v-show="!isAjaxing">
           <li v-for="(item,index) in orderList" class="consult-item" @click="toOrderDetail(item.id)" v-bind:key="index">
             <span class="item-status">
               {{item.status | orderstatus}}
@@ -24,6 +24,9 @@
               <span class="btn btn-green-outline" @click.stop="toChatRoom(item.id)">咨询详情</span>
             </p>
           </li>
+          <li>
+             <no-data-tips v-if="orderList.length == 0 && !isAjaxing" tips="暂无相关订单"></no-data-tips>
+          </li>
      
   </ul>
 </template>
@@ -31,12 +34,16 @@
 <script>
 import T from "../../tool/tool";
 import api from "../../ajax/index";
+import NoDataTips from "../../components/NoDataTips.vue";
 export default {
   name: "CustomerConsult",
-  components: {},
+  components: {
+     "no-data-tips":NoDataTips
+  },
   data() {
     return {
-      orderList: []
+      orderList: [],
+      isAjaxing:true
     };
   },
   methods: {
@@ -81,10 +88,13 @@ export default {
   mounted() {
     T.postConsultTab(0);
     document.title = "咨询列表";
+    T.showLoading();
     api
       .GetLoggedIndExpertOrders({ serverExpertId: this.$store.state.user.id })
       .then(res => {
         this.orderList = res.data.result;
+        this.isAjaxing = false;
+        T.hideLoading();
       });
   }
 };

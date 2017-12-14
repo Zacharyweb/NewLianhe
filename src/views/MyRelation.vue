@@ -16,6 +16,7 @@
                </div>
              </li>
           </ul>
+          <no-data-tips v-if="hasResignUser.length == 0 && !isAjaxing" tips="暂未添加关系户"></no-data-tips>
         </div>
         <div class="common-panel">
           <ul class="not-resign-list relation-list">
@@ -30,11 +31,12 @@
         </div>
         <!--  <p class="add-relation-tips">添加关系人，当对方注册“联合咨询”时，将向对方推荐您的资料。</p> -->
         <!-- 普通用户 -->
-        <p class="add-relation-tips" v-if="$store.state.identity == 0">       
+        
+        <p class="add-relation-tips" v-if="$store.state.identity == 0 && !isAjaxing">       
            添加关系户，对方登录时，将向对方推送您分享过评价的专家。
         </p>
         <!-- 专家用户 -->
-        <p class="add-relation-tips" v-if="$store.state.identity == 1">       
+        <p class="add-relation-tips" v-if="$store.state.identity == 1 && !isAjaxing">       
            添加关系户，对方登录时，将向对方推送您和您分享过评价的专家。
         </p>
 
@@ -55,19 +57,24 @@
         </p>
       </div>
       <div class="modal-mask" v-if="showModal" @click="showModal = false"></div>
+
+        
+
       <div class="btn btn-green btn-large position-bottom" @click="showModal = true">添加关系</div>
   </div>
 </template>
 
 <script>
 import Scroll from "../components/Scroll.vue";
+import NoDataTips from "../components/NoDataTips.vue";
 import T from "../tool/tool";
 import api from "../ajax/index";
 
 export default {
   name: "ExpertDetail",
   components: {
-    "v-scroll": Scroll
+    "v-scroll": Scroll,
+    "no-data-tips":NoDataTips 
   },
   data() {
     return {
@@ -75,7 +82,10 @@ export default {
       newMobile: "",
       hasResignUser: [],
       notResignUser: [],
-      showModal: false
+      showModal: false,
+      isAjaxing:true
+
+
     };
   },
   methods: {
@@ -103,9 +113,12 @@ export default {
     }
   },
   mounted() {
+    T.showLoading();
     api.GetExpertFriends().then(res => {
       this.hasResignUser = res.data.result.filter(f => !f.anonymous);
       this.notResignUser = res.data.result.filter(f => f.anonymous);
+      this.isAjaxing = false;
+      T.hideLoading();
     });
   }
 };
