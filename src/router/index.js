@@ -244,6 +244,7 @@ const router = new Router({
   ]
 });
 router.beforeEach((to, from, next) => {
+  T.hideLoading();
   if (!router.app.$store) {
     next();
     return;
