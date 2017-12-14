@@ -36,6 +36,7 @@
                </li>
              </ul>
         </div>
+        <no-data-tips v-if="results.length == 0" tips="暂无相关专家"></no-data-tips>
     </v-scroll>
   </div>
 </template>
@@ -43,17 +44,21 @@
 <script>
 import TabBar  from '../components/TabBar.vue'
 import Scroll  from '../components/Scroll.vue'
+import NoDataTips from "../components/NoDataTips.vue";
+
 import config from '../tool/config'
 import T from '../tool/tool'
 export default {
   name: 'Home',
   components:{
     'tab-bar':TabBar,
-    'v-scroll': Scroll
+    'v-scroll': Scroll,
+    'no-data-tips':NoDataTips 
   },
   data () {
     return {
-      subCateArr:[{name:'全部',id:0}]
+      subCateArr:[{name:'全部',id:0}],
+      results:[{}],
     }
   },
   methods:{

@@ -60,7 +60,7 @@ export default {
     top:50px;
     bottom: 60px;
     z-index:999;
-    background-color: rgba(255,255,255,0.4);
+    /*background-color: rgba(255,255,255,0.4);*/
     transform: translateZ(101px);
   }
   .loader-inner{

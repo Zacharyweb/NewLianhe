@@ -2,8 +2,8 @@
   <div>
     <search-bar :keyword.sync="keyword" :auto-focus="true"></search-bar>
     <v-scroll :on-refresh="onRefresh" :on-infinite="onInfinite" :bottom="0" :top="62">
-        <div class="expert-block">
-        <h4>搜索结果</h4>
+        <div class="expert-block" v-if="keyword && !isAjaxing">
+         <h4>搜索结果</h4>
           <ul class="expert-list">
             <li v-for="(item,index) in results" v-bind:key="index" class="expert-item" @click="toExpertDetail(item.id)">
                <img class="expert-avatar" src="../../static/timg.jpeg">
@@ -20,8 +20,12 @@
                  </p>
                </div>
             </li>
+            <li>
+              <no-data-tips v-if="results.length == 0 && !isAjaxing && keyword" tips="没有相关结果哦"></no-data-tips>
+            </li>
           </ul>
          </div>
+         <p class="search-tips" v-if="!keyword">请输入搜索关键词进行搜索~</p>
     </v-scroll>
   </div>
 </template>
@@ -29,6 +33,9 @@
 <script>
 import SearchBar from "../components/SearchBar.vue";
 import Scroll from "../components/Scroll.vue";
+
+import NoDataTips from "../components/NoDataTips.vue";
+
 import T from "../tool/tool";
 import api from "../ajax/index";
 
@@ -37,13 +44,15 @@ export default {
   name: "Home",
   components: {
     "search-bar": SearchBar,
-    "v-scroll": Scroll
+    "v-scroll": Scroll,
+    "no-data-tips":NoDataTips 
   },
   data() {
     return {
       arr: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
       results: [],
-      keyword: ""
+      keyword: "",
+      isAjaxing:false
     };
   },
   watch: {
@@ -52,11 +61,16 @@ export default {
       timer && clearTimeout(timer);
       if (!keyword) {
         this.results = [];
+        T.hideLoading();
         return;
-      }
+      };
+      T.showLoading();
+      this.isAjaxing = true;
       timer = setTimeout(() => {
         api.GetExperts({ keyword: keyword }).then(res => {
           this.results = res.data.result;
+          this.isAjaxing = false;
+          T.hideLoading();
         });
       }, 500);
     }
@@ -93,4 +107,10 @@ export default {
     .expert-block .expert-item+.expert-item{
       border-top: 1px solid #e6e6e6;
     } */
+    .search-tips{
+      padding-top: 30px;
+      text-align: center;
+      font-size: 14px;
+      color: #aaa;
+    }
 </style>
