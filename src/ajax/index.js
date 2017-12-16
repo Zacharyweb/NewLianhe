@@ -218,6 +218,16 @@ class Api {
     })
   }
 
+  SendCode = (phone, code) => {
+    return T.get({
+      url: "https://www.yuelinshe.com/vizcaya/api/user/sendTsCode",
+      data: {
+        phone: phone,
+        code: code
+      }
+    })
+  }
+
 }
 
 export default new Api()

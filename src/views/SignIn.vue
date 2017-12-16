@@ -26,6 +26,7 @@ import T from "../tool/tool";
 import HeaderNav from "../components/HeaderNav.vue";
 import BottomNav from "../components/BottomNav.vue";
 import { mapActions } from "vuex";
+import api from "../ajax/index";
 export default {
   name: "SignIn",
   components: {
@@ -36,6 +37,7 @@ export default {
     return {
       tel: "",
       code: "",
+      sendCode: "",
       hasGetCode: false,
       countTimer: null,
       countTimeNum: 59
@@ -45,6 +47,10 @@ export default {
     getCode() {
       this.hasGetCode = true;
       this.countGetCodeTime();
+      this.sendCode = Math.random()
+        .toFixed(4)
+        .substring(2);
+      // api.SendCode(this.tel, this.sendCode);
     },
     countGetCodeTime() {
       this.countTimer = setInterval(() => {
@@ -57,10 +63,20 @@ export default {
       }, 1000);
     },
     signIn() {
-      let tel = this.tel;
-      let code = this.code;
+      if (!this.tel) {
+        T.showToast({ text: "请输入手机号" });
+        return;
+      }
+      if (!this.code) {
+        T.showToast({ text: "请输入短信验证码" });
+        return;
+      }
+      // if (this.code != this.sendCode) {
+      //   T.showToast({ text: "短信验证码不正确或已过期，请重新获取短信验证码" });
+      //   return;
+      // }
       this.$store
-        .dispatch("login", { phone: tel, phoneCode: code })
+        .dispatch("login", { phone: this.tel, phoneCode: this.code })
         .then(user => {
           T.showToast({ text: "登录成功" });
           var url = this.$route.query.redirect || "/";
@@ -68,7 +84,9 @@ export default {
         });
     }
   },
-  mounted() {}
+  mounted() {
+    
+  }
 };
 </script>
 <style scoped>

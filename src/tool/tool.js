@@ -157,9 +157,9 @@ class Tool {
     }
     obj = {
       ...obj,
-      timeout: 30000,
-      baseURL: config.ip,
+      timeout: 30000
     }
+    if (!obj.url.startsWith("http")) obj.baseURL = config.ip;
     return obj
   }
   get(obj) {

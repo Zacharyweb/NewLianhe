@@ -18,7 +18,7 @@
           </ul>
           <no-data-tips v-if="hasResignUser.length == 0 && !isAjaxing" tips="暂未添加关系户"></no-data-tips>
         </div>
-        <div class="common-panel">
+        <div v-if="notResignUser.length>0" class="common-panel">
           <ul class="not-resign-list relation-list">
              <li class="relation-item" v-for="(item,index) in notResignUser" :key="index">
                 <img class="user-avatar" src="../../static/timg.jpeg">
@@ -74,7 +74,7 @@ export default {
   name: "ExpertDetail",
   components: {
     "v-scroll": Scroll,
-    "no-data-tips":NoDataTips 
+    "no-data-tips": NoDataTips
   },
   data() {
     return {
@@ -83,9 +83,7 @@ export default {
       hasResignUser: [],
       notResignUser: [],
       showModal: false,
-      isAjaxing:true
-
-
+      isAjaxing: true
     };
   },
   methods: {
