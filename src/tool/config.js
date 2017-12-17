@@ -1,11 +1,13 @@
 const config = {
 
-  ip: 'http://localhost:57809/api/',
-  chatip: 'http://localhost:57809/chat',
-  // ip:'http://api.advisors-ally.com/api/',
-  // chatip: 'http://api.advisors-ally.com/chat',
+  // ip: 'http://localhost:57809/api/',
+  // chatip: 'http://localhost:57809/chat',
+  ip: 'http://api.advisors-ally.com/api/',
+  chatip: 'http://api.advisors-ally.com/chat',
   // ip:'http://localhost:8080',
   wechatlogin: "https://api.advisors-ally.com/wechat/step1?returnUrl=" + encodeURIComponent(window.location.href),
+  enablewechatlogin: true, //启用微信登录
+  enablephonecode: true, //启用短信验证
   version: '1.0.0', //接口版本号
   pageSize: 10, //分页条数
   OS: 'HTML', //平台类型

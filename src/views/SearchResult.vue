@@ -6,7 +6,7 @@
          <h4>搜索结果</h4>
           <ul class="expert-list">
             <li v-for="(item,index) in results" v-bind:key="index" class="expert-item" @click="toExpertDetail(item.id)">
-               <img class="expert-avatar" src="../../static/timg.jpeg">
+               <img class="expert-avatar" :src="item.avatar || '../../static/timg.jpeg'">
                <div class="expert-info">
                  <p class="expert-msg text-ellipsis">
                    <b class="expert-name">{{item.name}}</b>

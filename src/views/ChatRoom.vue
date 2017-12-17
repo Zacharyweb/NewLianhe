@@ -16,14 +16,14 @@
           <!-- 左侧消息 -->
           <div v-if="!isMineChat(chat)" :key="index" class="msg-item left-msg">
             <!-- <span class="msg-time">{{chat.creationTime}}</span> -->
-            <img class="user-avatar" src="../../static/timg.jpeg" >
+            <img class="user-avatar" :src="chat.senderExpert.avatar || '../../static/timg.jpeg'" >
             <div class="chat-content">{{chat.content}}</div>
           </div>
           <!-- 右侧消息 -->
           <div v-else :key="index" class="msg-item right-msg">
             <!-- <span class="msg-time">2017-7-20 19:20:20</span> -->
             <div class="chat-content">{{chat.content}}</div>
-            <img class="user-avatar" src="../../static/timg.jpeg" >
+            <img class="user-avatar" :src="chat.senderExpert.avatar || '../../static/timg.jpeg'" >
           </div> 
           <!-- 左侧语音 -->
           <!-- <div class="msg-item left-msg">

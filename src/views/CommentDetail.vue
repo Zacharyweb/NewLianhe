@@ -22,7 +22,7 @@
         <div class="comment-list">
           <div class="comment-item user-comment">
             <div class="comment-item-top">
-                <img class="user-avatar" src="../../static/timg.jpeg">
+                <img class="user-avatar" :src="comment.avatar || '../../static/timg.jpeg'">
                 <div class="user-msg">
                   <p class="user-name">{{comment.name}}</p>
                   <p class="user-tags">{{comment.post}}</p>

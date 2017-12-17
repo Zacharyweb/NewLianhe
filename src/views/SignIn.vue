@@ -27,6 +27,7 @@ import HeaderNav from "../components/HeaderNav.vue";
 import BottomNav from "../components/BottomNav.vue";
 import { mapActions } from "vuex";
 import api from "../ajax/index";
+import wechat from "../tool/wechat/index";
 export default {
   name: "SignIn",
   components: {
@@ -50,7 +51,7 @@ export default {
       this.sendCode = Math.random()
         .toFixed(4)
         .substring(2);
-      // api.SendCode(this.tel, this.sendCode);
+      api.SendCode(this.tel, this.sendCode);
     },
     countGetCodeTime() {
       this.countTimer = setInterval(() => {
@@ -71,12 +72,16 @@ export default {
         T.showToast({ text: "请输入短信验证码" });
         return;
       }
-      // if (this.code != this.sendCode) {
-      //   T.showToast({ text: "短信验证码不正确或已过期，请重新获取短信验证码" });
-      //   return;
-      // }
+      if (this.code != this.sendCode) {
+        T.showToast({ text: "短信验证码不正确或已过期，请重新获取短信验证码" });
+        return;
+      }
       this.$store
-        .dispatch("login", { phone: this.tel, phoneCode: this.code })
+        .dispatch("login", {
+          phone: this.tel,
+          phoneCode: this.code,
+          openid: wechat.getOpenId()
+        })
         .then(user => {
           T.showToast({ text: "登录成功" });
           var url = this.$route.query.redirect || "/";
@@ -84,9 +89,7 @@ export default {
         });
     }
   },
-  mounted() {
-    
-  }
+  mounted() {}
 };
 </script>
 <style scoped>

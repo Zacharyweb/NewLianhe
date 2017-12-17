@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import api from '../ajax/index'
+import wechat from './wechat/index'
 
 Vue.use(Vuex)
 
@@ -32,6 +33,15 @@ var store = new Vuex.Store({
     }
   },
   actions: {
+    wechatLogin({
+      dispatch,
+      commit
+    }) {
+      wechat.login(() => {
+        return dispatch("initTokenFromLocal");
+      })
+    },
+
     initTokenFromLocal({
       dispatch,
       commit
