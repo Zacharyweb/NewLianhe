@@ -155,6 +155,7 @@ import T from "../tool/tool";
 import Scroll from "../components/Scroll.vue";
 import Picker from "../components/timePicker.vue";
 import api from "../ajax/index";
+import qCloud from "../tool/qcloud/index";
 export default {
   name: "ExpertInfo",
   components: {
@@ -254,7 +255,7 @@ export default {
     toSaveBase() {
       api
         .UpdateNonExpert({
-          expertType:this.expertType,
+          expertType: this.expertType,
           expertFirstClassId: this.expertFirstClassId,
           expertClassId: this.expertClassId,
           phone: this.phone,
@@ -294,8 +295,10 @@ export default {
     },
     uploadImgChange(e) {
       let file = e.target.files[0];
-      let localUrl = URL.createObjectURL(file);
-      this.expertPhotos.push(localUrl);
+      let that = this;
+      qCloud.upload(file, function(result) {
+        that.expertPhotos.push(result.data.source_url);
+      });
     },
     deleteImg(index) {
       this.expertPhotos.splice(index, 1);
@@ -317,16 +320,15 @@ export default {
       .then(res => {
         let info = res.data.result;
 
-        this.name = info.name,
-        this.phone = info.phone,
-        this.organization = info.organization,
-        this.post = info.post,
-        this.expertType = info.expertType || 1,
-        this.workYears = info.workYears,
-        this.expertFirstClassId = info.expertFirstClassId,
-        this.expertClassId = info.expertClassId,
-
-        this.speciality = info.speciality;
+        (this.name = info.name),
+          (this.phone = info.phone),
+          (this.organization = info.organization),
+          (this.post = info.post),
+          (this.expertType = info.expertType || 1),
+          (this.workYears = info.workYears),
+          (this.expertFirstClassId = info.expertFirstClassId),
+          (this.expertClassId = info.expertClassId),
+          (this.speciality = info.speciality);
         this.price = info.price;
         this.weixinAccount = info.weixinAccount;
         this.alipayAccount = info.alipayAccount;

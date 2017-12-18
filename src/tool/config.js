@@ -1,9 +1,9 @@
 const config = {
 
-  // ip: 'http://localhost:57809/api/',
-  // chatip: 'http://localhost:57809/chat',
-  ip: 'http://api.advisors-ally.com/api/',
-  chatip: 'http://api.advisors-ally.com/chat',
+  ip: 'http://localhost:57809/api/',
+  chatip: 'http://localhost:57809/chat',
+  // ip: 'http://api.advisors-ally.com/api/',
+  // chatip: 'http://api.advisors-ally.com/chat',
   // ip:'http://localhost:8080',
   wechatlogin: "https://api.advisors-ally.com/wechat/step1?returnUrl=" + encodeURIComponent(window.location.href),
   enablewechatlogin: true, //启用微信登录
@@ -11,7 +11,15 @@ const config = {
   version: '1.0.0', //接口版本号
   pageSize: 10, //分页条数
   OS: 'HTML', //平台类型
-
+  cos: {
+    imgShowUrl: "https://yuelinshe-1253333391.costj.myqcloud.com/",
+    bucket: 'yuelinshe',
+    appid: 1253333391,
+    sid: "AKIDFQTPEwb6VyUvGSwREtdLxeDeyAYsD84t",
+    skey: "qZ6Xq150nSzQjvzvlS1SlvxumV3UpEXg",
+    region: 'tj',
+    myFolder: '/vizcaya/'
+  },
 
   taxCate: [{
       name: '企业所得税',

@@ -89,6 +89,7 @@
 <script>
 import T from "../../tool/tool";
 import Picker from "../../components/timePicker.vue";
+import qCloud from "../../tool/qcloud/index";
 export default {
   name: "SignIn",
   components: {
@@ -152,8 +153,9 @@ export default {
     },
     uploadImgChange(e) {
       let file = e.target.files[0];
-      let localUrl = URL.createObjectURL(file);
-      this.expertPhotos.push(localUrl);
+      qCloud.upload(file).then(result => {
+        this.expertPhotos.push(result.data.source_url);
+      });
     },
     deleteImg(index) {
       this.expertPhotos.splice(index, 1);
