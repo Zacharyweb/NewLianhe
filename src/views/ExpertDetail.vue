@@ -40,7 +40,7 @@
              <ul class="open-time-items">
               <li v-for="(w,i) in detail.expertWorkSettings" v-bind:key="i">
                 <span>{{w.week | weekday}}</span>
-                <span>{{w.startTime}}-{{w.endTime}}</span>
+                <span>{{w.startTime | datetime("HH:mm")}}-{{w.endTime | datetime("HH:mm")}}</span>
               </li>
              </ul>
           </div>

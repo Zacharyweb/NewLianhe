@@ -60,21 +60,21 @@
              <h4>咨询价格/每节（30分钟）<span class="require-icon">*</span></h4>
           </div>
            <div class="form-input">
-             <input v-model="price" placeholder="请填写咨询价格"></input>元
+             <input v-model="price" placeholder="请填写咨询价格" />元
            </div>
       </div>
       <!-- 收款账号 -->
       <div class="common-panel">
            <div class="panel-title">
-              <h4>收款账号（任填一个）<span class="require-icon">*</span></h4>
+              <h4>收款账号（任填一个）</h4>
            </div>
            <div class="form-input">
              <span class="label">微信：</span>
-             <input v-model="weixinAccount" placeholder="请填写微信收款账号"></input>
+             <input v-model="weixinAccount" placeholder="请填写微信收款账号" />
            </div>
            <div class="form-input">
              <span class="label">支付宝：</span>
-             <input v-model="alipayAccount" placeholder="请填支付宝收款账号"></input> 
+             <input v-model="alipayAccount" placeholder="请填支付宝收款账号" />
            </div>
       </div>
 

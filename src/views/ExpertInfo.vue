@@ -99,7 +99,7 @@
              <h4>营业时间<span class="require-icon">*</span></h4>
              <span class="add-open-time" @click="addOpenTime" v-if="expertWorkSettings.length < 7">+ 增加时段</span>
           </div>
-          <div class="form-input" v-for="(item,index) in expertWorkSettings" v-bind:key="index">
+          <div class="form-input" v-for="(item,index) in expertWorkSettings" v-bind:key="item.week">
             <span class="time-picker-input" :class="{'grey':!item.week}" @click="showTimePicker(1,index,1)">{{item.week | weekday('请选择')}}</span>
             <span class="time-picker-input" :class="{'grey':!item.startTime}" @click="showTimePicker(0,index,2)">{{item.startTime | datetime("HH:mm") || "请选择"}}</span>
             <span class="devide-line">-</span>
@@ -279,7 +279,13 @@ export default {
           ...this.$data,
           expertPhotos: [...this.$data.expertPhotos],
           expertWorkSettings: this.$data.expertWorkSettings.map(w => {
-            return { ...w, week: this.$store.state.weeks[w.week] };
+            return {
+              ...w,
+              week:
+                typeof w.week === "number"
+                  ? w.week
+                  : this.$store.state.weeks[w.week]
+            };
           })
         })
         .then(() => {
@@ -334,6 +340,7 @@ export default {
         this.alipayAccount = info.alipayAccount;
         this.introduction = info.introduction;
         this.expertWorkSettings = info.expertWorkSettings;
+        this.expertPhotos = info.expertPhotos;
       });
   }
 };

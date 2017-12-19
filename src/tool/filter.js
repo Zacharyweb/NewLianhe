@@ -63,6 +63,7 @@ Vue.filter('orderstatus', function (value) {
 })
 Vue.filter("datetime", function (date, fmt) {
   if (!date) return null;
+  if (Date.parse(date).toString() === "NaN") return date;
 
   date = new Date(date);
   var o = {
@@ -79,6 +80,7 @@ Vue.filter("datetime", function (date, fmt) {
   for (var k in o)
     if (new RegExp("(" + k + ")").test(fmt))
       fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+  console.log(fmt);
   return fmt;
 })
 
