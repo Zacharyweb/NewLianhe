@@ -302,8 +302,10 @@ export default {
     uploadImgChange(e) {
       let file = e.target.files[0];
       let that = this;
+      T.showLoading();
       qCloud.upload(file, function(result) {
         that.expertPhotos.push(result.data.source_url);
+        T.hideLoading();
       });
     },
     deleteImg(index) {

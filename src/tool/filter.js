@@ -45,7 +45,7 @@ Vue.filter('orderstatus', function (value) {
     case 2:
       return "待支付";
     case 3:
-      return "待咨询"
+      return "咨询中"
       break;
     case 4:
       return "咨询完成";
@@ -80,7 +80,7 @@ Vue.filter("datetime", function (date, fmt) {
   for (var k in o)
     if (new RegExp("(" + k + ")").test(fmt))
       fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-  console.log(fmt);
+  
   return fmt;
 })
 

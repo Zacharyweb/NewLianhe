@@ -28,6 +28,7 @@ import BottomNav from "../components/BottomNav.vue";
 import { mapActions } from "vuex";
 import api from "../ajax/index";
 import wechat from "../tool/wechat/index";
+import config from "../tool/config";
 export default {
   name: "SignIn",
   components: {
@@ -72,7 +73,7 @@ export default {
         T.showToast({ text: "请输入短信验证码" });
         return;
       }
-      if (this.code != this.sendCode) {
+      if (config.enablephonecode && this.code != this.sendCode) {
         T.showToast({ text: "短信验证码不正确或已过期，请重新获取短信验证码" });
         return;
       }
