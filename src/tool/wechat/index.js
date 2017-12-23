@@ -20,6 +20,10 @@ class Wechat {
       callback();
     }
   }
+
+  logout() {
+    localStorage.removeItem("openid");
+  }
 }
 
 export default new Wechat()

@@ -79,6 +79,7 @@ var store = new Vuex.Store({
       commit
     }) {
       localStorage.removeItem("token");
+      wechat.logout();
       commit("change_user", {});
       commit("change_identity", 0);
     }

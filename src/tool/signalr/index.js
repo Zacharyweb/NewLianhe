@@ -9,7 +9,7 @@ class ChartService {
   }
 
   start(token, orderId, listener) {
-    var transportType = signalR.TransportType.ServerSentEvents;
+    var transportType = signalR.TransportType.WebSockets;
     this.connection = new signalR.HubConnection(config.chatip + "/?token=" + token, {
       transport: transportType
     });
