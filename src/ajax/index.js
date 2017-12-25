@@ -228,6 +228,12 @@ class Api {
     })
   }
 
+  JsSdkConfig = () => {
+    return T.get({
+      url: "Wechat/JsSdkConfig"
+    })
+  }
+
 }
 
 export default new Api()

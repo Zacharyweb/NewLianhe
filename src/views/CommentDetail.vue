@@ -7,7 +7,7 @@
             用户评分
           </h6>
           <div class="comment-starts">
-             <span class="iconfont" v-for="(item,index) in scoreArr" :key="index" 
+             <span class="iconfont" v-for="item in scoreArr" :key="item" 
                   :class="{'icon-pingfen':comment.score < item ,'icon-pingfen-':comment.score >= item}"
              >
              </span>
@@ -22,7 +22,7 @@
         <div class="comment-list">
           <div class="comment-item user-comment">
             <div class="comment-item-top">
-                <img class="user-avatar" :src="comment.avatar || '../../static/timg.jpeg'">
+                <img class="user-avatar" :src="comment.avatar | avatar">
                 <div class="user-msg">
                   <p class="user-name">{{comment.name}}</p>
                   <p class="user-tags">{{comment.post}}</p>

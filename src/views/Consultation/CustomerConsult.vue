@@ -1,7 +1,7 @@
 <template>
   <!-- 客户咨询 -->
   <ul class="consult-list" v-show="!isAjaxing">
-          <li v-for="(item,index) in orderList" class="consult-item" @click="toOrderDetail(item.id)" v-bind:key="index">
+          <li v-for="item in orderList" class="consult-item" @click="toOrderDetail(item.id)" v-bind:key="item.id">
             <span class="item-status">
               {{item.status | orderstatus}}
             </span>

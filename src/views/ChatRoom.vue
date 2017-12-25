@@ -12,18 +12,18 @@
       <div class="end-chat-btn" v-if="!chatOver && !countShow" @click="endChat">结束对话</div>
     <v-scroll ref="chatContentWrapper" :on-refresh="onRefresh"  :bottom="vScrollBottom" :top="50">
       <div class="chat-msg-wrap"  @touchstart="checkInputPanelHeight">
-        <template v-for="(chat,index) in order.expertOrderCharts">
+        <template v-for="chat in order.expertOrderCharts">
           <!-- 左侧消息 -->
-          <div v-if="!isMineChat(chat)" :key="index" class="msg-item left-msg">
+          <div v-if="!isMineChat(chat)" :key="chat.id" class="msg-item left-msg">
             <!-- <span class="msg-time">{{chat.creationTime}}</span> -->
-            <img class="user-avatar" :src="chat.senderExpert.avatar || '../../static/timg.jpeg'" >
+            <img class="user-avatar" :src="chat.senderExpert.avatar | avatar" >
             <div class="chat-content">{{chat.content}}</div>
           </div>
           <!-- 右侧消息 -->
-          <div v-else :key="index" class="msg-item right-msg">
+          <div v-else :key="chat.id" class="msg-item right-msg">
             <!-- <span class="msg-time">2017-7-20 19:20:20</span> -->
             <div class="chat-content">{{chat.content}}</div>
-            <img class="user-avatar" :src="chat.senderExpert.avatar || '../../static/timg.jpeg'" >
+            <img class="user-avatar" :src="chat.senderExpert.avatar | avatar" >
           </div> 
           <!-- 左侧语音 -->
           <!-- <div class="msg-item left-msg">
@@ -155,7 +155,16 @@ export default {
       this.voiceInputShow = true;
       this.vScrollBottom = 70;
     },
-    toSeleceImg() {},
+    toSeleceImg() {
+      wx.chooseImage({
+        count: 1, // 默认9
+        sizeType: ["original", "compressed"], // 可以指定是原图还是压缩图，默认二者都有
+        sourceType: ["album", "camera"], // 可以指定来源是相册还是相机，默认二者都有
+        success: function(res) {
+          var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+        }
+      });
+    },
     toTextInput() {
       this.voiceInputShow = false;
       this.vScrollBottom = this.$refs.inputPanel.offsetHeight;
@@ -217,19 +226,75 @@ export default {
   },
   mounted() {
     document.title = "咨询室";
-    api.GetExpertOrderChats(this.$route.params.id).then(res => {
-      this.order = res.data.result;
-      this.chatOver = this.order.status > 3;
-      this.counts = this.order.totalDuration * 60;
-      this.countShow = true;
-      this.scrollToBottom();
-      console.log(this.order);
-    });
+    api
+      .GetExpertOrderChats(this.$route.params.id)
+      .then(res => {
+        this.order = res.data.result;
+        this.chatOver = this.order.status > 3;
+        this.counts = this.order.totalDuration * 60;
+        this.countShow = true;
+        this.scrollToBottom();
+        console.log(this.order);
+      })
+      .then(() => {
+        return api.JsSdkConfig();
+      })
+      .then(res => {
+        var config = {
+          ...res.data.result,
+          debug: true,
+          jsApiList: [
+            "checkJsApi",
+            "onMenuShareTimeline",
+            "onMenuShareAppMessage",
+            "onMenuShareQQ",
+            "onMenuShareWeibo",
+            "onMenuShareQZone",
+            "hideMenuItems",
+            "showMenuItems",
+            "hideAllNonBaseMenuItem",
+            "showAllNonBaseMenuItem",
+            "translateVoice",
+            "startRecord",
+            "stopRecord",
+            "onVoiceRecordEnd",
+            "playVoice",
+            "onVoicePlayEnd",
+            "pauseVoice",
+            "stopVoice",
+            "uploadVoice",
+            "downloadVoice",
+            "chooseImage",
+            "previewImage",
+            "uploadImage",
+            "downloadImage",
+            "getNetworkType",
+            "openLocation",
+            "getLocation",
+            "hideOptionMenu",
+            "showOptionMenu",
+            "closeWindow",
+            "scanQRCode",
+            "chooseWXPay",
+            "openProductSpecificView",
+            "addCard",
+            "chooseCard",
+            "openCard"
+          ]
+        };
+        wx.config(config);
+      });
     var that = this;
     chat.start(this.$store.state.accessToken, this.$route.params.id, data => {
       that.order.expertOrderCharts.push(data);
       that.inputMsg = "";
       that.vScrollBottom = 70;
+    });
+    wx.ready(function() {
+      alert("JsApi初始化完成");
+    });
+    wx.error(function(res) {
+      alert(JSON.stringify(res));
     });
   },
   destroyed() {

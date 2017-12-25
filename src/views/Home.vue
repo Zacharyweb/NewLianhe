@@ -11,7 +11,7 @@
               <h4>{{c.name}}</h4>
               <ul class="expert-list">
                <li v-for="e in c.experts" v-bind:key="e.id" class="expert-item" @click="toExpertDetail(e.id)">
-                 <img class="expert-avatar" :src="e.avatar || '../../static/timg.jpeg'">
+                 <img class="expert-avatar" :src="e.avatar | avatar">
                  <div class="expert-info">
                    <p class="expert-msg text-ellipsis">
                      <b class="expert-name">{{e.name}}</b>

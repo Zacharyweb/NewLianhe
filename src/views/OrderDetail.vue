@@ -238,7 +238,7 @@
         <h6>订单状态变更</h6>
         <div class="status-list-wrap">
           <ul class="status-list">
-            <li v-for="(item,index) in order.expertOrderLogs" class="status-item" v-bind:key="index">
+            <li v-for="item in order.expertOrderLogs" class="status-item" v-bind:key="item.id">
               <span class="status-name">{{item.title}}</span>
               <span class="status-time">{{item.creationTime | datetime('yyyy-MM-dd HH:mm:ss')}}</span>
             </li>

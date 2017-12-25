@@ -8,7 +8,7 @@
           </div>
            <div class="form-input">
               <div class="comment-starts">
-                <span class="iconfont" v-for="(item,index) in scoreArr" :key="index"  @click="score = item" 
+                <span class="iconfont" v-for="item in scoreArr" :key="item"  @click="score = item" 
                      :class="{'icon-pingfen':score < item ,'icon-pingfen-':score >= item}">
                 </span>
               </div>

@@ -7,8 +7,8 @@
              <h4><span class="iconfont icon-guanxi"></span>我的关系</h4>
           </div>
           <ul class="has-resign-list relation-list">
-             <li class="relation-item" v-for="(item,index) in hasResignUser" :key="index">
-               <img class="user-avatar" :src='item.avatar || "../../static/timg.jpeg"'>
+             <li class="relation-item" v-for="item in hasResignUser" :key="item.id">
+               <img class="user-avatar" :src='item.avatar | avatar'>
                <div class="user-msg">
                  <p class="user-remark">{{item.name}}（{{item.phone}}）</p>
                  <p class="user-intro text-ellipsis">{{item.post}}</p>
@@ -20,7 +20,7 @@
         </div>
         <div v-if="notResignUser.length>0" class="common-panel">
           <ul class="not-resign-list relation-list">
-             <li class="relation-item" v-for="(item,index) in notResignUser" :key="index">
+             <li class="relation-item" v-for="item in notResignUser" :key="item.id">
                 <img class="user-avatar" src="../../static/timg.jpeg">
                 <div class="user-msg">
                   <p class="user-remark">{{item.name}}（{{item.phone}}）</p>

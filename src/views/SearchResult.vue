@@ -5,8 +5,8 @@
         <div class="expert-block" v-if="keyword && !isAjaxing">
          <h4>搜索结果</h4>
           <ul class="expert-list">
-            <li v-for="(item,index) in results" v-bind:key="index" class="expert-item" @click="toExpertDetail(item.id)">
-               <img class="expert-avatar" :src="item.avatar || '../../static/timg.jpeg'">
+            <li v-for="item in results" v-bind:key="item.id" class="expert-item" @click="toExpertDetail(item.id)">
+               <img class="expert-avatar" :src="item.avatar | avatar">
                <div class="expert-info">
                  <p class="expert-msg text-ellipsis">
                    <b class="expert-name">{{item.name}}</b>

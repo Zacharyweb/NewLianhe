@@ -27,7 +27,7 @@
           </div>
           <div class="img-list">
             <img class="add-img-btn" src="../../../static/add_img.png" @click="uploadImg" v-if="expertPhotos.length < 5">
-            <div class="img-item" v-for="(item,index) in expertPhotos" v-bind:key="index">
+            <div class="img-item" v-for="item in expertPhotos" v-bind:key="item">
               <img :src="item"  alt="">
               <p class="edit-img">
                 <span class="iconfont icon-3" @click="deleteImg(index)"></span> 
@@ -42,7 +42,7 @@
              <h4>营业时间<span class="require-icon">*</span></h4>
              <span class="add-open-time" @click="addOpenTime" v-if="expertWorkSettings.length < 7">+ 增加时段</span>
           </div>
-          <div class="form-input" v-for="(item,index) in expertWorkSettings" v-bind:key="index">
+          <div class="form-input" v-for="(item,index) in expertWorkSettings" :key="index">
             <span class="time-picker-input" :class="{'grey':!item.week}" @click="showTimePicker(1,index,1)">{{item.week || '请选择'}}</span>
             <span class="time-picker-input" :class="{'grey':!item.startTime}" @click="showTimePicker(0,index,2)">{{item.startTime || '请选择'}}</span>
             <span class="devide-line">-</span>

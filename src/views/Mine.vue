@@ -2,7 +2,7 @@
   <div>
     <v-scroll :on-refresh="onRefresh"  :bottom="60" :top="0" :no-more-text="'没有更多评论啦~'">
     <div class="mine-msg">
-      <img class="mine-avatar" :src="this.$store.state.user.avatar || '../../static/timg.jpeg'">
+      <img class="mine-avatar" :src="this.$store.state.user.avatar | avatar">
       <div class="mine-text-msg">
         <p class="mine-base-msg">
           <span @click="login" class="mine-nickname">{{this.$store.state.user.name || "请登录"}}
