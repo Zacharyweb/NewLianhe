@@ -101,10 +101,10 @@ import Scroll from "../components/Scroll.vue";
 import HeaderNav from "../components/HeaderNav.vue";
 import CountTimer from "../components/CountTimer.vue";
 import VoiceWave from "../components/VoiceWave.vue";
-import config from "../tool/config";
 import T from "../tool/tool";
 import api from "../ajax/index";
 import chat from "../tool/signalr/index";
+import wechat from "../tool/wechat/index";
 export default {
   name: "ChatRoom",
   components: {
@@ -194,11 +194,19 @@ export default {
       this.audioPlay = true;
       this.$refs.audioObj.play();
     },
-    beginVoiceInput() {
+    beginVoiceInput(e) {
+      e.preventDefault();
       this.voiceInputTipsShow = true;
+      wx.startRecord();
+      return false;
     },
     endVoiceInput() {
       this.voiceInputTipsShow = false;
+      wx.stopRecord({
+        success: function(res) {
+          var localId = res.localId;
+        }
+      });
     },
     textAreaChange() {
       // this.vScrollBottom = this.$refs.inputPanel.offsetHeight;
@@ -226,76 +234,21 @@ export default {
   },
   mounted() {
     document.title = "咨询室";
-    api
-      .GetExpertOrderChats(this.$route.params.id)
-      .then(res => {
-        this.order = res.data.result;
-        this.chatOver = this.order.status > 3;
-        this.counts = this.order.totalDuration * 60;
-        this.countShow = true;
-        this.scrollToBottom();
-        console.log(this.order);
-      })
-      .then(() => {
-        return api.JsSdkConfig();
-      })
-      .then(res => {
-        var config = {
-          ...res.data.result,
-          debug: true,
-          jsApiList: [
-            "checkJsApi",
-            "onMenuShareTimeline",
-            "onMenuShareAppMessage",
-            "onMenuShareQQ",
-            "onMenuShareWeibo",
-            "onMenuShareQZone",
-            "hideMenuItems",
-            "showMenuItems",
-            "hideAllNonBaseMenuItem",
-            "showAllNonBaseMenuItem",
-            "translateVoice",
-            "startRecord",
-            "stopRecord",
-            "onVoiceRecordEnd",
-            "playVoice",
-            "onVoicePlayEnd",
-            "pauseVoice",
-            "stopVoice",
-            "uploadVoice",
-            "downloadVoice",
-            "chooseImage",
-            "previewImage",
-            "uploadImage",
-            "downloadImage",
-            "getNetworkType",
-            "openLocation",
-            "getLocation",
-            "hideOptionMenu",
-            "showOptionMenu",
-            "closeWindow",
-            "scanQRCode",
-            "chooseWXPay",
-            "openProductSpecificView",
-            "addCard",
-            "chooseCard",
-            "openCard"
-          ]
-        };
-        wx.config(config);
-      });
+    api.GetExpertOrderChats(this.$route.params.id).then(res => {
+      this.order = res.data.result;
+      this.chatOver = this.order.status > 3;
+      this.counts = this.order.totalDuration * 60;
+      this.countShow = true;
+      this.scrollToBottom();
+      console.log(this.order);
+    });
     var that = this;
     chat.start(this.$store.state.accessToken, this.$route.params.id, data => {
       that.order.expertOrderCharts.push(data);
       that.inputMsg = "";
       that.vScrollBottom = 70;
     });
-    wx.ready(function() {
-      alert("JsApi初始化完成");
-    });
-    wx.error(function(res) {
-      alert(JSON.stringify(res));
-    });
+    wechat.initJsSdk();
   },
   destroyed() {
     chat.stop();

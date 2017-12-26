@@ -228,9 +228,12 @@ class Api {
     })
   }
 
-  JsSdkConfig = () => {
+  JsSdkConfig = (url) => {
     return T.get({
-      url: "Wechat/JsSdkConfig"
+      url: "Wechat/JsSdkConfig",
+      data: {
+        url: url
+      }
     })
   }
 
