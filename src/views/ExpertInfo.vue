@@ -304,7 +304,7 @@ export default {
       let that = this;
       T.showLoading();
       qCloud.upload(file, function(result) {
-        that.expertPhotos.push(result.data.source_url);
+        that.expertPhotos.push(result.data.access_url);
         T.hideLoading();
       });
     },

@@ -7,6 +7,10 @@ class Wechat {
     return T.getQueryField("openid") || localStorage.getItem("openid");
   }
 
+  getAccessToken() {
+    return T.getQueryField("token");
+  }
+
   login(callback) {
     if (!config.enablewechatlogin || location.host.startsWith("localhost")) {
       callback();
@@ -30,7 +34,7 @@ class Wechat {
     api.JsSdkConfig(location.href.split("#")[0]).then(res => {
       var config = {
         ...res.data.result,
-        debug: true,
+        debug: false,
         jsApiList: [
           "checkJsApi",
           "onMenuShareTimeline",

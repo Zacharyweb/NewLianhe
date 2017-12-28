@@ -237,6 +237,16 @@ class Api {
     })
   }
 
+  UploadCos = (accessToken, mediaId) => {
+    return T.post({
+      url: "Wechat/UploadCos?accessToken=" + accessToken + "&mediaId=" + mediaId,
+      data: {
+        accessToken: accessToken,
+        mediaId: mediaId
+      }
+    })
+  }
+
 }
 
 export default new Api()

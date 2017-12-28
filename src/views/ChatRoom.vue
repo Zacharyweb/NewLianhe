@@ -17,14 +17,36 @@
           <div v-if="!isMineChat(chat)" :key="chat.id" class="msg-item left-msg">
             <!-- <span class="msg-time">{{chat.creationTime}}</span> -->
             <img class="user-avatar" :src="chat.senderExpert.avatar | avatar" >
-            <div class="chat-content">{{chat.content}}</div>
+            <div class="chat-content">
+              <template v-if="chat.chatType === 1">{{chat.content}}</template>
+              <template v-else-if="chat.chatType === 2"><img :src="chat.content" @click="showImgDetail"/></template>
+            </div>
           </div>
           <!-- 右侧消息 -->
           <div v-else :key="chat.id" class="msg-item right-msg">
             <!-- <span class="msg-time">2017-7-20 19:20:20</span> -->
-            <div class="chat-content">{{chat.content}}</div>
+            <div class="chat-content">
+              <template v-if="chat.chatType === 1">{{chat.content}}</template>
+              <template v-else-if="chat.chatType === 2"><img :src="chat.content" @click="showImgDetail"/></template>
+            </div>
             <img class="user-avatar" :src="chat.senderExpert.avatar | avatar" >
-          </div> 
+          </div>
+          <!-- 左侧图片 -->
+          <!-- <div :key="chat.id" class="msg-item left-msg">
+            <span class="msg-time">2017-7-20 19:20:20</span>
+            <img class="user-avatar" src="../../static/timg.jpeg" >
+            <div class="chat-content">
+              <img src="../../static/timg.jpeg"  @click="showImgDetail">
+            </div>
+          </div> -->
+          <!-- 右侧图片 -->
+          <!-- <div :key="chat.id" class="msg-item right-msg">
+            <span class="msg-time">2017-7-20 19:20:20</span>
+            <div class="chat-content">
+              <img src="../../static/timg.jpeg"  @click="showImgDetail">
+            </div>
+            <img class="user-avatar" src="../../static/timg.jpeg" >
+          </div> -->
           <!-- 左侧语音 -->
           <!-- <div class="msg-item left-msg">
             <span class="msg-time">2017-7-20 19:20:20</span>
@@ -43,22 +65,6 @@
             </div>
             <img class="user-avatar" src="../../static/timg.jpeg">
           </div>  -->
-          <!-- 左侧图片 -->
-          <!-- <div class="msg-item left-msg">
-            <span class="msg-time">2017-7-20 19:20:20</span>
-            <img class="user-avatar" src="../../static/timg.jpeg" >
-            <div class="chat-content">
-              <img src="../../static/timg.jpeg"  @click="showImgDetail">
-            </div>
-          </div> -->
-          <!-- 右侧图片 -->
-          <!-- <div class="msg-item right-msg">
-            <span class="msg-time">2017-7-20 19:20:20</span>
-            <div class="chat-content">
-              <img src="../../static/timg.jpeg"  @click="showImgDetail">
-            </div>
-            <img class="user-avatar" src="../../static/timg.jpeg" >
-          </div>         -->
         </template>
       </div>
     </v-scroll>
@@ -156,12 +162,32 @@ export default {
       this.vScrollBottom = 70;
     },
     toSeleceImg() {
+      let that = this;
+      let userId = this.$store.state.user.id;
       wx.chooseImage({
-        count: 1, // 默认9
         sizeType: ["original", "compressed"], // 可以指定是原图还是压缩图，默认二者都有
         sourceType: ["album", "camera"], // 可以指定来源是相册还是相机，默认二者都有
         success: function(res) {
-          var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+          let localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+          wx.uploadImage({
+            localId: localIds[0], // 需要上传的图片的本地ID，由chooseImage接口获得
+            isShowProgressTips: 1, // 默认为1，显示进度提示
+            success: function(res) {
+              let serverId = res.serverId; // 返回图片的服务器端ID
+              api.UploadCos(wechat.getAccessToken(), serverId).then(res => {
+                return chat.send(that.order.id, {
+                  expertOrderId: that.order.id,
+                  expertId: userId,
+                  chatType: 2,
+                  experReceiverId:
+                    userId === that.order.expertId
+                      ? that.order.serverExpertId
+                      : that.order.expertId,
+                  content: res.data.result.data.access_url
+                });
+              });
+            }
+          });
         }
       });
     },
@@ -173,15 +199,16 @@ export default {
       this.vScrollBottom = this.$refs.inputPanel.offsetHeight;
     },
     toSendMsg() {
-      let userId = this.$store.state.user.id;
-      chat.send(this.order.id, {
-        expertOrderId: this.order.id,
+      let that = this;
+      let userId = that.$store.state.user.id;
+      chat.send(that.order.id, {
+        expertOrderId: that.order.id,
         expertId: userId,
         experReceiverId:
-          userId === this.order.expertId
-            ? this.order.serverExpertId
-            : this.order.expertId,
-        content: this.inputMsg
+          userId === that.order.expertId
+            ? that.order.serverExpertId
+            : that.order.expertId,
+        content: that.inputMsg
       });
     },
     playAudio(id) {
@@ -244,6 +271,7 @@ export default {
     });
     var that = this;
     chat.start(this.$store.state.accessToken, this.$route.params.id, data => {
+      console.log(data);
       that.order.expertOrderCharts.push(data);
       that.inputMsg = "";
       that.vScrollBottom = 70;
