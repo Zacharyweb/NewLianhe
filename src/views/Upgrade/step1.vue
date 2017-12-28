@@ -11,11 +11,11 @@
       </p>
       <p class="base-form-item">
           <span class="label">公司/机关<i class="require-icon">*</i>：</span>
-          <input type="tel" maxlength="30" placeholder="请输入任职机构以及有关部门科室" v-model="organization">
+          <input type="text" maxlength="30" placeholder="请输入任职机构以及有关部门科室" v-model="organization">
       </p>
       <p class="base-form-item">
           <span class="label">职位/专业<i class="require-icon">*</i>：</span>
-          <input type="tel" maxlength="30" placeholder="请输入任职职位或所从事的专业" v-model="post">
+          <input type="text" maxlength="30" placeholder="请输入任职职位或所从事的专业" v-model="post">
       </p>
 <!--       <div class="tags-item">
           <p class="label">目前状态<i class="require-icon">*</i>：</p>
