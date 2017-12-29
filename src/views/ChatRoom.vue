@@ -174,7 +174,7 @@ export default {
             isShowProgressTips: 1, // 默认为1，显示进度提示
             success: function(res) {
               let serverId = res.serverId; // 返回图片的服务器端ID
-              api.UploadCos(wechat.getAccessToken(), serverId).then(res => {
+              api.UploadCos(serverId).then(res => {
                 return chat.send(that.order.id, {
                   expertOrderId: that.order.id,
                   expertId: userId,
