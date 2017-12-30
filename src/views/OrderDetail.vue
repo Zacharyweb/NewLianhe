@@ -253,6 +253,7 @@ import T from "../tool/tool";
 import CountTimer from "../components/CountTimer.vue";
 import Scroll from "../components/Scroll.vue";
 import api from "../ajax/index";
+import wechat from "../tool/wechat/index";
 export default {
   name: "OrderDetail",
   components: {
@@ -330,9 +331,8 @@ export default {
     },
 
     toPay(order) {
-      api.PayOrder(order.id).then(res => {
-        T.showToast("支付成功~");
-        this.status = res.data.result.status;
+      wechat.toPay(order).then(() => {
+        T.showToast({ text: "支付成功！" });
       });
     },
     toChatRoom(id) {

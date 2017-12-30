@@ -243,6 +243,15 @@ class Api {
     })
   }
 
+  CreateOrderPayment = (orderId) => {
+    return T.post({
+      url: "services/app/ExpertOrder/CreateOrderPayment",
+      data: {
+        expertOrderId: orderId
+      }
+    })
+  }
+
 }
 
 export default new Api()
