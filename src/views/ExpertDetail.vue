@@ -1,6 +1,6 @@
 <template>
   <div class="expert-detail-page">
-      <v-scroll :on-refresh="onRefresh"  :bottom="48" :top="0" v-if="!isAjaxing">
+    <v-scroll :on-refresh="onRefresh"  :bottom="48" :top="0" v-if="!isAjaxing">
       <!-- swiper -->
       <swiper :options="swiperOption">
         <swiper-slide v-for="(img,i) in detail.expertPhotos" v-bind:key="i">
@@ -46,7 +46,7 @@
           </div>
         </div>
         <!-- 评价 -->
-        <div class="user-comment common-panel">
+        <div class="user-comment common-panel" v-if="detail.expertComments.length > 0">
           <div class="panel-title">
              <h4><span class="iconfont icon-pingjia"></span>关系户评价</h4>
           </div>
@@ -108,11 +108,11 @@
               </p>    
           </div>
         </div>
-      </v-scroll>
-      <div class="appoint-area position-bottom">
-        <div class="appoint-cost">{{detail.price}}元/节</div>
-        <div class="appoint-submit" @click="toAppointment">发起咨询</div>
-      </div>
+    </v-scroll>
+    <div class="appoint-area position-bottom">
+      <div class="appoint-cost">{{detail.price}}元/节</div>
+      <div class="appoint-submit" @click="toAppointment">发起咨询</div>
+    </div>
       
   </div>
 </template>

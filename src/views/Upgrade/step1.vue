@@ -28,12 +28,14 @@
           <p class="label">专家分类<i class="require-icon">*</i>：</p>
           <p class="tags-wrap">
             <span class="tag-item" :class="{'active':experType == 1}" @click="chageExperType(1)">公开专家</span>
+            <span class="tag-item" :class="{'active':experType == 3}" @click="chageExperType(3)">半公开专家</span>
             <span class="tag-item" :class="{'active':experType == 2}" @click="chageExperType(2)">关系户专家</span>
           </p>
           <div class="select-tips">
             <span>注</span>
-            <p>公开专家—为所有用户服务</p>
-            <p>关系户专家—只为关系户服务</p>
+            <p>公开专家—资料对外公开，可为所有用户服务。</p>
+            <p>半公开专家—资料对外公开，只为关系户服务。</p>
+            <p>关系户专家—资料对内公开，只为关系户服务。</p>
           </div>
       </div>
       <div class="tags-item">
