@@ -93,20 +93,21 @@
             <span class="hide-all-btn" @click="allIntroShow = false" >收起介绍</span>
           </p>
         </div>
-      <div class="consult-process">
-        <h4>咨询流程</h4>
-        <p>1.发起咨询：提交问题和咨询节数（每节30分钟）。</p>
-        <p>2.等待确认：专家5分钟内确认能否提供此次咨询。</p>
-   
-        <div class="consult-process-sec2">
-<!--             <p>3.支付费用：按购买的节数通过支付宝或微信支付。</p>
-            <p>4.在线咨询：进入咨询室通过语音和文字咨询专家。</p>
-            <p>5.咨询完成：系统进行费用结算，并提供发票申请。</p>
-            <p>6.评价反馈：对咨询进行评价，与关系户分享评价。</p>
-            <p class="other-tips">咨询结束后，用户可随时查看本次咨询的详情。对本次咨询服务不满意的，可申请无忧退款。</p> -->
+        <div class="consult-process">
+          <h4>咨询流程</h4>
+          <p>1.发起咨询：提交问题和咨询节数（每节30分钟）。</p>
+          <p>2.等待确认：专家5分钟内确认能否提供此次咨询。</p>
+          <p v-show="!showAllProcess">3.支付费用：按购买的节数&nbsp;...<span class="show-all-process" @click="showAllProcess = true">&nbsp;&nbsp;显示全部</span></p>
+          <div class="consult-process-sec2" v-show="showAllProcess">
+              <p>3.支付费用：按购买的节数通过支付宝或微信支付。</p>
+              <p>4.在线咨询：进入咨询室通过语音和文字咨询专家。</p>
+              <p>5.咨询完成：系统进行费用结算，并提供发票申请。</p>
+              <p>6.评价反馈：对咨询进行评价，与关系户分享评价。</p>
+              <p class="other-tips">咨询结束后，用户可随时查看本次咨询的详情。对本次咨询服务不满意的，可申请无忧退款。&nbsp;
+                <span class="hide-all-process" @click="showAllProcess = false">收起全部</span>
+              </p>    
+          </div>
         </div>
-      </div>
-
       </v-scroll>
       <div class="appoint-area position-bottom">
         <div class="appoint-cost">{{detail.price}}元/节</div>
@@ -139,7 +140,9 @@ export default {
       allIntroShow: false,
       allArticleShow: false,
       arr: [1, 2, 3],
-      isAjaxing:true
+      isAjaxing:true,
+
+      showAllProcess:false
     };
   },
   methods: {
@@ -403,13 +406,20 @@ export default {
   font-size: 14px;
   line-height: 1.5;
   padding-top: 4px;
+  position: relative;
 }
 
+
+.consult-process .show-all-process,
+.consult-process .hide-all-process{
+  color: #55cbc4;
+}
 .consult-process .other-tips {
   padding-top: 15px;
   font-size: 13px;
   color: #999;
 }
+
 .appoint-area {
   width: 100%;
   display: flex;
@@ -431,4 +441,5 @@ export default {
   background-color: #fff;
   color: #55cbc4;
 }
+
 </style>
