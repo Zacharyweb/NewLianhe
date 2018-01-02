@@ -45,7 +45,7 @@
     <div class="input-panel" :style="{bottom:inputPanelBottom+'px'}" ref="inputPanel">
       <div class="textarea-wrap" v-show="!voiceInputShow">
        <p class="back-text">{{inputMsg}}</p>
-       <textarea  v-model="inputMsg" @change="textAreaChange" @focus="textAreaFocus" @blur="textAreaBlur"></textarea>
+       <textarea  v-model="inputMsg" @change="textAreaChange" @focus="textAreaFocus" @blur="textAreaBlur" maxlength="300"></textarea>
       </div>
       <div class="voice-input" v-show="voiceInputShow" @touchstart="beginVoiceInput" @touchend="endVoiceInput">
         按住进行语音输入
@@ -110,7 +110,7 @@ export default {
       order: {},
 
       inIos:false,
-      inputPanelBottom:0,
+      inputPanelBottom:20,
     };
   },
   methods: {
@@ -139,7 +139,7 @@ export default {
     },
     toVoiceInput() {
       this.voiceInputShow = true;
-      this.vScrollBottom = 70;
+      this.vScrollBottom = this.inputPanelBottom +  70;
     },
     toSeleceImg() {
       let that = this;
@@ -173,10 +173,10 @@ export default {
     },
     toTextInput() {
       this.voiceInputShow = false;
-      this.vScrollBottom = this.$refs.inputPanel.offsetHeight;
+      this.vScrollBottom = this.inputPanelBottom +  this.$refs.inputPanel.offsetHeight;
     },
     checkInputPanelHeight() {
-      this.vScrollBottom = this.$refs.inputPanel.offsetHeight;
+      this.vScrollBottom = this.inputPanelBottom +  this.$refs.inputPanel.offsetHeight;
     },
     toSendMsg() {
       let that = this;
@@ -243,7 +243,7 @@ export default {
       });
     },
     textAreaChange() {
-      // this.vScrollBottom = this.$refs.inputPanel.offsetHeight;
+      // this.vScrollBottom = this.inputPanelBottom +  this.$refs.inputPanel.offsetHeight;
     },
     countChange(i) {
       if (i == 120) {
@@ -260,22 +260,10 @@ export default {
       });
     },
     textAreaFocus() {
-      let inputPanel = this.$refs.inputPanel;
-      let inputPanelShim = this.$refs.inputPanelShim;
-      this.$nextTick(() => {
-        if(!this.inIos){
-            inputPanel.scrollIntoView(false);
-        }else{
-            inputPanel.scrollIntoView(true);
-           // inputPanelShim.scrollIntoView(false);
-           // this.inputPanelBottom = 60;
-        }
-      });
+    
     },
     textAreaBlur(){
-       if(this.inIos){
-        this.inputPanelBottom = 0;
-       }
+  
     },
     checkIfInIos(){
       var ua = navigator.userAgent.toLowerCase();    
@@ -337,8 +325,10 @@ export default {
 <style scoped>
 .input-panel {
   box-sizing: border-box;
-  position: fixed;
+  /*position: fixed;*/
   /*bottom: 0;*/
+
+  position: absolute;
   left: 0;
   width: 100%;
   border-top: 1px solid #ccc;
