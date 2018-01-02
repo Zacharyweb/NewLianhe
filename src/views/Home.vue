@@ -6,7 +6,7 @@
     <!--      <div class="recommend-expert">
            <h3 class="recommend-text">为您推荐</h3>
          </div> -->
-         <div class="expert-block">
+         <div class="expert-block" v-show="!isAjaxing">
             <div v-for="c in experts" v-bind:key="c.id">
               <h4>{{c.name}}</h4>
               <ul class="expert-list">
@@ -55,9 +55,9 @@ export default {
   },
   data() {
     return {
-      msg: "Welcome to Your Vue.js App",
       arr: [],
       experts: [],
+      isAjaxing: true,
       tabBarArr: [
         {
           name: "税务",
@@ -82,7 +82,6 @@ export default {
   },
   methods: {
     onRefresh(done) {
-      console.log("ggggggg");
       setTimeout(() => {
         done();
       }, 1000);
@@ -97,8 +96,11 @@ export default {
   },
   mounted() {
     document.title = "联合咨询";
+    T.showLoading();
     api.GetGroupedByClassExperts().then(res => {
+      this.isAjaxing = false;
       this.experts = res.data.result;
+      T.hideLoading(); 
     });
   }
 };

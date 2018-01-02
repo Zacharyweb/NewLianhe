@@ -112,8 +112,8 @@
 
         <!-- 在线咨询 -->
         <div class="btn-area" v-if="status ==3">
-          <span class="btn btn-green-outline btn-small" @click="toOrderList">返回订单列表</span>
           <span class="btn btn-green btn-small" @click="toChatRoom(order.id)">进入咨询室</span>
+          <span class="btn btn-green-outline btn-small" @click="toOverChat">结束咨询</span>
         </div>
 
        <!-- 咨询完成 -->
@@ -347,6 +347,15 @@ export default {
     },
     countEnd() {
       this.status = -2;
+    },
+    toOverChat(){
+      T.Confirm({
+        text: "确定提前结束此次咨询?",
+        confirm: function() {
+          alert('结束咨询操作');
+          this.status = 4;
+        }
+      });
     }
   },
   mounted() {

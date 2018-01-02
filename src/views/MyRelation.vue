@@ -2,7 +2,7 @@
   <div>
       <v-scroll :on-refresh="onRefresh"  :bottom="48" :top="0" :no-more-text="'没有更多评论啦~'">
 
-        <div class="common-panel">
+        <div class="common-panel" v-show="!isAjaxing">
           <div class="panel-title">
              <h4><span class="iconfont icon-guanxi"></span>我的关系</h4>
           </div>
@@ -16,7 +16,7 @@
                </div>
              </li>
           </ul>
-          <no-data-tips v-if="hasResignUser.length == 0 && !isAjaxing" tips="暂未添加关系户"></no-data-tips>
+          <no-data-tips v-if="hasResignUser.length == 0 && !isAjaxing" tips="暂无已注册关系户"></no-data-tips>
         </div>
         <div v-if="notResignUser.length>0" class="common-panel">
           <ul class="not-resign-list relation-list">
@@ -60,7 +60,7 @@
 
         
 
-      <div class="btn btn-green btn-large position-bottom" @click="showModal = true">添加关系</div>
+      <div class="btn btn-green btn-large position-bottom" @click="showModal = true" v-show="!isAjaxing">添加关系</div>
   </div>
 </template>
 

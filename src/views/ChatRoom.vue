@@ -42,10 +42,10 @@
         </template>
       </div>
     </v-scroll>
-    <div class="input-panel" ref="inputPanel">
+    <div class="input-panel" :style="{bottom:inputPanelBottom+'px'}" ref="inputPanel">
       <div class="textarea-wrap" v-show="!voiceInputShow">
        <p class="back-text">{{inputMsg}}</p>
-       <textarea  v-model="inputMsg" @change="textAreaChange" @focus="textAreaFocus"></textarea>
+       <textarea  v-model="inputMsg" @change="textAreaChange" @focus="textAreaFocus" @blur="textAreaBlur" maxlength="300"></textarea>
       </div>
       <div class="voice-input" v-show="voiceInputShow" @touchstart="beginVoiceInput" @touchend="endVoiceInput">
         按住进行语音输入
@@ -59,14 +59,14 @@
       <span class="img-btn option-btn" @click="toSeleceImg">
         <i class="iconfont icon-tupian"></i>
       </span>
-
       <span class="send-btn" @click="toSendMsg">发送</span>
     </div>
+    <div class="input-panel-shim" ref="inputPanelShim" :style="{height:inputPanelBottom + 'px'}"></div>
+
     <div class="voice-input-tips" v-show="voiceInputTipsShow">
       <p class="tips-icon"><span class="iconfont icon-yuyin"></span></p>
       <p class="tips-text">正在录入语音</p>
     </div>
-  
 
     <div class="img-detail-panel" v-if="imgDetailShow" @click="hideImgDetail">
       <img class="scaleIn" :class="{'scaleOut':imgDetailScaleOut}" src="https://s1.ax1x.com/2017/10/16/JQZeP.jpg" >
@@ -107,7 +107,10 @@ export default {
       audioPlayId: -1,
       audioUrl: null,
       chatOver: true,
-      order: {}
+      order: {},
+
+      inIos:false,
+      inputPanelBottom:20,
     };
   },
   methods: {
@@ -136,7 +139,7 @@ export default {
     },
     toVoiceInput() {
       this.voiceInputShow = true;
-      this.vScrollBottom = 70;
+      this.vScrollBottom = this.inputPanelBottom +  70;
     },
     toSeleceImg() {
       let that = this;
@@ -177,10 +180,10 @@ export default {
     },
     toTextInput() {
       this.voiceInputShow = false;
-      this.vScrollBottom = this.$refs.inputPanel.offsetHeight;
+      this.vScrollBottom = this.inputPanelBottom +  this.$refs.inputPanel.offsetHeight;
     },
     checkInputPanelHeight() {
-      this.vScrollBottom = this.$refs.inputPanel.offsetHeight;
+      this.vScrollBottom = this.inputPanelBottom +  this.$refs.inputPanel.offsetHeight;
     },
     toSendMsg() {
       let that = this;
@@ -247,7 +250,7 @@ export default {
       });
     },
     textAreaChange() {
-      // this.vScrollBottom = this.$refs.inputPanel.offsetHeight;
+      // this.vScrollBottom = this.inputPanelBottom +  this.$refs.inputPanel.offsetHeight;
     },
     countChange(i) {
       if (i == 120) {
@@ -264,10 +267,18 @@ export default {
       });
     },
     textAreaFocus() {
-      let inputPanel = this.$refs.inputPanel;
-      this.$nextTick(() => {
-        inputPanel.scrollIntoView(false);
-      });
+    
+    },
+    textAreaBlur(){
+  
+    },
+    checkIfInIos(){
+      var ua = navigator.userAgent.toLowerCase();    
+      if (/iphone|ipad|ipod/.test(ua)) {
+        this.inIos = true; 
+      }else {
+        this.inIos = false;  
+      }
     },
     chatContentClicked(chat) {
       if (chat.chatType === 1) return;
@@ -285,6 +296,7 @@ export default {
   },
   mounted() {
     document.title = "咨询室";
+    this.checkIfInIos();
     api.GetExpertOrderChats(this.$route.params.id).then(res => {
       this.order = res.data.result;
       this.chatOver = this.order.status > 3;
@@ -320,13 +332,22 @@ export default {
 <style scoped>
 .input-panel {
   box-sizing: border-box;
-  position: fixed;
-  bottom: 0;
+  /*position: fixed;*/
+  /*bottom: 0;*/
+
+  position: absolute;
   left: 0;
   width: 100%;
   border-top: 1px solid #ccc;
   background-color: #e3e3e3;
   padding: 10px 55px 10px 90px;
+}
+.input-panel-shim{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #e3e3e3;
 }
 .voice-input {
   min-height: 44px;
