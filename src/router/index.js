@@ -158,9 +158,9 @@ const router = new Router({
     {
       path: '/chat/:id',
       name: 'ChatRoom',
-      // meta: {
-      //   requiresAuth: true
-      // },
+      meta: {
+        requiresAuth: true
+      },
       component: ChatRoom
     },
 
