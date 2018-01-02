@@ -184,7 +184,7 @@
             {{order.questionRemark}}
           </p>
         </div>
-        <template v-for="(item,index) in order.expertComments">
+        <template v-for="item in order.expertComments">
           <div class="detail-msg-item" :key="item.id">
             <div class="msg-content">
               <span class="iconfont icon-pingfen2"></span>
@@ -213,19 +213,19 @@
           <div class="cost-list">
             <p class="list-item">
               <span>价格</span>
-              <span class="add-text">￥300.00</span>
+              <span class="add-text">￥{{order.amount}}</span>
             </p>
-            <p class="list-item">
+            <!-- <p class="list-item">
               <span>XX费</span>
               <span class="reduce-text">-￥30.00</span>
             </p>
             <p class="list-item">
               <span>XX费</span>
               <span class="reduce-text">-￥15.00</span>
-            </p>
+            </p> -->
             <p class="list-item">
               <span>总计</span>
-              <span class="add-text">￥255.00</span>
+              <span class="add-text">￥{{order.amount}}</span>
             </p>  
           </div>
         </div>
@@ -284,10 +284,6 @@ export default {
         }
       });
     },
-    toConsultHome() {
-      this.$router.push("/chat/56");
-    },
-
     toOrderList() {
       if (!this.isCustomer) {
         this.$router.push("/consult");
@@ -333,6 +329,7 @@ export default {
     toPay(order) {
       wechat.toPay(order).then(() => {
         T.showToast({ text: "支付成功！" });
+        this.$router.replace("/order/detail/" + order.id);
       });
     },
     toChatRoom(id) {

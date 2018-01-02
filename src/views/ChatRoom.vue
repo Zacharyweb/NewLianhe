@@ -141,7 +141,9 @@ export default {
     toSeleceImg() {
       let that = this;
       let userId = this.$store.state.user.id;
+      T.showLoading();
       wx.chooseImage({
+        count: 1,
         sizeType: ["original", "compressed"], // 可以指定是原图还是压缩图，默认二者都有
         sourceType: ["album", "camera"], // 可以指定来源是相册还是相机，默认二者都有
         success: function(res) {
@@ -151,18 +153,23 @@ export default {
             isShowProgressTips: 0, // 默认为1，显示进度提示
             success: function(res) {
               let serverId = res.serverId; // 返回图片的服务器端ID
-              api.UploadCos(serverId).then(res => {
-                return chat.send(that.order.id, {
-                  expertOrderId: that.order.id,
-                  expertId: userId,
-                  chatType: 2,
-                  experReceiverId:
-                    userId === that.order.expertId
-                      ? that.order.serverExpertId
-                      : that.order.expertId,
-                  content: res.data.result.data.access_url
+              api
+                .UploadCos(serverId)
+                .then(res => {
+                  return chat.send(that.order.id, {
+                    expertOrderId: that.order.id,
+                    expertId: userId,
+                    chatType: 2,
+                    experReceiverId:
+                      userId === that.order.expertId
+                        ? that.order.serverExpertId
+                        : that.order.expertId,
+                    content: res.data.result.data.access_url
+                  });
+                })
+                .then(() => {
+                  T.hideLoading();
                 });
-              });
             }
           });
         }

@@ -101,6 +101,8 @@ class Wechat {
         );
       });
       return promise;
+    }).then(order => {
+      return api.GetPaymentStatus(order.id);
     });
   }
 }

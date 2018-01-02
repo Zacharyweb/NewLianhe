@@ -73,6 +73,7 @@ export default {
     toPay(order) {
       wechat.toPay(order).then(() => {
         T.showToast({ text: "支付成功！" });
+        this.toOrderDetail(order.id);
       });
     },
 

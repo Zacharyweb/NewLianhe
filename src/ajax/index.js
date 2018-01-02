@@ -252,6 +252,14 @@ class Api {
     })
   }
 
+  GetPaymentStatus = (orderId) => {
+    return T.get({
+      url: "services/app/ExpertOrder/GetPaymentStatus",
+      data: {
+        orderId: orderId
+      }
+    })
+  }
 }
 
 export default new Api()
