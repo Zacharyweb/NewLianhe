@@ -78,6 +78,31 @@ class Wechat {
     });
     wx.ready(callback || function () {});
   }
+
+  toPay(order) {
+    if (typeof WeixinJSBridge == "undefined") {
+      T.showToast({
+        text: "请用微信打开支付"
+      });
+      return Promise.resolve();
+    }
+    return api.CreateOrderPayment(order.id).then(res => {
+      let data = res.data.result;
+      var promise = new Promise((resolve, reject) => {
+        WeixinJSBridge.invoke(
+          "getBrandWCPayRequest", {
+            ...data
+          },
+          function (res) {
+            if (res.err_msg == "get_brand_wcpay_request:ok") {
+              resolve(order);
+            } else reject();
+          }
+        );
+      });
+      return promise;
+    });
+  }
 }
 
 export default new Wechat()

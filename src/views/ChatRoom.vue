@@ -17,54 +17,28 @@
           <div v-if="!isMineChat(chat)" :key="chat.id" class="msg-item left-msg">
             <!-- <span class="msg-time">{{chat.creationTime}}</span> -->
             <img class="user-avatar" :src="chat.senderExpert.avatar | avatar" >
-            <div class="chat-content">
+            <div class="chat-content" :class="{'voice-content':chat.chatType === 3}" @click="chatContentClicked(chat)">
               <template v-if="chat.chatType === 1">{{chat.content}}</template>
-              <template v-else-if="chat.chatType === 2"><img :src="chat.content" @click="showImgDetail"/></template>
+              <template v-else-if="chat.chatType === 2"><img :src="chat.content"/></template>
+              <template v-else>
+                <voice-wave :id="chat.id" :play="audioPlay" :play-id="audioPlayId"></voice-wave>
+                <span class="voice-time">6"</span>
+              </template>
             </div>
           </div>
           <!-- 右侧消息 -->
           <div v-else :key="chat.id" class="msg-item right-msg">
             <!-- <span class="msg-time">2017-7-20 19:20:20</span> -->
-            <div class="chat-content">
+            <div class="chat-content" :class="{'voice-content':chat.chatType === 3}" @click="chatContentClicked(chat)">
               <template v-if="chat.chatType === 1">{{chat.content}}</template>
-              <template v-else-if="chat.chatType === 2"><img :src="chat.content" @click="showImgDetail"/></template>
+              <template v-else-if="chat.chatType === 2"><img :src="chat.content"/></template>
+              <template v-else>
+                <span class="voice-time">6"</span>
+                <voice-wave :id="chat.id" :play="audioPlay" :play-id="audioPlayId"></voice-wave>
+              </template>
             </div>
             <img class="user-avatar" :src="chat.senderExpert.avatar | avatar" >
           </div>
-          <!-- 左侧图片 -->
-          <!-- <div :key="chat.id" class="msg-item left-msg">
-            <span class="msg-time">2017-7-20 19:20:20</span>
-            <img class="user-avatar" src="../../static/timg.jpeg" >
-            <div class="chat-content">
-              <img src="../../static/timg.jpeg"  @click="showImgDetail">
-            </div>
-          </div> -->
-          <!-- 右侧图片 -->
-          <!-- <div :key="chat.id" class="msg-item right-msg">
-            <span class="msg-time">2017-7-20 19:20:20</span>
-            <div class="chat-content">
-              <img src="../../static/timg.jpeg"  @click="showImgDetail">
-            </div>
-            <img class="user-avatar" src="../../static/timg.jpeg" >
-          </div> -->
-          <!-- 左侧语音 -->
-          <!-- <div class="msg-item left-msg">
-            <span class="msg-time">2017-7-20 19:20:20</span>
-            <img class="user-avatar" src="../../static/timg.jpeg" >
-            <div class="chat-content voice-content" @click="playAudio(1)"> 
-              <voice-wave :id="1" :play="audioPlay" :play-id="audioPlayId"></voice-wave>
-              <span class="voice-time">6"</span>
-            </div>
-          </div>  -->
-          <!-- 右侧语音 -->
-          <!-- <div class="msg-item right-msg">
-            <span class="msg-time">2017-7-20 19:20:20</span>
-            <div class="chat-content voice-content" @click="playAudio(2)"> 
-              <span class="voice-time">6"</span>
-              <voice-wave :id="2" :play="audioPlay" :play-id="audioPlayId"></voice-wave>
-            </div>
-            <img class="user-avatar" src="../../static/timg.jpeg">
-          </div>  -->
         </template>
       </div>
     </v-scroll>
@@ -98,7 +72,7 @@
       <img class="scaleIn" :class="{'scaleOut':imgDetailScaleOut}" src="https://s1.ax1x.com/2017/10/16/JQZeP.jpg" >
     </div>
    
-    <audio ref="audioObj" src="http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E06DCBDC9AB7C49FD713D632D313AC4858BACB8DDD29067D3C601481D36E62053BF8DFEAF74C0A5CCFADD6471160CAF3E6A&fromtag=46"></audio> 
+    <audio v-if="!!audioUrl" autoplay ref="audioObj" :src="audioUrl"></audio> 
   </div>
 </template>
 
@@ -131,6 +105,7 @@ export default {
       counts: 130,
       countShow: false,
       audioPlayId: -1,
+      audioUrl: null,
       chatOver: true,
       order: {},
 
@@ -150,9 +125,11 @@ export default {
     isMineChat(chat) {
       return chat.senderExpert.id === this.$store.state.user.id;
     },
-    showImgDetail() {
-      this.imgDetailShow = true;
-      this.imgDetailScaleOut = false;
+    showImgDetail(chat) {
+      wx.previewImage({
+        current: chat.content, // 当前显示图片的http链接
+        urls: [chat.content] // 需要预览的图片http链接列表
+      });
     },
     hideImgDetail() {
       this.imgDetailScaleOut = true;
@@ -174,10 +151,10 @@ export default {
           let localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
           wx.uploadImage({
             localId: localIds[0], // 需要上传的图片的本地ID，由chooseImage接口获得
-            isShowProgressTips: 1, // 默认为1，显示进度提示
+            isShowProgressTips: 0, // 默认为1，显示进度提示
             success: function(res) {
               let serverId = res.serverId; // 返回图片的服务器端ID
-              api.UploadCos(wechat.getAccessToken(), serverId).then(res => {
+              api.UploadCos(serverId).then(res => {
                 return chat.send(that.order.id, {
                   expertOrderId: that.order.id,
                   expertId: userId,
@@ -214,15 +191,17 @@ export default {
         content: that.inputMsg
       });
     },
-    playAudio(id) {
-      if (id == this.audioPlayId) {
-        this.audioPlay = false;
-        this.$refs.audioObj.pause();
+    playAudio(chat) {
+      if (chat.id == this.audioPlayId) {
+        this.audioStoped();
         return;
       }
-      this.audioPlayId = id;
+
+      this.audioUrl = chat.content;
+      this.audioPlayId = chat.id;
       this.audioPlay = true;
-      this.$refs.audioObj.play();
+
+      //this.$refs.audioObj.addEventListener("ended", this.audioStoped);
     },
     beginVoiceInput(e) {
       e.preventDefault();
@@ -231,10 +210,35 @@ export default {
       return false;
     },
     endVoiceInput() {
+      let that = this;
+      let userId = this.$store.state.user.id;
       this.voiceInputTipsShow = false;
       wx.stopRecord({
         success: function(res) {
-          var localId = res.localId;
+          let localId = res.localId;
+          wx.playVoice({
+            localId: localId // 需要播放的音频的本地ID，由stopRecord接口获得
+          });
+
+          wx.uploadVoice({
+            localId: localId, // 需要上传的音频的本地ID，由stopRecord接口获得
+            isShowProgressTips: 0, // 默认为1，显示进度提示
+            success: function(res) {
+              let serverId = res.serverId; // 返回音频的服务器端ID
+              api.UploadCos(serverId).then(res => {
+                return chat.send(that.order.id, {
+                  expertOrderId: that.order.id,
+                  expertId: userId,
+                  chatType: 3,
+                  experReceiverId:
+                    userId === that.order.expertId
+                      ? that.order.serverExpertId
+                      : that.order.expertId,
+                  content: res.data.result.data.access_url
+                });
+              });
+            }
+          });
         }
       });
     },
@@ -280,6 +284,19 @@ export default {
       }else {
         this.inIos = false;  
       }
+    },
+    chatContentClicked(chat) {
+      if (chat.chatType === 1) return;
+      if (chat.chatType === 2) {
+        this.showImgDetail(chat);
+      } else {
+        this.playAudio(chat);
+      }
+    },
+    audioStoped() {
+      this.audioPlayId = -1;
+      this.audioPlay = false;
+      this.audioUrl = null;
     }
   },
   mounted() {

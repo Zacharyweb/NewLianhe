@@ -43,15 +43,16 @@
 import T from "../../tool/tool";
 import api from "../../ajax/index";
 import NoDataTips from "../../components/NoDataTips.vue";
+import wechat from "../../tool/wechat/index";
 export default {
   name: "ExpertConsult",
   components: {
-    "no-data-tips":NoDataTips
+    "no-data-tips": NoDataTips
   },
   data() {
     return {
       orderList: [],
-      isAjaxing:true
+      isAjaxing: true
     };
   },
   methods: {
@@ -70,9 +71,8 @@ export default {
       });
     },
     toPay(order) {
-      api.PayOrder(order.id).then(res => {
-        T.showToast("支付成功~");
-        order.status = res.data.result.status;
+      wechat.toPay(order).then(() => {
+        T.showToast({ text: "支付成功！" });
       });
     },
 

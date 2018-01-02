@@ -237,12 +237,17 @@ class Api {
     })
   }
 
-  UploadCos = (accessToken, mediaId) => {
+  UploadCos = (mediaId) => {
     return T.post({
-      url: "Wechat/UploadCos?accessToken=" + accessToken + "&mediaId=" + mediaId,
+      url: "Wechat/UploadCos?mediaId=" + mediaId,
+    })
+  }
+
+  CreateOrderPayment = (orderId) => {
+    return T.post({
+      url: "services/app/ExpertOrder/CreateOrderPayment",
       data: {
-        accessToken: accessToken,
-        mediaId: mediaId
+        expertOrderId: orderId
       }
     })
   }
