@@ -86,7 +86,7 @@ export default {
         .then(user => {
           T.showToast({ text: "登录成功" });
           var url = this.$route.query.redirect || "/";
-          this.$router.push(url);
+          this.$router.replace(url);
         });
     }
   },
