@@ -12,7 +12,7 @@
           <input type="tel" maxlength="4" placeholder="请输入短信验证码" v-model="code">
       </p>
     <div class="btn-wrapper">
-      <p class="btn btn-green btn-large" @click="signIn">立即注册</p>
+      <p class="btn btn-green btn-large" @click="signIn">立即登录</p>
     </div>
 
     </div>
@@ -86,7 +86,7 @@ export default {
         .then(user => {
           T.showToast({ text: "登录成功" });
           var url = this.$route.query.redirect || "/";
-          this.$router.push(url);
+          this.$router.replace(url);
         });
     }
   },

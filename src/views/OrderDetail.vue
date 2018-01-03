@@ -61,21 +61,21 @@
         <p class="status-tips" v-if="status == -2 && isCustomer">专家超时未确认或拒绝此次咨询，订单关闭。</p>
         <p class="status-tips" v-if="status == -2 && !isCustomer">您超时未确认或拒绝此次咨询，订单关闭。</p>
 
-        <p class="status-tips" v-if="status == 0 && isCustomer">专家超过5分钟未确认，则订单自动关闭。</p>
-        <p class="status-tips" v-if="status == 0 && !isCustomer">若您超过5分钟未确认，则订单自动关闭。</p>
+        <p class="status-tips" v-if="status == 1 && isCustomer">专家超过5分钟未确认，则订单自动关闭。</p>
+        <p class="status-tips" v-if="status == 1 && !isCustomer">若您超过5分钟未确认，则订单自动关闭。</p>
 
-        <p class="status-tips" v-if="status ==1 && isCustomer">专家已同意接受您的咨询请求，马上完成支付即可开始咨询~</p>
-        <p class="status-tips" v-if="status ==1 && !isCustomer">您已同意接受此次的咨询，请等待客户支付咨询费用~</p>
-
-
-        <p class="status-tips" v-if="status ==2 && isCustomer">您已支付咨询费用，进入咨询室即可与专家进行交流。</p>
-        <p class="status-tips" v-if="status ==2 && !isCustomer">客户已支付咨询费用，进入咨询室即可与客户进行交流。</p>
-
-        <p class="status-tips" v-if="status ==3 ">咨询完成，请等待系统结算。</p>
+        <p class="status-tips" v-if="status == 2 && isCustomer">专家已同意接受您的咨询请求，马上完成支付即可开始咨询~</p>
+        <p class="status-tips" v-if="status == 2 && !isCustomer">您已同意接受此次的咨询，请等待客户支付咨询费用~</p>
 
 
-        <p class="status-tips" v-if="status ==4 && isCustomer">本次咨询已完成,快去对本次咨询做个评价分享吧~</p>
-        <p class="status-tips" v-if="status ==4 && !isCustomer">本次咨询已完成,请等待客户评价</p>
+        <p class="status-tips" v-if="status == 3 && isCustomer">您已支付咨询费用，进入咨询室即可与专家进行交流。</p>
+        <p class="status-tips" v-if="status == 3 && !isCustomer">客户已支付咨询费用，进入咨询室即可与客户进行交流。</p>
+
+        <p class="status-tips" v-if="status == 4 ">咨询完成，请等待系统结算。</p>
+
+
+        <p class="status-tips" v-if="status == 5 && isCustomer">本次咨询已完成,快去对本次咨询做个评价分享吧~</p>
+        <p class="status-tips" v-if="status == 5 && !isCustomer">本次咨询已完成,请等待客户评价</p>
 
         <!-- 专家拒绝 订单关闭 -->
         <div class="btn-area" v-if="status == -2">
@@ -129,7 +129,6 @@
 
         <!-- 评价完成 -->
         <div class="btn-area" v-if="status == 5 && isCustomer">
-         
           <span class="btn btn-green-outline btn-small" @click="toCommentDetail(order.id)">查看评价</span>
           <span class="btn btn-green-outline btn-small" @click="toChatRoom(order.id)">咨询详情</span>
      <!--       <span class="btn btn-green btn-small" @click="toAppointment(88)">再次咨询</span> -->
