@@ -109,8 +109,8 @@ export default {
       chatOver: true,
       order: {},
 
-      inIos:false,
-      inputPanelBottom:20,
+      inIos: false,
+      inputPanelBottom: 20
     };
   },
   methods: {
@@ -139,17 +139,17 @@ export default {
     },
     toVoiceInput() {
       this.voiceInputShow = true;
-      this.vScrollBottom = this.inputPanelBottom +  70;
+      this.vScrollBottom = this.inputPanelBottom + 70;
     },
     toSeleceImg() {
       let that = this;
       let userId = this.$store.state.user.id;
-      T.showLoading();
       wx.chooseImage({
         count: 1,
         sizeType: ["original", "compressed"], // 可以指定是原图还是压缩图，默认二者都有
         sourceType: ["album", "camera"], // 可以指定来源是相册还是相机，默认二者都有
         success: function(res) {
+          T.showLoading();
           let localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
           wx.uploadImage({
             localId: localIds[0], // 需要上传的图片的本地ID，由chooseImage接口获得
@@ -181,10 +181,12 @@ export default {
     },
     toTextInput() {
       this.voiceInputShow = false;
-      this.vScrollBottom = this.inputPanelBottom +  this.$refs.inputPanel.offsetHeight;
+      this.vScrollBottom =
+        this.inputPanelBottom + this.$refs.inputPanel.offsetHeight;
     },
     checkInputPanelHeight() {
-      this.vScrollBottom = this.inputPanelBottom +  this.$refs.inputPanel.offsetHeight;
+      this.vScrollBottom =
+        this.inputPanelBottom + this.$refs.inputPanel.offsetHeight;
     },
     toSendMsg() {
       let that = this;
@@ -268,18 +270,14 @@ export default {
         this.$router.push("/order/detail/" + this.$route.params.id);
       });
     },
-    textAreaFocus() {
-    
-    },
-    textAreaBlur(){
-  
-    },
-    checkIfInIos(){
-      var ua = navigator.userAgent.toLowerCase();    
+    textAreaFocus() {},
+    textAreaBlur() {},
+    checkIfInIos() {
+      var ua = navigator.userAgent.toLowerCase();
       if (/iphone|ipad|ipod/.test(ua)) {
-        this.inIos = true; 
-      }else {
-        this.inIos = false;  
+        this.inIos = true;
+      } else {
+        this.inIos = false;
       }
     },
     chatContentClicked(chat) {
@@ -344,7 +342,7 @@ export default {
   background-color: #e3e3e3;
   padding: 10px 55px 10px 90px;
 }
-.input-panel-shim{
+.input-panel-shim {
   position: fixed;
   bottom: 0;
   left: 0;
