@@ -171,6 +171,7 @@ export default {
                   });
                 })
                 .then(() => {
+                  that.scrollToBottom();
                   T.hideLoading();
                 });
             }
@@ -233,6 +234,7 @@ export default {
             success: function(res) {
               let serverId = res.serverId; // 返回音频的服务器端ID
               api.UploadCos(serverId).then(res => {
+                that.scrollToBottom();
                 return chat.send(that.order.id, {
                   expertOrderId: that.order.id,
                   expertId: userId,
