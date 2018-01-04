@@ -215,21 +215,20 @@ export default {
     },
     beginVoiceInput(e) {
       e.preventDefault();
-      this.voiceInputTipsShow = true;
-      wx.startRecord();
+      wx.startRecord({
+        success: () => {
+          this.voiceInputTipsShow = true;
+        }
+      });
       return false;
     },
     endVoiceInput() {
       let that = this;
       let userId = this.$store.state.user.id;
-      this.voiceInputTipsShow = false;
       wx.stopRecord({
         success: function(res) {
+          that.voiceInputTipsShow = false;
           let localId = res.localId;
-          wx.playVoice({
-            localId: localId // 需要播放的音频的本地ID，由stopRecord接口获得
-          });
-
           wx.uploadVoice({
             localId: localId, // 需要上传的音频的本地ID，由stopRecord接口获得
             isShowProgressTips: 0, // 默认为1，显示进度提示
