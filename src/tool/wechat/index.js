@@ -105,6 +105,72 @@ class Wechat {
       return api.GetPaymentStatus(order.id);
     });
   }
+
+  uploadImage() {
+    return new Promise((resolve, reject) => {
+      wx.chooseImage({
+        count: 9,
+        sizeType: ["original", "compressed"], // 可以指定是原图还是压缩图，默认二者都有
+        sourceType: ["album", "camera"], // 可以指定来源是相册还是相机，默认二者都有
+        success: function (res) {
+          T.showLoading();
+          resolve(res.localIds);
+        },
+        cancel: function () {
+          reject();
+        }
+      });
+    }).then(localIds => {
+      return Promise.all(localIds.map((localId, num) => {
+        return new Promise((resolve, reject) => {
+          wx.uploadImage({
+            localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
+            isShowProgressTips: 0, // 默认为1，显示进度提示
+            success: function (res) {
+              return resolve(res.serverId)
+            }
+          });
+        })
+      }));
+    }).then(serverIds => {
+      return Promise.all(serverIds.map((serverId, num) => {
+        return api.UploadCos(serverId);
+      }))
+    }).then(results => {
+      return Promise.resolve(results.map(result => {
+        return result.data.result.data.access_url;
+      }))
+    });
+  }
+
+  stopRecord(that) {
+    return new Promise((resolve, reject) => {
+      wx.stopRecord({
+        success: function (res) {
+          that.voiceInputTipsShow = false;
+          alert(res.localId);
+          resolve(res.localId);
+        },
+        cancel: reject
+      });
+    }).then(localId => {
+      return new Promise((resolve, reject) => {
+        wx.uploadVoice({
+          localId: localId, // 需要上传的音频的本地ID，由stopRecord接口获得
+          isShowProgressTips: 1, // 默认为1，显示进度提示
+          success: function (res) {
+            alert(res.serverId);
+            resolve(res.serverId);
+          },
+          cancel: reject
+        });
+      })
+    }).then(serverId => {
+      return api.UploadCos(serverId);
+    }).then(result => {
+      return Promise.resolve(result.data.result.data.access_url);
+    });
+  }
 }
 
 export default new Wechat()

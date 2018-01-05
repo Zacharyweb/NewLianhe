@@ -111,7 +111,9 @@ export default {
 
       inIos: false,
       inputPanelBottom: 20,
-      isSendingMsg:false
+      isSendingMsg: false,
+      startTime: 0,
+      endTime: 0
     };
   },
   methods: {
@@ -145,39 +147,19 @@ export default {
     toSeleceImg() {
       let that = this;
       let userId = this.$store.state.user.id;
-      wx.chooseImage({
-        count: 1,
-        sizeType: ["original", "compressed"], // 可以指定是原图还是压缩图，默认二者都有
-        sourceType: ["album", "camera"], // 可以指定来源是相册还是相机，默认二者都有
-        success: function(res) {
-          T.showLoading();
-          let localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-          wx.uploadImage({
-            localId: localIds[0], // 需要上传的图片的本地ID，由chooseImage接口获得
-            isShowProgressTips: 0, // 默认为1，显示进度提示
-            success: function(res) {
-              let serverId = res.serverId; // 返回图片的服务器端ID
-              api
-                .UploadCos(serverId)
-                .then(res => {
-                  return chat.send(that.order.id, {
-                    expertOrderId: that.order.id,
-                    expertId: userId,
-                    chatType: 2,
-                    experReceiverId:
-                      userId === that.order.expertId
-                        ? that.order.serverExpertId
-                        : that.order.expertId,
-                    content: res.data.result.data.access_url
-                  });
-                })
-                .then(() => {
-                  that.scrollToBottom();
-                  T.hideLoading();
-                });
-            }
+      wechat.uploadImage().then(images => {
+        images.forEach(imgUrl => {
+          chat.send(that.order.id, {
+            expertOrderId: that.order.id,
+            expertId: userId,
+            chatType: 2,
+            experReceiverId:
+              userId === that.order.expertId
+                ? that.order.serverExpertId
+                : that.order.expertId,
+            content: imgUrl
           });
-        }
+        });
       });
     },
     toTextInput() {
@@ -190,9 +172,9 @@ export default {
         this.inputPanelBottom + this.$refs.inputPanel.offsetHeight;
     },
     toSendMsg() {
-      if(this.isSendingMsg){
+      if (this.isSendingMsg) {
         return;
-      };
+      }
       this.isSendingMsg = true;
       let that = this;
       let userId = that.$store.state.user.id;
@@ -222,39 +204,39 @@ export default {
       e.preventDefault();
       wx.startRecord({
         success: () => {
+          this.startTime = new Date().getTime();
           this.voiceInputTipsShow = true;
+        },
+        cancel: () => {
+          alert("您已拒绝语音录入");
+          return false;
         }
       });
       return false;
     },
     endVoiceInput() {
+      this.endTime = new Date().getTime();
+      if (this.endTime - this.startTime < 1000) {
+        this.endTime = this.startTime = 0;
+        this.voiceInputTipsShow = false;
+        wx.stopRecord({});
+        T.showToast("录音时间太短！");
+        return false;
+      }
       let that = this;
       let userId = this.$store.state.user.id;
-      wx.stopRecord({
-        success: function(res) {
-          that.voiceInputTipsShow = false;
-          let localId = res.localId;
-          wx.uploadVoice({
-            localId: localId, // 需要上传的音频的本地ID，由stopRecord接口获得
-            isShowProgressTips: 0, // 默认为1，显示进度提示
-            success: function(res) {
-              let serverId = res.serverId; // 返回音频的服务器端ID
-              api.UploadCos(serverId).then(res => {
-                that.scrollToBottom();
-                return chat.send(that.order.id, {
-                  expertOrderId: that.order.id,
-                  expertId: userId,
-                  chatType: 3,
-                  experReceiverId:
-                    userId === that.order.expertId
-                      ? that.order.serverExpertId
-                      : that.order.expertId,
-                  content: res.data.result.data.access_url
-                });
-              });
-            }
-          });
-        }
+      wechat.stopRecord(that).then(voiceUrl => {
+        alert(voiceUrl);
+        chat.send(that.order.id, {
+          expertOrderId: that.order.id,
+          expertId: userId,
+          chatType: 3,
+          experReceiverId:
+            userId === that.order.expertId
+              ? that.order.serverExpertId
+              : that.order.expertId,
+          content: voiceUrl
+        });
       });
     },
     textAreaChange() {
@@ -314,7 +296,10 @@ export default {
       console.log(data);
       that.order.expertOrderCharts.push(data);
       that.inputMsg = "";
-      that.vScrollBottom = 70;
+      T.hideLoading();
+      setTimeout(() => {
+        that.scrollToBottom();
+      }, 0);
     });
     wechat.initJsSdk();
   },
