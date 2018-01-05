@@ -110,7 +110,8 @@ export default {
       order: {},
 
       inIos: false,
-      inputPanelBottom: 20
+      inputPanelBottom: 20,
+      isSendingMsg:false
     };
   },
   methods: {
@@ -120,7 +121,7 @@ export default {
       }, 1000);
     },
     scrollToBottom() {
-      this.$refs.chatContentWrapper.toBottom();
+      this.$refs.chatContentWrapper.toBottom(this.inputPanelBottom);
     },
     isMineChat(chat) {
       return chat.senderExpert.id === this.$store.state.user.id;
@@ -189,6 +190,10 @@ export default {
         this.inputPanelBottom + this.$refs.inputPanel.offsetHeight;
     },
     toSendMsg() {
+      if(this.isSendingMsg){
+        return;
+      };
+      this.isSendingMsg = true;
       let that = this;
       let userId = that.$store.state.user.id;
       chat.send(that.order.id, {
@@ -320,6 +325,7 @@ export default {
     order: {
       handler() {
         this.$nextTick(() => {
+          this.isSendingMsg = false;
           this.scrollToBottom();
         });
       },

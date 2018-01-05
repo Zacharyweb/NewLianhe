@@ -1,5 +1,5 @@
 <template>
-    <div class="order-detail">
+    <div class="order-detail" v-show="!isAjaxing">
     <div class="step-line">
       <div class="step-item">
         <span class="step-fill" :class="{'stretch':status >= 1}"></span>
@@ -265,7 +265,8 @@ export default {
       isCustomer: true,
       orderStatusPanelShow: false,
       status: -4,
-      order: {}
+      order: {},
+      isAjaxing:true
     };
   },
   methods: {
@@ -359,11 +360,14 @@ export default {
   },
   mounted() {
     document.title = "订单详情";
+    T.showLoading();
     api.GetExpertOrderDetail(this.$route.params.orderId).then(res => {
       let order = res.data.result;
       this.status = order.status;
       this.order = order;
       this.isCustomer = order.expertId === this.$store.state.user.id;
+      this.isAjaxing = false;
+      T.hideLoading();
     });
   }
 };
