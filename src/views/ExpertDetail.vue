@@ -1,10 +1,10 @@
 <template>
   <div class="expert-detail-page">
-    <v-scroll :on-refresh="onRefresh"  :bottom="48" :top="0" v-if="!isAjaxing">
+    <v-scroll :on-refresh="onRefresh" :bottom="48" :top="0" v-if="!isAjaxing">
       <!-- swiper -->
       <swiper :options="swiperOption">
         <swiper-slide v-for="(img,i) in detail.expertPhotos" v-bind:key="i">
-          <div class="slide_item">
+          <div @click="previewImage()" class="slide_item">
             <img :src="img"/>
           </div>
         </swiper-slide>
@@ -46,14 +46,14 @@
           </div>
         </div>
         <!-- 评价 -->
-        <div class="user-comment common-panel" v-if="detail.expertComments.length > 0">
+        <div class="user-comment common-panel">
           <div class="panel-title">
              <h4><span class="iconfont icon-pingjia"></span>关系户评价</h4>
           </div>
           <ul class="comment-list">
             <li class="comment-item" v-for="item in detail.expertComments" v-bind:key="item.id">
                <div class="user-msg">
-                 <img class="user-avatar" :src="item.Avatar" height="800" width="800" alt="">
+                 <img class="user-avatar" :src="item.avatar">
                  <div class="user-text-msg">
                    <p class="user-nickname">{{item.name}}</p>
                    <p class="user-tags">
@@ -63,7 +63,7 @@
                </div>
                 <p class="comment-content text-ellipsis2">{{item.content}}</p>
                <!--  <p class="comment-time">{{item.time}}</p> -->
-                <p class="to-comment-detail" @click="toCommentDetail(item.id)">查看评论详情<span class="iconfont icon-jiantou-1"></span></p>
+                <p class="to-comment-detail" @click="toCommentDetail(item.expertOrderId)">查看评论详情<span class="iconfont icon-jiantou-1"></span></p>
             </li>
             <li class="no-comment-tips" v-if="detail.expertComments.length == 0">暂无相关评价</li>
           </ul>
@@ -140,9 +140,9 @@ export default {
       allIntroShow: false,
       allArticleShow: false,
       arr: [1, 2, 3],
-      isAjaxing:true,
+      isAjaxing: true,
 
-      showAllProcess:false
+      showAllProcess: false
     };
   },
   methods: {
@@ -175,17 +175,33 @@ export default {
           expertId: this.$route.params.expertId
         }
       });
+    },
+    previewImage() {
+      if (!this.detail.expertPhotos.length) return;
+      wx.previewImage({
+        current: this.detail.expertPhotos[0], // 当前显示图片的http链接
+        urls: this.detail.expertPhotos // 需要预览的图片http链接列表
+      });
     }
   },
   mounted() {
     document.title = "专家详情";
     T.checkFirstPageData(this.arr);
     T.showLoading();
-    api.GetExpertDetail({ id: this.$route.params.expertId }).then(res => {
-      this.detail = res.data.result;
-      this.isAjaxing = false;
-      T.hideLoading();
-    });
+    let expertId = this.$route.params.expertId;
+    api
+      .GetExpertDetail({ id: expertId })
+      .then(res => {
+        this.detail = res.data.result;
+        this.isAjaxing = false;
+        T.hideLoading();
+      })
+      .then(() => {
+        return api.GetExpertComments(expertId);
+      })
+      .then(res => {
+        this.detail.expertComments = res.data.result;
+      });
   }
 };
 </script>
@@ -202,11 +218,11 @@ export default {
 .slide_item img {
   height: 100%;
 }
-.no-pic-intro-tips{
+.no-pic-intro-tips {
   position: absolute;
-  top:50%;
+  top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   font-size: 22px;
   color: #fff;
 }
@@ -313,7 +329,7 @@ export default {
 }
 .expert-strength .strength-item .strength-content {
 }
-.expert-intro.common-panel{
+.expert-intro.common-panel {
   padding-bottom: 15px;
 }
 .expert-intro .intro-content {
@@ -337,8 +353,8 @@ export default {
 
 .user-comment .comment-list {
 }
-.user-comment .comment-list .no-comment-tips{
-  padding-top:15px;
+.user-comment .comment-list .no-comment-tips {
+  padding-top: 15px;
   font-size: 14px;
   color: #999;
 }
@@ -409,9 +425,8 @@ export default {
   position: relative;
 }
 
-
 .consult-process .show-all-process,
-.consult-process .hide-all-process{
+.consult-process .hide-all-process {
   color: #55cbc4;
 }
 .consult-process .other-tips {
@@ -441,5 +456,4 @@ export default {
   background-color: #fff;
   color: #55cbc4;
 }
-
 </style>

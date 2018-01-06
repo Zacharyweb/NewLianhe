@@ -226,7 +226,6 @@ export default {
       let that = this;
       let userId = this.$store.state.user.id;
       wechat.stopRecord(that).then(voiceUrl => {
-        alert(voiceUrl);
         chat.send(that.order.id, {
           expertOrderId: that.order.id,
           expertId: userId,

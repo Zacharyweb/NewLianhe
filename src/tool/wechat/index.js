@@ -148,7 +148,6 @@ class Wechat {
       wx.stopRecord({
         success: function (res) {
           that.voiceInputTipsShow = false;
-          alert(res.localId);
           resolve(res.localId);
         },
         cancel: reject
@@ -159,7 +158,6 @@ class Wechat {
           localId: localId, // 需要上传的音频的本地ID，由stopRecord接口获得
           isShowProgressTips: 1, // 默认为1，显示进度提示
           success: function (res) {
-            alert(res.serverId);
             resolve(res.serverId);
           },
           cancel: reject

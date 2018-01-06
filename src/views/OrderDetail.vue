@@ -113,7 +113,7 @@
         <!-- 在线咨询 -->
         <div class="btn-area" v-if="status ==3">
           <span class="btn btn-green btn-small" @click="toChatRoom(order.id)">进入咨询室</span>
-          <span class="btn btn-green-outline btn-small" @click="toOverChat">结束咨询</span>
+          <span class="btn btn-green-outline btn-small" @click="toOverChat(order.id)">结束咨询</span>
         </div>
 
        <!-- 咨询完成 -->
@@ -266,7 +266,7 @@ export default {
       orderStatusPanelShow: false,
       status: -4,
       order: {},
-      isAjaxing:true
+      isAjaxing: true
     };
   },
   methods: {
@@ -348,27 +348,33 @@ export default {
     countEnd() {
       this.status = -2;
     },
-    toOverChat(){
+    toOverChat(id) {
+      let that = this;
       T.Confirm({
         text: "确定提前结束此次咨询?",
-        confirm: function() {
-          alert('结束咨询操作');
-          this.status = 4;
+        confirm: () => {
+          api.CompleteOrder(id).then(res => {
+            that.getOrderDetail(that);
+            T.showToast({ text: "咨询已结束" });
+          });
         }
+      });
+    },
+    getOrderDetail(that) {
+      T.showLoading();
+      api.GetExpertOrderDetail(that.$route.params.orderId).then(res => {
+        let order = res.data.result;
+        that.status = order.status;
+        that.order = order;
+        that.isCustomer = order.expertId === that.$store.state.user.id;
+        that.isAjaxing = false;
+        T.hideLoading();
       });
     }
   },
   mounted() {
     document.title = "订单详情";
-    T.showLoading();
-    api.GetExpertOrderDetail(this.$route.params.orderId).then(res => {
-      let order = res.data.result;
-      this.status = order.status;
-      this.order = order;
-      this.isCustomer = order.expertId === this.$store.state.user.id;
-      this.isAjaxing = false;
-      T.hideLoading();
-    });
+    this.getOrderDetail(this);
   }
 };
 </script>

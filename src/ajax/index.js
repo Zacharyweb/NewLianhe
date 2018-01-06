@@ -260,6 +260,15 @@ class Api {
       }
     })
   }
+
+  GetExpertComments = (expertId) => {
+    return T.get({
+      url: "services/app/Expert/GetExpertComments",
+      data: {
+        expertId: expertId
+      }
+    })
+  }
 }
 
 export default new Api()

@@ -30,7 +30,7 @@
             </div>
             <p class="comment-content">{{comment.content}}</p>
             <p class="comment-time">{{comment.creationTime | datetime("yyyy-MM-dd HH:mm:ss")}}</p>
-            <p v-if="comment.expertCommentReplies.length" class="expert-reply">专家回复：{{comment.expertCommentReplies[0].content}}</p>
+            <p v-if="comment.expertCommentReplies && comment.expertCommentReplies.length" class="expert-reply">专家回复：{{comment.expertCommentReplies[0].content}}</p>
           </div>
         </div>
       </div>
