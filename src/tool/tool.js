@@ -210,6 +210,14 @@ class Tool {
       time
     }
   }
+
+  isWeixin() {
+    let ua = navigator.userAgent.toLowerCase();
+    let isWeixin = ua.match(/MicroMessenger/i) == "micromessenger";
+    return (function (isWeixin) {
+      return isWeixin;
+    })(isWeixin);
+  }
 }
 
 export default new Tool();

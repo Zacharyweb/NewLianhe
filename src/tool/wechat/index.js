@@ -12,7 +12,8 @@ class Wechat {
   }
 
   login(callback) {
-    if (!config.enablewechatlogin || location.host.startsWith("localhost")) {
+    if (!T.isWeixin() || location.host.startsWith("localhost")) {
+      alert("请在微信内打开");
       callback();
       return;
     }
