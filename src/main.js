@@ -26,6 +26,6 @@ new Vue({
     App
   },
   mounted() {
-    store.dispatch("wechatLogin");
+    return store.dispatch("wechatLogin");
   }
 })
