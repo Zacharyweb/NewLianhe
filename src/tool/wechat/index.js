@@ -90,11 +90,13 @@ class Wechat {
     return api.CreateOrderPayment(order.id).then(res => {
       let data = res.data.result;
       var promise = new Promise((resolve, reject) => {
+        //使用微信JS SDK调用微信支付
         WeixinJSBridge.invoke(
           "getBrandWCPayRequest", {
             ...data
           },
           function (res) {
+            //支付完成回调
             if (res.err_msg == "get_brand_wcpay_request:ok") {
               resolve(order);
             } else reject();

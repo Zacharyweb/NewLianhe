@@ -262,12 +262,17 @@ export default {
   data() {
     return {
       counts: 300,
-      isCustomer: true,
       orderStatusPanelShow: false,
       status: -4,
       order: {},
       isAjaxing: true
     };
+  },
+  computed: {
+    isCustomer: function() {
+      if (!this.order.expertId || !this.$store.state.user.id) return true;
+      return this.order.expertId === this.$store.state.user.id;
+    }
   },
   methods: {
     onRefresh(done) {
@@ -327,9 +332,10 @@ export default {
     },
 
     toPay(order) {
+      let that = this;
       wechat.toPay(order).then(() => {
+        that.getOrderDetail(that);
         T.showToast({ text: "支付成功！" });
-        this.$router.replace("/order/detail/" + order.id);
       });
     },
     toChatRoom(id) {
@@ -366,7 +372,6 @@ export default {
         let order = res.data.result;
         that.status = order.status;
         that.order = order;
-        that.isCustomer = order.expertId === that.$store.state.user.id;
         that.isAjaxing = false;
         T.hideLoading();
       });
