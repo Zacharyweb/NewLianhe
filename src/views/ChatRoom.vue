@@ -42,24 +42,28 @@
         </template>
       </div>
     </v-scroll>
-    <div class="input-panel" :style="{bottom:inputPanelBottom+'px'}" ref="inputPanel">
+    <div class="input-panel" :class="{'lagrge_inner':voiceInputShow}" :style="{bottom:inputPanelBottom+'px'}" ref="inputPanel">
+
       <div class="textarea-wrap" v-show="!voiceInputShow">
-       <p class="back-text">{{inputMsg}}</p>
-       <textarea  v-model="inputMsg" @change="textAreaChange" @focus="textAreaFocus" @blur="textAreaBlur" maxlength="300"></textarea>
+        <p class="back-text">{{inputMsg}}</p>
+        <textarea  v-model="inputMsg" @change="textAreaChange" @focus="textAreaFocus" @blur="textAreaBlur" maxlength="300"></textarea>
       </div>
-      <div class="voice-input" v-show="voiceInputShow" @touchstart="beginVoiceInput" @touchend="endVoiceInput">
-        按住进行语音输入
-      </div>
+
+      <div class="voice-input" v-show="voiceInputShow" @touchstart="beginVoiceInput" @touchend="endVoiceInput">按住进行语音录入</div>
+
       <span class="voice-btn option-btn" v-show="!voiceInputShow" @click="toVoiceInput">
         <i class="iconfont icon-yuyin1"></i>
       </span>
+
       <span class="text-btn option-btn" v-show="voiceInputShow" @click="toTextInput">
         <i class="iconfont icon-bianji"></i>
       </span>
+
       <span class="img-btn option-btn" @click="toSeleceImg">
         <i class="iconfont icon-tupian"></i>
       </span>
-      <span class="send-btn" @click="toSendMsg">发送</span>
+
+      <span class="send-btn" v-show="!voiceInputShow" @click="toSendMsg">发送</span>
     </div>
     <div class="input-panel-shim" ref="inputPanelShim" :style="{height:inputPanelBottom + 'px'}"></div>
 
@@ -331,6 +335,9 @@ export default {
   background-color: #e3e3e3;
   padding: 10px 55px 10px 90px;
 }
+.input-panel.lagrge_inner{
+  padding-right: 15px;
+}
 .input-panel-shim {
   position: fixed;
   bottom: 0;
@@ -419,7 +426,8 @@ export default {
 }
 .chat-msg-wrap .msg-item {
   padding-top: 30px;
-  margin-top: 15px;
+  padding-bottom: 15px;
+  /*margin-top: 15px;*/
   display: flex;
   position: relative;
 }
