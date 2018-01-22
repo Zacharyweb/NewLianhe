@@ -2,7 +2,10 @@ import config from "../config";
 
 class ChartService {
 
+  //保存当前链接对象
   connection = null;
+  //标记当前是否已手动终止链接，否则断线自动重连
+  stoped = true;
 
   send(orderId, data) {
     this.connection.invoke("sendToGroup", orderId, data);
@@ -15,6 +18,7 @@ class ChartService {
       .startConnection(url)
       .then(connection => {
         console.log('Connected to SignalR server!');
+        that.stoped = false;
         that.connection = connection;
         that.configureConnection(url, orderId, listener);
         connection.on("sendToGroup", listener);
@@ -23,13 +27,15 @@ class ChartService {
   }
 
   stop() {
-    this.connection.stop();
+    this.stoped = true;
+    this.connection && this.connection.stop();
   }
 
   configureConnection(url, orderId, listener) {
 
     let that = this;
     this.connection.onclose(e => {
+      if (that.stop) return;
       connect();
     });
 

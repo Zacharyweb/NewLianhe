@@ -71,10 +71,6 @@
       <p class="tips-icon"><span class="iconfont icon-yuyin"></span></p>
       <p class="tips-text">正在录入语音</p>
     </div>
-
-    <div class="img-detail-panel" v-if="imgDetailShow" @click="hideImgDetail">
-      <img class="scaleIn" :class="{'scaleOut':imgDetailScaleOut}" src="https://s1.ax1x.com/2017/10/16/JQZeP.jpg" >
-    </div>
    
     <audio v-if="!!audioUrl" autoplay ref="audioObj" :src="audioUrl"></audio> 
   </div>
@@ -101,8 +97,6 @@ export default {
     return {
       vScrollBottom: 70,
       inputMsg: "",
-      imgDetailShow: false,
-      imgDetailScaleOut: false,
       audioPlay: false,
       voiceInputShow: false,
       voiceInputTipsShow: false,
@@ -138,12 +132,7 @@ export default {
         urls: [chat.content] // 需要预览的图片http链接列表
       });
     },
-    hideImgDetail() {
-      this.imgDetailScaleOut = true;
-      setTimeout(() => {
-        this.imgDetailShow = false;
-      }, 200);
-    },
+
     toVoiceInput() {
       this.voiceInputShow = true;
       this.vScrollBottom = this.inputPanelBottom + 70;

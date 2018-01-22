@@ -104,24 +104,27 @@ export default {
         text: "确定提前结束此次咨询?",
         confirm: () => {
           api.CompleteOrder(id).then(res => {
-            that.getOrderDetail(that);
+            that.showList();
             T.showToast({ text: "咨询已结束" });
           });
         }
       });
+    },
+    showList() {
+      api
+        .GetLoggedIndExpertOrders({ expertId: this.$store.state.user.id })
+        .then(res => {
+          this.orderList = res.data.result;
+          this.isAjaxing = false;
+          T.hideLoading();
+        });
     }
   },
   mounted() {
     T.postConsultTab(1);
     document.title = "咨询列表";
     T.showLoading();
-    api
-      .GetLoggedIndExpertOrders({ expertId: this.$store.state.user.id })
-      .then(res => {
-        this.orderList = res.data.result;
-        this.isAjaxing = false;
-        T.hideLoading();
-      });
+    this.showList();
   }
 };
 </script>
