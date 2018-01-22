@@ -437,23 +437,24 @@ export default {
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.3);
   padding: 2px 4px;
   border-radius: 4px;
   color: #fff;
   font-size: 12px;
 }
 .chat-msg-wrap .msg-item .user-avatar {
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
 }
 .chat-msg-wrap .msg-item .chat-content {
   position: relative;
   line-height: 1.5;
+  font-size: 14px;
   background: #b4eeb4;
   padding: 10px;
-  border-radius: 8px;
+  border-radius: 4px;
   max-width: 240px;
   word-break: break-all;
 }
