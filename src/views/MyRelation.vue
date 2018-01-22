@@ -41,8 +41,9 @@
         </p>
 
       </v-scroll>
+      
       <div class="add-relation-modal" :class="{'show':showModal}">
-        <h5>联系人信息</h5>
+        <h5>关系户信息</h5>
         <p class="input-wrap">
           <span class="label">姓名：</span>
           <input type="text" v-model="newName" maxlength="20" placeholder="请输入姓名">
@@ -57,8 +58,6 @@
         </p>
       </div>
       <div class="modal-mask" v-if="showModal" @click="showModal = false"></div>
-
-        
 
       <div class="btn btn-green btn-large position-bottom" @click="showModal = true" v-show="!isAjaxing">添加关系</div>
   </div>

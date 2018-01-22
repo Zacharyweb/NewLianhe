@@ -15,6 +15,7 @@
             </p>
             <p class="btn-area" v-if="item.status==3">
               <span class="btn btn-green-outline" @click.stop="toChatRoom(item.id)">进入咨询室</span>
+              <span class="btn btn-green-outline" @click.stop="toOverChat(item.id)">结束咨询</span>
             </p>
             <p class="btn-area" v-if="item.status==4">
               <span class="btn btn-green-outline" @click.stop="toChatRoom(item.id)">咨询详情</span>
@@ -80,6 +81,18 @@ export default {
         confirm: function() {
           api.RefuseOrder(order.id).then(res => {
             order.status = res.data.result.status;
+          });
+        }
+      });
+    },
+    toOverChat(id) {
+      let that = this;
+      T.Confirm({
+        text: "确定提前结束此次咨询?",
+        confirm: () => {
+          api.CompleteOrder(id).then(res => {
+            that.getOrderDetail(that);
+            T.showToast({ text: "咨询已结束" });
           });
         }
       });
