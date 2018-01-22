@@ -75,20 +75,20 @@ export default {
      z-index: 9999;
   }
   .tips-modal{
-     width: 250px;
+     width: 300px;
      background-color: #fff;
      position: absolute;
      left: 50%;
      top: 35%;
-     margin-left: -125px;
+     margin-left: -150px;
      overflow: hidden;
-     border-radius:5px;
+     border-radius:4px;
      box-shadow: 0 0 20px #444;
      -webkit-animation: showIn 0.1s;
      animation: showIn 0.1s;
   }
   .tips-content{
-    padding: 25px 20px;
+    padding: 35px 20px;
     font-size: 14px;
     line-height: 1.5;
   }
@@ -99,7 +99,7 @@ export default {
   .tips-btns .btn-item{
     flex:1;
     font-size: 14px;
-    line-height: 36px;
+    line-height: 40px;
   }
   .tips-btns .btn-confirm{
     color: #55cbc4;
