@@ -142,7 +142,7 @@ export default {
       let userId = this.$store.state.user.id;
       wechat.uploadImage().then(images => {
         images.forEach(imgUrl => {
-          chat.send(that.order.id, {
+          chat.send({
             expertOrderId: that.order.id,
             expertId: userId,
             chatType: 2,
@@ -171,7 +171,7 @@ export default {
       this.isSendingMsg = true;
       let that = this;
       let userId = that.$store.state.user.id;
-      chat.send(that.order.id, {
+      chat.send({
         expertOrderId: that.order.id,
         expertId: userId,
         experReceiverId:
@@ -219,7 +219,7 @@ export default {
       let that = this;
       let userId = this.$store.state.user.id;
       wechat.stopRecord(that).then(voiceUrl => {
-        chat.send(that.order.id, {
+        chat.send({
           expertOrderId: that.order.id,
           expertId: userId,
           chatType: 3,
@@ -273,26 +273,34 @@ export default {
     }
   },
   mounted() {
+    let that = this;
     document.title = "咨询室";
     this.checkIfInIos();
-    api.GetExpertOrderChats(this.$route.params.id).then(res => {
-      this.order = res.data.result;
-      this.chatOver = this.order.status > 3;
-      this.counts = this.order.totalDuration * 60;
-      this.countShow = true;
-      this.scrollToBottom();
-      console.log(this.order);
-    });
-    var that = this;
-    chat.start(this.$store.state.accessToken, this.$route.params.id, data => {
-      console.log(data);
-      that.order.expertOrderCharts.push(data);
-      that.inputMsg = "";
-      T.hideLoading();
-      setTimeout(() => {
-        that.scrollToBottom();
-      }, 0);
-    });
+    api
+      .GetExpertOrderChats(this.$route.params.id)
+      .then(res => {
+        this.order = res.data.result;
+        this.chatOver = this.order.status > 3;
+        this.counts = this.order.totalDuration * 60;
+        this.countShow = true;
+        this.scrollToBottom();
+      })
+      .then(() => {
+        if (that.chatOver) return;
+        chat.start(
+          this.$store.state,
+          this.$route.params.id,
+          data => {
+            that.order.expertOrderCharts.push(data);
+            that.inputMsg = "";
+            T.hideLoading();
+            setTimeout(() => {
+              that.scrollToBottom();
+            }, 0);
+          }
+        );
+      });
+
     wechat.initJsSdk();
   },
   destroyed() {
@@ -324,7 +332,7 @@ export default {
   background-color: #e3e3e3;
   padding: 10px 55px 10px 90px;
 }
-.input-panel.lagrge_inner{
+.input-panel.lagrge_inner {
   padding-right: 15px;
 }
 .input-panel-shim {

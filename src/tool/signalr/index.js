@@ -1,4 +1,5 @@
 import config from "../config";
+import T from "../tool";
 
 class ChartService {
 
@@ -6,14 +7,30 @@ class ChartService {
   connection = null;
   //标记当前是否已手动终止链接，否则断线自动重连
   stoped = true;
+  state = null;
+  orderId = null;
 
-  send(orderId, data) {
-    this.connection.invoke("sendToGroup", orderId, data);
+  send(data) {
+    this.connection.invoke("sendToGroup", this.orderId, data);
   }
 
-  start(token, orderId, listener) {
+  join(userId) {
+    if (userId != this.state.user.id) {
+      this.connection.invoke("startChat", this.orderId);
+    }
+  }
+
+  startChat() {
+    T.showToast({
+      text: "可以开始咨询啦"
+    });
+  }
+
+  start(state, orderId, listener) {
+    this.orderId = orderId;
+    this.state = state;
     let that = this;
-    let url = config.chatip + "/?token=" + token;
+    let url = config.chatip + "/?token=" + encodeURIComponent(state.encryptToken);
     return this
       .startConnection(url)
       .then(connection => {
@@ -22,6 +39,12 @@ class ChartService {
         that.connection = connection;
         that.configureConnection(url, orderId, listener);
         connection.on("sendToGroup", listener);
+        connection.on("joinGroup", userId => {
+          that.join(userId);
+        });
+        connection.on("startChat", () => {
+          that.startChat();
+        });
         connection.invoke("joinGroup", orderId);
       });
   }
