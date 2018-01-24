@@ -83,6 +83,7 @@ var store = new Vuex.Store({
       session.logout();
       wechat.logout();
       commit("change_user", {});
+      commit("change_auth", {});
       commit("change_identity", 0);
     }
   }

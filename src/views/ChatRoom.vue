@@ -100,7 +100,7 @@ export default {
       audioPlay: false,
       voiceInputShow: false,
       voiceInputTipsShow: false,
-      counts: 130,
+      counts: 0,
       countShow: false,
       audioPlayId: -1,
       audioUrl: null,
@@ -139,17 +139,10 @@ export default {
     },
     toSeleceImg() {
       let that = this;
-      let userId = this.$store.state.user.id;
       wechat.uploadImage().then(images => {
         images.forEach(imgUrl => {
           chat.send({
-            expertOrderId: that.order.id,
-            expertId: userId,
             chatType: 2,
-            experReceiverId:
-              userId === that.order.expertId
-                ? that.order.serverExpertId
-                : that.order.expertId,
             content: imgUrl
           });
         });
@@ -170,14 +163,7 @@ export default {
       }
       this.isSendingMsg = true;
       let that = this;
-      let userId = that.$store.state.user.id;
       chat.send({
-        expertOrderId: that.order.id,
-        expertId: userId,
-        experReceiverId:
-          userId === that.order.expertId
-            ? that.order.serverExpertId
-            : that.order.expertId,
         content: that.inputMsg
       });
     },
@@ -217,16 +203,9 @@ export default {
         return false;
       }
       let that = this;
-      let userId = this.$store.state.user.id;
       wechat.stopRecord(that).then(voiceUrl => {
         chat.send({
-          expertOrderId: that.order.id,
-          expertId: userId,
           chatType: 3,
-          experReceiverId:
-            userId === that.order.expertId
-              ? that.order.serverExpertId
-              : that.order.expertId,
           content: voiceUrl
         });
       });
@@ -247,6 +226,19 @@ export default {
       api.CompleteOrder(this.$route.params.id).then(res => {
         this.$router.push("/order/detail/" + this.$route.params.id);
       });
+    },
+    beginChat(userId) {
+      T.showToast({
+        text: `${this.order.expertId == userId ? "用户" : "专家"}已进入咨询室，可以开始咨询啦`
+      });
+      this.counts = this.order.totalDuration * 60;
+      this.countShow = true;
+    },
+    leaveChat(userId) {
+      let text =
+        this.order.expertId == userId ? "用户已离开咨询室" : "专家已离开咨询室";
+      T.showToast({ text: text });
+      this.countShow = false;
     },
     textAreaFocus() {},
     textAreaBlur() {},
@@ -281,24 +273,26 @@ export default {
       .then(res => {
         this.order = res.data.result;
         this.chatOver = this.order.status > 3;
-        this.counts = this.order.totalDuration * 60;
-        this.countShow = true;
         this.scrollToBottom();
       })
       .then(() => {
         if (that.chatOver) return;
-        chat.start(
-          this.$store.state,
-          this.$route.params.id,
-          data => {
+        chat.start(this.$store.state, this.order, {
+          onSend: data => {
             that.order.expertOrderCharts.push(data);
             that.inputMsg = "";
             T.hideLoading();
             setTimeout(() => {
               that.scrollToBottom();
             }, 0);
+          },
+          onStart: userId => {
+            that.beginChat(userId);
+          },
+          onLeave: userId => {
+            that.leaveChat(userId);
           }
-        );
+        });
       });
 
     wechat.initJsSdk();
