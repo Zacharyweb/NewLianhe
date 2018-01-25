@@ -1,11 +1,11 @@
 <template>
   <div id="consultPage">
-    <div class="consult-tabs" v-if="$store.state.identity == 1">
+    <div class="consult-tabs" v-if="$store.getters.isExpert">
       <div class="consult-item customer-tab" :class="{'active':currentTab == 0}" @click="changeTab(0)">客户咨询</div>
       <div class="consult-item expert-tab" :class="{'active':currentTab == 1}" @click="changeTab(1)">专家咨询</div>
       
     </div>
-    <header-nav v-if="$store.state.identity == 0" :title="'咨询订单'" :has-return-icon="false"/>
+    <header-nav v-if="!$store.getters.isExpert" :title="'咨询订单'" :has-return-icon="false"/>
     <v-scroll :on-refresh="onRefresh" :bottom="60" :top="listTop">
       <div class="consult-panel" ref="consultPanel" >
         <!-- <keep-alive> -->
@@ -61,7 +61,7 @@ export default {
   mounted() {
     this.$PubSub.subscribe("POSTCONSULTTAB", this.setTab);
     this.$nextTick(() => {
-      if (this.$store.state.identity == 0) {
+      if (!this.$store.getters.isExpert) {
         this.listTop = 40;
         this.changeTab(1);
       }

@@ -32,11 +32,11 @@
         <!--  <p class="add-relation-tips">添加关系人，当对方注册“联合咨询”时，将向对方推荐您的资料。</p> -->
         <!-- 普通用户 -->
         
-        <p class="add-relation-tips" v-if="$store.state.identity == 0 && !isAjaxing">       
+        <p class="add-relation-tips" v-if="!$store.getters.isExpert && !isAjaxing">       
            添加关系户，对方登录时，将向对方推送您分享过评价的专家。
         </p>
         <!-- 专家用户 -->
-        <p class="add-relation-tips" v-if="$store.state.identity == 1 && !isAjaxing">       
+        <p class="add-relation-tips" v-if="$store.getters.isExpert && !isAjaxing">       
            添加关系户，对方登录时，将向对方推送您和您分享过评价的专家。
         </p>
 

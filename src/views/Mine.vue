@@ -6,15 +6,15 @@
       <div class="mine-text-msg">
         <p class="mine-base-msg">
           <span @click="login" class="mine-nickname">{{this.$store.state.user.name || "请登录"}}
-              <i class="mine-identity" v-if="$store.state.identity == 0">普通用户</i>
-              <i class="mine-identity" v-if="$store.state.identity == 1">专家用户</i>
+              <i class="mine-identity" v-if="!$store.getters.isExpert">普通用户</i>
+              <i class="mine-identity" v-if="$store.getters.isExpert">专家用户</i>
           </span>
          <!--  <span class="mine-tel">16767188567</span> -->
         </p>
       
-        <p class="mine-status" v-if="$store.state.identity == 1">
+        <p class="mine-status" v-if="$store.getters.isExpert">
           <span class="status-text">当前状态：</span>
-          <span class="status-item">{{$store.state.user.onlineStatus | onlinestatus}}</span>
+          <span class="status-item" :class="{'status-online':$store.getters.isOnline}">{{$store.state.user.onlineStatus | onlinestatus}}</span>
         </p>
       </div> 
     </div>
@@ -28,21 +28,21 @@
           </div>
           <span class="iconfont icon-jiantou-1"></span>
         </li>
-        <li class="router-bar-item" @click="$router.push('/myinfo')" v-if="$store.state.identity == 0">
+        <li class="router-bar-item" @click="$router.push('/myinfo')" v-if="!$store.getters.isExpert">
           <div class="item-left">
             <span class="iconfont icon-bianji"></span>
             <span class="router-bar-name">我的资料</span>
           </div>
           <span class="iconfont icon-jiantou-1"></span>
         </li>
-        <li class="router-bar-item" @click="becomeExpert" v-if="$store.state.identity == 0">
+        <li class="router-bar-item" @click="becomeExpert" v-if="!$store.getters.isExpert">
           <div class="item-left">
             <span class="iconfont icon-pingjia"></span>
             <span class="router-bar-name">成为专家</span>
           </div>
           <span class="iconfont icon-jiantou-1"></span>
         </li>
-        <li class="router-bar-item" @click="$router.push('/einfo')" v-if="$store.state.identity == 1">
+        <li class="router-bar-item" @click="$router.push('/einfo')" v-if="$store.getters.isExpert">
           <div class="item-left">
             <span class="iconfont icon-icon3"></span>
             <span class="router-bar-name">我的资料</span>
@@ -156,6 +156,9 @@ export default {
 }
 .mine-msg .mine-status .status-item {
 }
+.mine-msg .mine-status .status-online {
+  color: #55cbc4;
+}
 .router-bar {
   border-bottom: 1px solid #e6e6e6;
   padding: 0 20px;
@@ -185,11 +188,11 @@ export default {
   margin-top: 20px;
 }
 
-.btn-logout{
+.btn-logout {
   background-color: #fff;
-  color: #E64340;
+  color: #e64340;
   height: 34px;
-  border:1px solid #e6e6e6;
+  border: 1px solid #e6e6e6;
   border-left: none;
   border-right: none;
   font-size: 16px;

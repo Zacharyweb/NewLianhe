@@ -229,7 +229,7 @@ export default {
     },
     beginChat(userId) {
       T.showToast({
-        text: `${this.order.expertId == userId ? "用户" : "专家"}已进入咨询室，可以开始咨询啦`
+        text: `${this.order.expertId == userId ? "专家" : "用户"}已进入咨询室，可以开始咨询啦`
       });
       this.counts = this.order.totalDuration * 60;
       this.countShow = true;

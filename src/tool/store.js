@@ -23,6 +23,14 @@ var store = new Vuex.Store({
       "周天": 7
     }
   },
+  getters: {
+    isOnline: state => {
+      return state.user.onlineStatus == 2;
+    },
+    isExpert: state => {
+      return state.user.isExpert;
+    }
+  },
   mutations: {
     change_identity(state, identity) {
       state.identity = identity;

@@ -169,6 +169,10 @@ export default {
       this.$router.push("/comment/detail/" + id);
     },
     toAppointment() {
+      if (this.$route.params.expertId == this.$store.state.user.id) {
+        T.showToast("您不能向自己发起咨询哦");
+        return;
+      }
       this.$router.push({
         path: "/appoint",
         query: {

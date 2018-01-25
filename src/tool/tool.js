@@ -109,11 +109,11 @@ class Tool {
    * @param obj.duration 单位ms 不必须 默认2000
    */
   showToast = (obj) => {
+    obj = typeof (obj) === "string" ? {
+      text: obj
+    } : obj;
     setTimeout(() => {
-      this.PubSub.publish('TOAST', {
-        text: obj.text,
-        duration: obj.duration
-      });
+      this.PubSub.publish('TOAST', obj);
     });
   };
   /**
