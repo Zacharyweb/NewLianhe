@@ -351,6 +351,7 @@ export default {
     toCommentDetail(id) {
       this.$router.push("/comment/detail/" + id);
     },
+    
     countEnd() {
       this.status = -2;
     },
