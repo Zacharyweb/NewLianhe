@@ -6,7 +6,7 @@ const config = {
   chatip: 'https://api.advisors-ally.com/chat',
   // ip:'http://localhost:8080',
   wechatlogin: "https://api.advisors-ally.com/api/wechat/step1?returnUrl=" + encodeURIComponent(window.location.href),
-  enablephonecode: true, //启用短信验证
+  enablephonecode: false, //启用短信验证
   version: '1.0.0', //接口版本号
   pageSize: 10, //分页条数
   OS: 'HTML', //平台类型

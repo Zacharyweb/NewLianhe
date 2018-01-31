@@ -31,7 +31,7 @@ export default {
   methods:{
     changeNav(path,title){
       document.title = title;
-      if(path == '/consult' && this.$store.state.identity !=1){
+      if(path == '/consult' && !this.$store.getters.isExpert){
           this.$router.push('/consult/expert');
           return;
       }

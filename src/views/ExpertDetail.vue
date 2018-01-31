@@ -53,7 +53,7 @@
           <ul class="comment-list">
             <li class="comment-item" v-for="item in detail.expertComments" v-bind:key="item.id">
                <div class="user-msg">
-                 <img class="user-avatar" :src="item.avatar">
+                 <img class="user-avatar" :src="item.avatar | avatar">
                  <div class="user-text-msg">
                    <p class="user-nickname">{{item.name}}</p>
                    <p class="user-tags">
@@ -169,6 +169,10 @@ export default {
       this.$router.push("/comment/detail/" + id);
     },
     toAppointment() {
+      if (this.$route.params.expertId == this.$store.state.user.id) {
+        T.showToast("您不能向自己发起咨询哦");
+        return;
+      }
       this.$router.push({
         path: "/appoint",
         query: {

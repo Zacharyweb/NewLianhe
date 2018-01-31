@@ -71,10 +71,6 @@
       <p class="tips-icon"><span class="iconfont icon-yuyin"></span></p>
       <p class="tips-text">正在录入语音</p>
     </div>
-
-    <div class="img-detail-panel" v-if="imgDetailShow" @click="hideImgDetail">
-      <img class="scaleIn" :class="{'scaleOut':imgDetailScaleOut}" src="https://s1.ax1x.com/2017/10/16/JQZeP.jpg" >
-    </div>
    
     <audio v-if="!!audioUrl" autoplay ref="audioObj" :src="audioUrl"></audio> 
   </div>
@@ -101,12 +97,10 @@ export default {
     return {
       vScrollBottom: 70,
       inputMsg: "",
-      imgDetailShow: false,
-      imgDetailScaleOut: false,
       audioPlay: false,
       voiceInputShow: false,
       voiceInputTipsShow: false,
-      counts: 130,
+      counts: 0,
       countShow: false,
       audioPlayId: -1,
       audioUrl: null,
@@ -138,29 +132,17 @@ export default {
         urls: [chat.content] // 需要预览的图片http链接列表
       });
     },
-    hideImgDetail() {
-      this.imgDetailScaleOut = true;
-      setTimeout(() => {
-        this.imgDetailShow = false;
-      }, 200);
-    },
+
     toVoiceInput() {
       this.voiceInputShow = true;
       this.vScrollBottom = this.inputPanelBottom + 70;
     },
     toSeleceImg() {
       let that = this;
-      let userId = this.$store.state.user.id;
       wechat.uploadImage().then(images => {
         images.forEach(imgUrl => {
-          chat.send(that.order.id, {
-            expertOrderId: that.order.id,
-            expertId: userId,
+          chat.send({
             chatType: 2,
-            experReceiverId:
-              userId === that.order.expertId
-                ? that.order.serverExpertId
-                : that.order.expertId,
             content: imgUrl
           });
         });
@@ -181,14 +163,7 @@ export default {
       }
       this.isSendingMsg = true;
       let that = this;
-      let userId = that.$store.state.user.id;
-      chat.send(that.order.id, {
-        expertOrderId: that.order.id,
-        expertId: userId,
-        experReceiverId:
-          userId === that.order.expertId
-            ? that.order.serverExpertId
-            : that.order.expertId,
+      chat.send({
         content: that.inputMsg
       });
     },
@@ -228,16 +203,9 @@ export default {
         return false;
       }
       let that = this;
-      let userId = this.$store.state.user.id;
       wechat.stopRecord(that).then(voiceUrl => {
-        chat.send(that.order.id, {
-          expertOrderId: that.order.id,
-          expertId: userId,
+        chat.send({
           chatType: 3,
-          experReceiverId:
-            userId === that.order.expertId
-              ? that.order.serverExpertId
-              : that.order.expertId,
           content: voiceUrl
         });
       });
@@ -258,6 +226,19 @@ export default {
       api.CompleteOrder(this.$route.params.id).then(res => {
         this.$router.push("/order/detail/" + this.$route.params.id);
       });
+    },
+    beginChat(userId) {
+      T.showToast({
+        text: `${this.order.expertId == userId ? "专家" : "用户"}已进入咨询室，可以开始咨询啦`
+      });
+      this.counts = this.order.totalDuration * 60;
+      this.countShow = true;
+    },
+    leaveChat(userId) {
+      let text =
+        this.order.expertId == userId ? "用户已离开咨询室" : "专家已离开咨询室";
+      T.showToast({ text: text });
+      this.countShow = false;
     },
     textAreaFocus() {},
     textAreaBlur() {},
@@ -284,26 +265,36 @@ export default {
     }
   },
   mounted() {
+    let that = this;
     document.title = "咨询室";
     this.checkIfInIos();
-    api.GetExpertOrderChats(this.$route.params.id).then(res => {
-      this.order = res.data.result;
-      this.chatOver = this.order.status > 3;
-      this.counts = this.order.totalDuration * 60;
-      this.countShow = true;
-      this.scrollToBottom();
-      console.log(this.order);
-    });
-    var that = this;
-    chat.start(this.$store.state.accessToken, this.$route.params.id, data => {
-      console.log(data);
-      that.order.expertOrderCharts.push(data);
-      that.inputMsg = "";
-      T.hideLoading();
-      setTimeout(() => {
-        that.scrollToBottom();
-      }, 0);
-    });
+    api
+      .GetExpertOrderChats(this.$route.params.id)
+      .then(res => {
+        this.order = res.data.result;
+        this.chatOver = this.order.status > 3;
+        this.scrollToBottom();
+      })
+      .then(() => {
+        if (that.chatOver) return;
+        chat.start(this.$store.state, this.order, {
+          onSend: data => {
+            that.order.expertOrderCharts.push(data);
+            that.inputMsg = "";
+            T.hideLoading();
+            setTimeout(() => {
+              that.scrollToBottom();
+            }, 0);
+          },
+          onStart: userId => {
+            that.beginChat(userId);
+          },
+          onLeave: userId => {
+            that.leaveChat(userId);
+          }
+        });
+      });
+
     wechat.initJsSdk();
   },
   destroyed() {
@@ -335,7 +326,7 @@ export default {
   background-color: #e3e3e3;
   padding: 10px 55px 10px 90px;
 }
-.input-panel.lagrge_inner{
+.input-panel.lagrge_inner {
   padding-right: 15px;
 }
 .input-panel-shim {
