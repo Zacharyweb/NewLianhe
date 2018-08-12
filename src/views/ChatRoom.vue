@@ -85,6 +85,7 @@ import T from "../tool/tool";
 import api from "../ajax/index";
 import chat from "../tool/signalr/index";
 import wechat from "../tool/wechat/index";
+import Player from "web-audio-player";
 export default {
   name: "ChatRoom",
   components: {
@@ -177,19 +178,29 @@ export default {
       this.audioPlayId = chat.id;
       this.audioPlay = true;
 
-      //this.$refs.audioObj.addEventListener("ended", this.audioStoped);
+      let audio = Player(this.audioUrl, {
+        buffer: true
+      });
+      audio.on("load", () => {
+        console.log("Audio loaded...");
+        // start playing audio file
+        audio.play();
+      });
+
+      audio.on("ended", () => {
+        console.log("Audio ended...");
+      });
+      // setTimeout(() => {
+      //   console.log("audio url:" + this.audioUrl);
+      //   if (!this.$refs.audioObj) console.log("audioObj 不存在,无法播放");
+      //   this.$refs.audioObj.play(this.audioUrl);
+      // }, 0);
     },
     beginVoiceInput(e) {
       e.preventDefault();
-      wx.startRecord({
-        success: () => {
-          this.startTime = new Date().getTime();
-          this.voiceInputTipsShow = true;
-        },
-        cancel: () => {
-          alert("您已拒绝语音录入");
-          return false;
-        }
+      wechat.startRecord().then(() => {
+        this.startTime = new Date().getTime();
+        this.voiceInputTipsShow = true;
       });
       return false;
     },
@@ -229,7 +240,9 @@ export default {
     },
     beginChat(userId) {
       T.showToast({
-        text: `${this.order.expertId == userId ? "专家" : "用户"}已进入咨询室，可以开始咨询啦`
+        text: `${
+          this.order.expertId == userId ? "专家" : "用户"
+        }已进入咨询室，可以开始咨询啦`
       });
       this.counts = this.order.totalDuration * 60;
       this.countShow = true;
@@ -296,6 +309,7 @@ export default {
       });
 
     wechat.initJsSdk();
+    wechat.initRecord();
   },
   destroyed() {
     chat.stop();

@@ -220,7 +220,7 @@ class Api {
 
   SendCode = (phone, code) => {
     return T.get({
-      url: "http://www.yuelinshe.com/vizcaya/api/user/sendTsCode",
+      url: "https://www.yuelinshe.com/vizcaya/api/user/sendTsCode",
       data: {
         phone: phone,
         code: code

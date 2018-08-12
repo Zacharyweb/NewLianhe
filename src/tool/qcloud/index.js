@@ -41,15 +41,15 @@ class CosCloudUpload {
   upload(file, success) {
     this.cosCloud.uploadFile(success,
       this.errorCallBack, this.progressCallBack, config.cos.bucket, config.cos.myFolder + file.name, file, 0);
-    // return new Promise((resolve, reject) => {
-    //   this.cosCloud.uploadFile((result) => {
-    //     this.successCallBack(result);
-    //     resolve(result);
-    //   }, (result) => {
-    //     this.errorCallBack(result);
-    //     reject(result);
-    //   }, this.progressCallBack, config.cos.bucket, config.cos.myFolder + file.name, file, 0);
-    // });
+    return new Promise((resolve, reject) => {
+      this.cosCloud.uploadFile((result) => {
+        this.successCallBack(result);
+        resolve(result);
+      }, (result) => {
+        this.errorCallBack(result);
+        reject(result);
+      }, this.progressCallBack, config.cos.bucket, config.cos.myFolder + file.name, file, 0);
+    });
   }
 
   successCallBack(result) {

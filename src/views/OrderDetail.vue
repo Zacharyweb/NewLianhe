@@ -265,7 +265,8 @@ export default {
       orderStatusPanelShow: false,
       status: -4,
       order: {},
-      isAjaxing: true
+      isAjaxing: true,
+      paying: false
     };
   },
   computed: {
@@ -333,10 +334,19 @@ export default {
 
     toPay(order) {
       let that = this;
-      wechat.toPay(order).then(() => {
-        that.getOrderDetail(that);
-        T.showToast({ text: "支付成功！" });
-      });
+      if (that.paying) return;
+      that.paying = true;
+      wechat
+        .toPay(order)
+        .then(() => {
+          that.paying = false;
+          that.getOrderDetail(that);
+          T.showToast({ text: "支付成功！" });
+        })
+        .catch(reason => {
+          that.paying = false;
+          T.showToast({ text: "支付取消！" });
+        });
     },
     toChatRoom(id) {
       this.$router.push({
@@ -351,7 +361,7 @@ export default {
     toCommentDetail(id) {
       this.$router.push("/comment/detail/" + id);
     },
-    
+
     countEnd() {
       this.status = -2;
     },

@@ -30,7 +30,7 @@ Vue.filter('weekday', function (value, emptyText) {
       break;
     case 6:
       return "周六";
-    case 6:
+    case 0:
       return "周天";
     default:
       return value || emptyText;

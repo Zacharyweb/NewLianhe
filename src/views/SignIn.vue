@@ -47,6 +47,7 @@ export default {
   },
   methods: {
     getCode() {
+      if (this.hasGetCode) return;
       this.hasGetCode = true;
       this.countGetCodeTime();
       this.sendCode = Math.random()

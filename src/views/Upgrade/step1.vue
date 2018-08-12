@@ -27,9 +27,9 @@
       <div class="tags-item">
           <p class="label">专家分类<i class="require-icon">*</i>：</p>
           <p class="tags-wrap">
-            <span class="tag-item" :class="{'active':experType == 1}" @click="chageExperType(1)">公开专家</span>
-            <span class="tag-item" :class="{'active':experType == 3}" @click="chageExperType(3)">半公开专家</span>
-            <span class="tag-item" :class="{'active':experType == 2}" @click="chageExperType(2)">关系户专家</span>
+            <span class="tag-item" :class="{'active':expertType == 1}" @click="chageExperType(1)">公开专家</span>
+            <span class="tag-item" :class="{'active':expertType == 3}" @click="chageExperType(3)">半公开专家</span>
+            <span class="tag-item" :class="{'active':expertType == 2}" @click="chageExperType(2)">关系户专家</span>
           </p>
           <div class="select-tips">
             <span>注</span>
@@ -77,7 +77,7 @@ export default {
       organization: "",
       post: "",
       workStatus: 1,
-      experType: 1,
+      expertType: 1,
       workYears: 1,
       expertFirstClassId: 0,
       expertClassId: 0,
@@ -87,7 +87,7 @@ export default {
   },
   methods: {
     chageExperType(num) {
-      this.experType = num;
+      this.expertType = num;
     },
     chageWorkStatus(num) {
       this.workStatus = num;

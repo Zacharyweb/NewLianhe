@@ -35,6 +35,8 @@ export default {
   },
   methods:{
     changeTab(index){
+      T.showToast({text:'功能开发中，敬请期待~'});
+      return;
       if(this.tabBarArr[index].type == -1){
         T.showToast({text:'更多分类将即将开放，敬请期待~'});
         return;

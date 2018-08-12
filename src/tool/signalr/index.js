@@ -1,4 +1,5 @@
 import config from "../config";
+import * as signalR from "@aspnet/signalr";
 
 class ChartService {
 
@@ -104,24 +105,24 @@ class ChartService {
 
   startConnection(url) {
     return function start(transport) {
-      console.log(`Starting connection using ${signalR.TransportType[transport]} transport`);
-      var connection = new signalR.HubConnection(url, {
-        transport: transport
-      });
+      console.log(`Starting connection using ${signalR.HttpTransportType[transport]} transport`);
+      var connection = new signalR.HubConnectionBuilder()
+        .withUrl(url, transport)
+        .build();
 
       return connection.start()
         .then(function () {
           return connection;
         })
         .catch(function (error) {
-          console.log(`Cannot start the connection using ${signalR.TransportType[transport]} transport. ${error.message}`);
-          if (transport !== signalR.TransportType.LongPolling) {
+          console.log(`Cannot start the connection using ${signalR.HttpTransportType[transport]} transport. ${error.message}`);
+          if (transport !== signalR.HttpTransportType.LongPolling) {
             return start(transport + 1);
           }
 
           return Promise.reject(error);
         });
-    }(signalR.TransportType.WebSockets);
+    }(signalR.HttpTransportType.WebSockets);
   }
 }
 

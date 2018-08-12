@@ -146,6 +146,26 @@ class Wechat {
     });
   }
 
+  initRecord() {
+    this.startRecord().then(() => {
+      wx.stopRecord();
+    })
+  }
+
+  startRecord() {
+    return new Promise((resolve, reject) => {
+      wx.startRecord({
+        success: () => {
+          resolve();
+        },
+        cancel: () => {
+          reject();
+          T.showToast("您已拒绝语音录入");
+        }
+      });
+    });
+  }
+
   stopRecord(that) {
     return new Promise((resolve, reject) => {
       wx.stopRecord({

@@ -6,7 +6,6 @@ import router from './router'
 import PubSub from 'pubsub-js'
 import store from './tool/store'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
-import R from "./tool/signalr/signalr-clientES5";
 import filter from "./tool/filter"
 
 Vue.prototype.$PubSub = PubSub;
