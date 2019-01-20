@@ -64,6 +64,7 @@ export default {
     transform: translateZ(101px);
   }
   .loader-inner{
+    font-size: 0.32rem;
     position: absolute;
     top:40%;
     left:50%;

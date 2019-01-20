@@ -48,23 +48,26 @@ export default {
     left: 0;
     right: 0;
     display: flex;
-    height: 59px;
+    height: 1.2rem;
     background-color: #fff;
-    border-top: 1px solid #e6e6e6;
+    border-top: 0.02rem solid #e6e6e6;
   }
   .bottom-nav .nav-item{
-    padding-top: 7px;
+    padding-top: 0.14rem;
     flex: 1;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
   .bottom-nav .nav-item.active{
     color: #55cbc4;
   }
   .bottom-nav .nav-item .iconfont{
-    font-size: 22px;
+    font-size: 0.44rem;
   }
   .bottom-nav .nav-item .nav-name{
-    margin-top: 2px;
-    font-size: 12px;
+    margin-top: 0.04rem;
+    font-size: 0.24rem;
   }
 </style>

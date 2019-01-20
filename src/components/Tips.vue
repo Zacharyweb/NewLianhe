@@ -75,6 +75,7 @@ export default {
      z-index: 9999;
   }
   .tips-modal{
+     font-size: 0.32rem;
      width: 300px;
      background-color: #fff;
      position: absolute;

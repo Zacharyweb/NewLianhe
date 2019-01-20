@@ -1,17 +1,85 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="favicon.ico">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no"/>
+    <meta name="renderer" content="webkit">
+    <title>联合咨询</title>
+    <script>
+        // 自适应方案
+        ;(function(win) {
+          var doc = win.document;
+            var docEl = doc.documentElement;
+            var dpr = 0;
+            var tid = 0;
 
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport" />
-  <title>联合咨询</title>
-  <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
-</head>
+            var isAndroid = win.navigator.appVersion.match(/android/gi);
+              var isIPhone = win.navigator.appVersion.match(/iphone/gi);
+              var devicePixelRatio = win.devicePixelRatio;
+              if (isIPhone) {
+                  // iOS下，对于2和3的屏，用2倍的方案，其余的用1倍方案
+                  if (devicePixelRatio >= 3 && (!dpr || dpr >= 3)) {
+                      dpr = 2;
+                  } else if (devicePixelRatio >= 2 && (!dpr || dpr >= 2)){
+                      dpr = 2;
+                  } else {
+                      dpr = 1;
+                  }
+              } else {
+                  // 其他设备下，仍旧使用1倍的方案
+                  dpr = 1;
+              }
 
-<body>
-  <div id="app"></div>
-  <!-- built files will be auto injected -->
-</body>
+            function refreshRem(){
+                var width = docEl.getBoundingClientRect().width;
+                if (width > 750) {
+                    width = 750;
+                }
+                var rem = width / 7.5;
+                docEl.style.fontSize = rem + 'px';
+            }
 
+            win.addEventListener('resize', function() {
+                clearTimeout(tid);
+                tid = setTimeout(refreshRem, 300);
+            }, false);
+            win.addEventListener('pageshow', function(e) {
+                if (e.persisted) {
+                    clearTimeout(tid);
+                    tid = setTimeout(refreshRem, 300);
+                }
+            }, false);
+
+            refreshRem();
+
+            docEl.setAttribute('data-dpr', dpr);
+        })(window);
+    </script>
+    <script>
+      var ua = navigator.userAgent.toLocaleLowerCase(),
+        lrapp = ua.indexOf('lrapp') >= 0,
+        isWeixin = ua.indexOf('micromessenger') >= 0,
+        isAndroid = ua.indexOf("android") >= 0 || ua.indexOf("linux") >= 0,
+        inMobile = !!ua.match(/applewebkit.*mobile.*/) || ua.indexOf("android") >= 0;
+
+      var  Global = {
+        inApp: lrapp,
+        wx: isWeixin,
+        android: isAndroid,
+        inMobile: inMobile
+      }
+
+      // if(!inMobile){
+      //   window.location.href=""
+      // }
+    </script>
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
 </html>

@@ -173,6 +173,7 @@
 </script>
 <style scoped>
   .yo-scroll {
+    font-size: 0.32rem;
     position: absolute;
     right: 0;
     left: 0;
@@ -181,7 +182,7 @@
   }
   .yo-scroll .inner {
     position: absolute;
-    top: -2rem;
+    top: -1.24rem;
     width: 100%;
     transition-duration: 300ms;
   }
@@ -190,7 +191,7 @@
     left: 0;
     top: 0;
     width: 100%;
-    height: 2rem;
+    height: 1.24rem;
     display: flex;
     align-items: center;
     justify-content: center;
